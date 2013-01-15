@@ -1,0 +1,15 @@
+ESMF_HelloWorld                     README
+---------------                     ------
+
+This directory contains code that is based on the ESMF Fortran API.
+
+This application runs a simplified version of the ESMF_ArrayRedistOpenMPP
+system test as an external user application.
+
+
+NOTE:
+The executable should be run according to the system-specific procedures that
+apply to the execution of binaries. The correct procedure may depend on whether
+the executable was built against an mpiuni- or mpi-based ESMF library
+installation.
+
