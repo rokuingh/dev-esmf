@@ -74,8 +74,6 @@ program Regrid
       real(ESMF_KIND_R8), pointer :: grid1area(:), grid2area(:)
       real(ESMF_KIND_R8), pointer :: grid1areaXX(:), grid2areaXX(:)
 
-      print *, "START!"
-
       ! Initialize ESMF
       call ESMF_Initialize (defaultCalKind=ESMF_CALKIND_GREGORIAN, &
         defaultlogfilename="RegridWeightGenCheck.Log", &
@@ -104,34 +102,19 @@ program Regrid
 
       ! Usage:  ESMF_Regrid srcgrid_file dstgrid_file weight_file
       call ESMF_UtilGetArgC (numarg)
-      if (numarg < 3) then
+      if (numarg < 1) then
         if (nPet == 0) then
           print *, 'ERROR: insufficient arguments'
-          print *, 'USAGE: ESMF_Regrid srcgrid_file dstgrid_file weight_file'
+          print *, 'USAGE: ESMF_Regrid weight_file'
           print *, 'The weight_file is the output weight file in SCRIP format'
         endif
         call ESMF_Finalize(endflag=ESMF_END_ABORT)
       endif
-      call ESMF_UtilGetArg(1, argvalue=srcgridfile)
-      call ESMF_UtilGetArg(2, argvalue=dstgridfile)
-      call ESMF_UtilGetArg(3, argvalue=weightfile)
+      call ESMF_UtilGetArg(1, argvalue=weightfile)
 
       !Set finalrc to success
       rc = ESMF_SUCCESS
       failCnt = 0
-      srcIsSphere = .true.
-
-      srcGrid = ESMF_GridCreate(filename=srcgridfile, &
-                                fileFormat=ESMF_FILEFORMAT_GRIDSPEC, &
-                                regDecomp=(/1,1/), &
-                                isSphere=srcIsSphere, &
-                                rc=localrc)
-
-      dstGrid = ESMF_GridCreate(filename=dstgridfile, &
-                                fileFormat=ESMF_FILEFORMAT_GRIDSPEC, &
-                                regDecomp=(/1,1/), &
-                                isSphere=srcIsSphere, &
-                                rc=localrc)
 
       ! read in the grid dimensions
       call NCFileInquire(weightfile, title, src_dim, dst_dim, localrc=localrc)
