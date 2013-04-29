@@ -70,5 +70,5 @@ dust:
 
 .PHONY: run
 run:
-	./ESMF_Regrid data/ll2.5deg_grid_to_T42_grid_bilinear.nc > regrid.out 2>&1
+	./ESMF_Regrid > regrid.out 2>&1
 ###############################################################################
