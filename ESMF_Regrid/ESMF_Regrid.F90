@@ -33,9 +33,19 @@
 !     ESMF_RegridWeightGen application, otherwise the interpolator will be
 !     created during runtime using ESMF_FieldRegridStore()
 
-#define read_data_from_file
+!#define read_data_from_file
 
-!#define read_weights_from_file
+
+! TODO: 
+! - add this to the repo
+! - change decomp to nx1
+! - remove the read_data_from_file in favor of analytic field
+!    - put the analytic field creation and validation in separate routines
+!    - use a more complicated analytic field
+! - do everything in parallel (grid is good, so is weights now)
+! - modify docs to have a clearly bulleted list of 1, 2, 3
+
+#define read_weights_from_file
 
 program Regrid
 
@@ -125,6 +135,11 @@ program Regrid
 
   ! Allocate the Fortran array for the Field
   allocate(farraysrc(srcgec(1), srcgec(2)))
+
+!TODO: remove this in favor of the analytic function, as a routine
+!      add comment saying that this is where you would read your data from
+!      a netcdf file and create a fortran pointer that can be used to 
+!      create an ESMF field
 
 #ifdef read_data_from_file
   ! Read the Field from file
@@ -644,7 +659,7 @@ contains
 
     integer, allocatable  :: address(:), localSize(:), localOffset(:)
     type(ESMF_VM)         :: vm
-    integer               :: i, localpet, npet, nlinksPPet
+    integer               :: i, localpet, npet, nlinksPPet, FIndex
 
     logical :: parallel
 
@@ -727,9 +742,11 @@ contains
       return
     endif
 
+    FIndex = localPet + 1
+
     ! split the input data between PETs
     ! allocate factorList and factorIndexList
-    if (parallel .eqv. .true.) then  
+    if (parallel .eqv. .true.) then
       allocate( localSize(npet), localOffset(npet) )
       nlinksPPet = num_links/npet
       localSize(:) = nlinksPPet
@@ -738,9 +755,9 @@ contains
       enddo
       localSize(npet) = nlinksPPet+MOD(num_links, npet)
   
-      allocate( factorIndexList(2,localSize(localPet)) )
-      allocate( factorList(localSize(localPet)) )
-      allocate( address(localSize(localPet)) )
+      allocate( factorIndexList(2,localSize(FIndex)) )
+      allocate( factorList(localSize(FIndex)) )
+      allocate( address(localSize(FIndex)) )
     else
       allocate( factorIndexList(2,num_links) )
       allocate( factorList(num_links) )
@@ -760,7 +777,7 @@ contains
     endif
     if (parallel .eqv. .true.) then  
       ncstat = nf90_get_var(nc_file_id, nc_srcgrdadd_id, address, &
-        start=(/localOffset(localPet)/), count=(/localSize(localPet)/))
+        start=(/localOffset(FIndex)/), count=(/localSize(FIndex)/))
     else
       ncstat = nf90_get_var(nc_file_id, nc_srcgrdadd_id, address)
     endif
@@ -785,7 +802,7 @@ contains
     endif
     if (parallel .eqv. .true.) then  
       ncstat = nf90_get_var(nc_file_id, nc_dstgrdadd_id, address, &
-        start=(/localOffset(localPet)/), count=(/localSize(localPet)/))
+        start=(/localOffset(FIndex)/), count=(/localSize(FIndex)/))
     else
       ncstat = nf90_get_var(nc_file_id, nc_dstgrdadd_id, address)
     endif
@@ -811,7 +828,7 @@ contains
     endif
     if (parallel .eqv. .true.) then  
       ncstat = nf90_get_var(nc_file_id, nc_rmpmatrix_id, factorList, &
-        start=(/localOffset(localPet)/), count=(/localSize(localPet)/))
+        start=(/localOffset(FIndex)/), count=(/localSize(FIndex)/))
     else
       ncstat = nf90_get_var(nc_file_id, nc_rmpmatrix_id, factorList)
     endif
