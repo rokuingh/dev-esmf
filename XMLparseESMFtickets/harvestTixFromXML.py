@@ -9,94 +9,110 @@
 #
 ###############################################################################
 
-def strip_carets(line, tag):
-    new_line = line.split("<"+tag+">")[1]
-    line = new_line.split("</"+tag+">")[0]
-    return line
+def collect_field(line, XMLFILE, tag):
+    line_read = ""
+    tag_start = "<"+tag+">"
+    tag_end = "</"+tag+">"
+
+    # remove the XML tag and save the rest of the line
+    line_capture = line.split(tag_start)[1]
+    if tag_end in line:
+        line_capture = line_capture.split(tag_end)[0]
+        line_read += line_capture
+        return line_read
+
+    # if tag_end is not in the line, we have a multi-line field:
+    line_read += line_capture
+
+    # find the current file position and start iteration from there
+    while tag_end not in line:
+        # add new lines to the line_read
+        line_read += line
+        print next(XMLFILE)
+        line = next(XMLFILE)
+
+    # capture the line containing the ending tag
+    line_capture = line.split("</"+tag+">")[0]
+    line_read += line_capture
+
+    return line_read
 
 class Followup(object):
     def __init__(self):
-        self.id = 0
-        self.submitter = ""
-        self.date = 0
-        self.details = ""
+        self.fields = {
+                       "id" : 0,
+                       "submitter" : "",
+                       "date" : 0,
+                       "details" : ""
+        }
 
-    def read(self, line):
-        if "<id>" in line:
-            self.id = strip_carets(line, "id")
-        if "<submitter>" in line:
-            self.submitter = strip_carets(line, "submitter")
-        if "<date>" in line:
-            self.date = strip_carets(line, "date")
-        if "<details>" in line:
-            self.details = strip_carets(line, "details")
+    def read(self, line, XMLFILE):
+        for key, value in self.fields.items():
+            tag = "<"+key+">"
+            if tag in line:
+                value = collect_field(line, XMLFILE, key)
+                self.fields[key] = value
+
 
 class Attachment(object):
     def __init__(self):
-        self.url = ""
-        self.id = 0
-        self.filename = ""
-        self.description = ""
-        self.filesize = 0
-        self.filetype = ""
-        self.date = 0
-        self.submitter = ""
+        self.fields = {
+                       "url" : "",
+                       "id" : 0,
+                       "filename" : "",
+                       "description" : "",
+                       "filesize" : 0,
+                       "filetype" : "",
+                       "date" : 0,
+                       "submitter" : ""
+        }
 
-    def read(self, line):
-        if "<url>" in line:
-            self.url = strip_carets(line, "url")
-        if "<id>" in line:
-            self.id = strip_carets(line, "id")
-        if "<filename>" in line:
-            self.filename = strip_carets(line, "filename")
-        if "<description>" in line:
-            self.description = strip_carets(line, "description")
-        if "<filesize>" in line:
-            self.filesize = strip_carets(line, "filesize")
-        if "<filetype>" in line:
-            self.filetype = strip_carets(line, "filetype")
-        if "<date>" in line:
-            self.date = strip_carets(line, "date")
-        if "<submitter>" in line:
-            self.submitter = strip_carets(line, "submitter")
+    def read(self, line, XMLFILE):
+        for key, value in self.fields.items():
+            tag = "<"+key+">"
+            if tag in line:
+                value = collect_field(line, XMLFILE, key)
+                self.fields[key] = value
+                # return done
+                return True
 
 class HistoryEntry(object):
     def __init__(self):
-        self.id = 0
-        self.field_name = ""
-        self.old_value = 0
-        self.date = 0
-        self.updator = ""
+        self.fields = {
+                       "id" : 0,
+                       "field_name" : "",
+                       "old_value" : 0,
+                       "date" : 0,
+                       "updater" : ""
+        }
 
-    def read(self, line):
-        if "<id>" in line:
-            self.id = strip_carets(line, "id")
-        if "<field_name>" in line:
-            self.field_name = strip_carets(line, "field_name")
-        if "<old_value>" in line:
-            self.old_value = strip_carets(line, "old_value")
-        if "<date>" in line:
-            self.date = strip_carets(line, "date")
-        if "<updator>" in line:
-            self.updator = strip_carets(line, "updator")
+    def read(self, line, XMLFILE):
+        for key, value in self.fields.items():
+            tag = "<"+key+">"
+            if tag in line:
+                value = collect_field(line, XMLFILE, key)
+                self.fields[key] = value
+
+
 
 class Ticket(object):
     def __init__(self):
-        self.url = ""
-        self.id = 0
-        self.status_id = 0
-        self.category_id = 0
-        self.group_id = 0
-        self.resolution_id = 0
-        self.submitter = ""
-        self.assignee = ""
-        self.closer = ""
-        self.submit_date = 0
-        self.close_date = 0
-        self.priority = 0
-        self.summary = ""
-        self.details = ""
-        self.is_private = False
+        self.fields = {"url" : "",
+                       "id" : 0,
+                       "status_id" : 0,
+                       "category_id" : 0,
+                       "group_id" : 0,
+                       "resolution_id" : 0,
+                       "submitter" : "",
+                       "assignee" : "",
+                       "closer" : "",
+                       "submit_date" : 0,
+                       "close_date" : 0,
+                       "priority" : 0,
+                       "summary" : "",
+                       "details" : "",
+                       "is_private" : False
+        }
         
         self.followups = []
         self.attachments = []
@@ -111,89 +127,76 @@ class Ticket(object):
         self.history_entry_run = False
         self.history_entry = 0
 
-    def get_id(self):
-        return self.id
+        self.body = 0
 
-    def read(self, line):
-        if "<url>" in line:
-            self.url = strip_carets(line, "url")
-        if "<id>" in line:
-            self.id = strip_carets(line, "id")
-        if "<status_id>" in line:
-            self.status_id = strip_carets(line, "status_id")
-        if "<category_id>" in line:
-            self.category_id = strip_carets(line, "category_id")
-        if "<group_id>" in line:
-            self.group_id = strip_carets(line, "group_id")
-        if "<resolution_id>" in line:
-            self.resolution_id = strip_carets(line, "resolution_id")
-        if "<submitter>" in line:
-            self.submitter = strip_carets(line, "submitter")
-        if "<assignee>" in line:
-            self.assignee = strip_carets(line, "assignee")
-        if "<closer>" in line:
-            self.closer = strip_carets(line, "closer")
-        if "<submit_date>" in line:
-            self.submit_date = strip_carets(line, "submit_date")
-        if "<close_date>" in line:
-            self.close_date = strip_carets(line, "close_date")
-        if "<priority>" in line:
-            self.priority = strip_carets(line, "priority")
-        if "<summary>" in line:
-            self.summary = strip_carets(line, "summary")
-        if "<details>" in line:
-            self.details = strip_carets(line, "details")
-        if "<is_private>" in line:
-            self.is_private = strip_carets(line, "is_private")
+    def get_id(self):
+        return self.fields.get('id')
+
+    def read(self, line, XMLFILE):
+        for key, value in self.fields.items():
+            tag = "<"+key+">"
+            if tag in line:
+                value = collect_field(line, XMLFILE, key)
+                self.fields[key] = value
 
         # followup
-        if self.followup_run:
-            self.followup.read(line)
+        if "</followup>" in line:
+            # add a followup entry to the list
+            self.followups.append(self.followup)
+            # end a followup entry
+            self.followup_run = False
 
-        if "<followup>" in line:
+        elif self.followup_run:
+            self.followup.read(line, XMLFILE)
+
+        elif "<followup>" in line:
             # start a new followup entry
             self.followup_run = True
             # create a new followup entry
             self.followup = Followup()
 
-        if "</followup>" in line:
-            # end a followup entry
-            self.followup_run = False
-            # add a followup entry to the list
-            self.followups.append(self.followup)
 
         # attachment
-        if self.attachment_run:
-            self.attachment.read(line)
+        if "</attachment>" in line:
+            # add a attachment entry to the list
+            self.attachments.append(self.attachment)
+            # end a attachment entry
+            self.attachment_run = False
 
-        if "<attachment>" in line:
+        elif self.attachment_run:
+            self.attachment.read(line, XMLFILE)
+
+        elif "<attachment>" in line:
             # start a new attachment entry
             self.attachment_run = True
             # create a new attachment entry
             self.attachment = Attachment()
             #print "Attachment - id = "+str(self.id)
 
-        if "</attachment>" in line:
-            # end a attachment entry
-            self.attachment_run = False
-            # add a attachment entry to the list
-            self.attachments.append(self.attachment)
-
         # history entry
-        if self.history_entry_run:
-            self.history_entry.read(line)
+        if "</history_entry>" in line:
+            # add a history entry to the list
+            self.history_entries.append(self.history_entry)
+            # end a history entry
+            self.history_entry_run = False
 
-        if "<history_entry>" in line:
+        elif self.history_entry_run:
+            self.history_entry.read(line, XMLFILE)
+
+        elif "<history_entry>" in line:
             # start a new history entry
             self.history_entry_run = True
             # create a new history entry
             self.history_entry = HistoryEntry()
 
-        if "</history_entry>" in line:
-            # end a history entry
-            self.history_entry_run = False
-            # add a history entry to the list
-            self.history_entries.append(self.history_entry)
+
+        # generate the body
+        self.body = {
+                    'ticket_form.summary' : self.fields.get('summary'),
+                    'ticket_form.description' : self.fields.get('details'),
+                    'ticket_form.status' : self.fields.get('status_id'),
+                    'ticket_form.assigned_to' : self.fields.get('assignee')
+                    }
 
 # xmlfile - XML format file containing esmf ticket info
 def harvest_tix(xmlfile):
@@ -202,39 +205,42 @@ def harvest_tix(xmlfile):
     XMLFILE = open(xmlfile)
 
     # generic handle to a ticket object
-    ticket = 0
     ticket_run = False
 
     # iterate through the gigantic xml file
     for line in XMLFILE:
+    #while True:
+    #    line = XMLFILE.readline()
+    #    line = line.rstrip()
+    #    if not line: continue
 
         if "<tasks>" in line:
             return ticketlist
 
+        # end of a ticket
+        if '</tracker_item>' in line:
+            # add ticket to ticket list
+            ticketlist.append(ticket)
+            # end ticket_run
+            ticket_run = False
+            print "TICKET #"+str(len(ticketlist))+\
+                ", Sourceforge id: "+str(ticket.fields.get('id'))
+
         # read a ticket line if a ticket is active
-        if ticket_run:
-            ticket.read(line)
+        elif ticket_run:
+            ticket.read(line, XMLFILE)
 
         # beginning of a new ticket
-        if '<tracker_item>' in line:
+        elif '<tracker_item>' in line:
             # start ticket_run
             ticket_run = True
             # create a new ticket
             ticket = Ticket()
 
-        # end of a new ticket
-        if '</tracker_item>' in line:
-            # end ticket_run
-            ticket_run = False
-            # add ticket to ticket list
-            ticketlist.append(ticket)
-            print "TICKET #"+str(len(ticketlist))+\
-                ", Sourceforge id: "+str(ticket.id)
 
     return ticketlist
 
 if __name__ == '__main__':
-    import sys
 
     tixlist = harvest_tix('esmf_export.xml')
 
@@ -242,4 +248,4 @@ if __name__ == '__main__':
     print "Sorting the ticketlist by Sourceforge id..."
     sortedtixlist = sorted(tixlist, key=Ticket.get_id)
 
-    #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
