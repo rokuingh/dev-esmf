@@ -2,12 +2,14 @@
 
 ###############################################################################
 #
-#  Harvest the ticket info from an XML file exported from Sourceforge, try 2
+#  Harvest the ticket info from an XML file exported from Sourceforge
 #
 # Ryan O'Kuinghttons
 # June 6, 2013
 #
 ###############################################################################
+
+# TODO: separate tickets from different trackers
 
 class TicketHarvester(object):
     def __init__(self, xmlfile):
@@ -17,27 +19,132 @@ class TicketHarvester(object):
         tree = ET.parse(xmlfile)
         root = tree.getroot()
 
-
-        # pull out the project members
-        #project_members = root.findall(".//*projectmember")
-        #self.members = {}
-        #for member in project_members:
-        #    self.members[member.find('user_name').text] = \
-        #        member.find('user_id').text
-
-        # unknown member cpboulder needs to be added manually
-        #self.members['cpboulder'] = 'Unknown User'
-        #self.members['jwolfe'] = 'Unknown User'
-        #self.members['nscollins'] = 'Unknown User'
-        #self.members['nobody'] = 'Unknown User'
-        #self.members['rfaincht'] = 'Unknown User'
-        #self.members['flanigan'] = 'Unknown User'
-
-        # pull tickets out of the harvested file
+        # pull tickets out of the harvested file and sort by id
         tixlist_temp = root.findall(".//*tracker_item")
-    
-        # sort by id and save to class
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
+
+        # get the project members and make the member map
+        #   - submitter, assignee, and closer are all tracked by user_name
+        project_members = root.findall(".//*projectmember")
+        self.member_map = {}
+        for member in project_members:
+            self.member_map[member.find('user_name').text] = \
+                member.find('user_name').text
+        # add in the deleted project members
+        self.member_map['cpboulder'] = 'Unknown User'
+        self.member_map['jwolfe'] = 'Unknown User'
+        self.member_map['nscollins'] = 'Unknown User'
+        self.member_map['nobody'] = 'Unknown User'
+        self.member_map['rfaincht'] = 'Unknown User'
+        self.member_map['flanigan'] = 'Unknown User'
+
+        # get the group_ids
+        project_groups = root.findall(".//*group")
+        groups = {}
+        for group in project_groups:
+            groups[group.find('group_name').text] = \
+                group.find('id').text
+        # make the group2category_map
+        self.group2category_map = {
+                                   # Bug values
+                                   groups['Memory Corruption/Leak']:'',
+                                   groups['Fix Behavior']:'bug',
+                                   groups['Documentation']:'documentation',
+                                   groups['Increase Robustness/Handle Error']:
+                                       'bug',
+                                   groups['Performance Optimization']:'bug',
+                                   groups['Organization/Cleanup']:
+                                       'code clean-up',
+                                   groups['Test or Example Needed']:
+                                       'test needed',
+                                   groups['ZZ-EMPTY GROUP 1']:'',
+                                   groups['Standardization']:'API clean-up',
+                                   groups['Solution Unclear']:'bug',
+                                   groups['Add Functionality']:'feature',
+                                   groups['ZZ-EMPTY GROUP 2']:'',
+                                   groups['Memory Optimization']:'bug',
+                                   groups['Vendor Problem']:'vendor',
+                                   # Support Request values
+                                   groups['Needs Assistance']:'help',
+                                   groups['ZZ-EMPTY GROUP 4']:'help',
+                                   groups['ZZ-EMPTY GROUP 5']:'help',
+                                   groups['ZZ-EMPTY GROUP 3']:'help',
+                                   groups['ZZ-EMPTY GROUP 6']:'help',
+                                   groups['Possible Problem']:'help',
+                                   groups['Solution Unclear']:'help',
+                                   groups['ZZ-EMPTY GROUP 2 ']:'help',
+                                   groups['ZZ-EMPTY GROUP 1']:'help',
+                                   groups['Simple Information/Action Request']:'help',
+                                   # add in a weird default value
+                                   '100':'',
+                                  }
+        print groups
+
+        # make the category2area_map
+        project_categories = root.findall(".//*category")
+        categories = {}
+        for category in project_categories:
+            categories[category.find('category_name').text] = \
+                category.find('id').text
+        self.category2area_map = {
+                                  categories['Component']:'',
+                                  categories['Time Manager']:'',
+                                  categories['Grid - New']:'',
+                                  categories['Build/Install']:'',
+                                  categories['Field']:'',
+                                  categories['Grid - Old']:'',
+                                  categories['Repository']:'',
+                                  categories['Multiple Categories']:'',
+                                  categories['Website']:'',
+                                  categories['Base']:'',
+                                  categories['Util']:'',
+                                  categories['I/O']:'',
+                                  categories['Tests']:'',
+                                  categories['LogErr']:'',
+                                  categories['FieldBundle']:'',
+                                  categories['State']:'',
+                                  categories['General Documentation']:'',
+                                  categories['Array - Old']:'',
+                                  categories['DELayout']:'',
+                                  categories['Non-ESMF']:'',
+                                  categories['Route']:'',
+                                  categories['Language Interface']:'',
+                                  categories['InternalState']:'',
+                                  categories['ZZ-EMPTY CATEGORY 3']:'',
+                                  categories['ZZ-EMPTY CATEGORY 5']:'',
+                                  categories['ZZ-EMPTY CATEGORY 6']:'',
+                                  categories['Config']:'',
+                                  categories['DistGrid - New']:'',
+                                  categories['ZZ-EMPTY CATEGORY 13']:'',
+                                  categories['ZZ-EMPTY CATEGORY 14']:'',
+                                  categories['ZZ-EMPTY CATEGORY 4']:'',
+                                  categories['PhysGrid']:'',
+                                  categories['Regrid']:'',
+                                  categories['ZZ-EMPTY CATEGORY 7']:'',
+                                  categories['Attribute']:'',
+                                  categories['Mesh']:'',
+                                  categories['ZZ-EMPTY CATEGORY 8']:'',
+                                  categories['ArrayBundle']:'',
+                                  categories['VM']:'',
+                                  categories['Array - New']:'',
+                                  categories['ZZ-EMPTY CATEGORY 12']:'',
+                                  categories['AppDriver']:'',
+                                  categories['Datatype']:'',
+                                  categories['LocalArray']:'',
+                                  categories['F90 Interface']:'',
+                                  categories['LocStream']:'',
+                                  categories['Test Harness']:'',
+                                  categories['Web Services']:'',
+                                  categories['ESMP']:''
+                                 }
+
+        # make the status_map
+        self.status_map = {
+                      '1':'open', 
+                      '2':'closed', 
+                      '3':'deleted', 
+                      '4':'pending'
+                     }
 
         # allocate body_list
         self.body_list = []
@@ -50,52 +157,48 @@ class TicketHarvester(object):
         print "Deleted ticket count: "+str(self.deleted_count)
         return self.deleted_count
 
-    def generate_body_list(self):
-        status_map = {'1':'open', '2':'closed', '3':'deleted', '4':'pending'}
-        group_id_map = {
-                        '1':'<empty>', 
-                        '2':'documentation', 
-                        '3':'<empty>', 
-                        '4':'<empty>', 
-                        '5':'code-organization/clean-up', 
-                        '6':'test needed', 
-                        '7':'<empty>', 
-                        '8':'API clean-up', 
-                        '9':'<empty>', 
-                        '10':'feature', 
-                        '11':'<empty>', 
-                        '12':'<empty>', 
-                        '13':'vendor'
-                        }
-        # TODO: generate a map of the SF user ids
-    
-    # allura Tracker API
-    #
-    # ticket_form.summary - ticket title
-    # ticket_form.description - ticket description
-    # ticket_form.status - ticket status
-    # ticket_form.assigned_to - username of ticket assignee
-    # ticket_form.labels - comma-separated list of ticket labels
-    # ticket_form.attachment - (optional) attachment
-    # ticket_form.custom field name - custom field value
-    #
-    # for custom fields
-    # ticket_form.custom_fields._my_field
-    
+    def generate_body_list(self):    
+        # allura Tracker API
+        #
+        # ticket_form.summary - ticket title
+        # ticket_form.description - ticket description
+        # ticket_form.status - ticket status
+        # ticket_form.assigned_to - username of ticket assignee
+        # ticket_form.labels - comma-separated list of ticket labels
+        # ticket_form.attachment - (optional) attachment
+        # ticket_form.custom field name - custom field value
+        #
+        # for custom fields
+        # ticket_form.custom_fields._my_field
     
         for tix in self.tixlist:
             body = {
+                    # generic information
                     'ticket_form.summary' : tix.find('summary').text,
                     'ticket_form.description' : tix.find('details').text,
-                    'ticket_form.status' : status_map[tix.find('status_id').text],
-                    'ticket_form.assigned_to' : tix.find('assignee').text,
-                    #'ticket_form.labels' : group_id_map[tix.find('group_id').text]
-                    'ticket_form.custom_fields._old_ticket_number' : tix.find('id').text,
+                    'ticket_form.status' : 
+                        self.status_map[tix.find('status_id').text],
+                    'ticket_form.assigned_to' : 
+                        self.member_map[tix.find('assignee').text],
+                    # labels are tricky
+                    #'ticket_form.labels' : 'blah,blah,blah'
+                    # Custom fields
+                    'ticket_form.custom_fields._old_ticket_number' : 
+                        tix.find('id').text,
                     'ticket_form.custom_fields._priority' : 'desirable',
-                    'ticket_form.custom_fields._original_creation_date' : tix.find('submit_date').text,
-                    'ticket_form.custom_fields._original_close_date' : tix.find('close_date').text,
-                    'ticket_form.custom_fields._original_creator' : tix.find('submitter').text,
-                    'ticket_form.custom_fields._original_closer' : tix.find('closer').text,
+                    'ticket_form.custom_fields._category' : 
+                        self.group2category_map[tix.find('group_id').text],
+                    #'ticket_form.custom_fields._area' : 
+                    #    self.category2area_map[tix.find('category_id').text],
+                    # proposed custom fields to track old required information
+                    #'ticket_form.custom_fields._original_creation_date' : 
+                    #    tix.find('submit_date').text,
+                    #'ticket_form.custom_fields._original_close_date' : 
+                    #    tix.find('close_date').text,
+                    #'ticket_form.custom_fields._original_creator' : 
+                    #    tix.find('submitter').text,
+                    #'ticket_form.custom_fields._original_closer' : 
+                    #    tix.find('closer').text,
                     }
 
             self.body_list.append(body)
@@ -124,8 +227,5 @@ def harvest_tix(xmlfile):
     harvester.generate_body_list()
 
     #import pdb; pdb.set_trace()
-
-    print 'body list size = '+str(len(harvester.body_list))
-    print 'ticket list size = '+str(len(harvester.tixlist))
 
     return harvester.body_list

@@ -35,7 +35,7 @@ tixlist = harvest_tix('esmf_export.xml')
 #   - adds the ability to set the creation date
 #   - requires export in json
 
-body = tixlist[1377]
+body = tixlist[1378]
 
 print body
 # submit the test ticket to the dummy archive
