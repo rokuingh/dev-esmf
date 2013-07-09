@@ -1,7 +1,7 @@
 from urllib import urlencode
 import oauth2 as oauth
 import certifi
-from harvestTixFromXML2 import harvest_tix, generate_tix_body
+from harvestTixFromXML import harvest_tix
 
 # advance api access
 #http://allura.sourceforge.net/migration.html
@@ -16,6 +16,13 @@ ACCESS_SECRET='ccd39ea358694ec6ba4e21a716a954a33b1f68ed5c33bdea6ec477e387a45da9e
 
 URL_BASE='http://sourceforge.net/rest/'
 
+#API Ticket: tckc8a15688ad3d323ade16
+#Secret Key: 915d0d399f8957631e5e8a9c39b646799f609aa2939b08bdea5ebe0a4344df4a133bbd22b6181e76
+
+#ACCESS_KEY='tckc8a15688ad3d323ade16'
+#ACCESS_SECRET='915d0d399f8957631e5e8a9c39b646799f609aa2939b08bdea5ebe0a4344df4a133bbd22b6181e76'
+
+
 consumer = oauth.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
 access_token = oauth.Token(ACCESS_KEY, ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
@@ -25,18 +32,19 @@ client.ca_certs = certifi.where()
 tixlist = harvest_tix('esmf_export.xml')
 
 # TODO: use the import api
-#   - 72 hour time limit
-#   - adds the ability to set the creation date and user
+#   - adds the ability to set the creation date
+#   - requires export in json
 
-# test
-body = generate_tix_body(tixlist[41])
+body = tixlist[1377]
+
 print body
 # submit the test ticket to the dummy archive
-response = client.request(
-    URL_BASE + 'p/' + PROJECT + '/tickets/new', 'POST',
-    body=urlencode(body))
+url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+response = client.request(url_tracker, 'POST', body=urlencode(body))
 print "Done.  Response was:"
-print response
+print "\n"+str(response)+"\n"
+
 
 '''
 # push all tickets to sourceforge

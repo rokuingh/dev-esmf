@@ -1,5 +1,8 @@
-CONSUMER_KEY = '3a3069ed662030e15794'
-CONSUMER_SECRET = '049681debe988488ce9d784ca154437f1890aa5153bcd59d020d9c9aeda627d2bb24f86e8e50b4f9'
+#CONSUMER_KEY = '3a3069ed662030e15794'
+#CONSUMER_SECRET = '049681debe988488ce9d784ca154437f1890aa5153bcd59d020d9c9aeda627d2bb24f86e8e50b4f9'
+CONSUMER_KEY='tckc8a15688ad3d323ade16'
+CONSUMER_SECRET='915d0d399f8957631e5e8a9c39b646799f609aa2939b08bdea5ebe0a4344df4a133bbd22b6181e76'
+
 REQUEST_TOKEN_URL = 'https://sourceforge.net/rest/oauth/request_token'
 AUTHORIZE_URL = 'https://sourceforge.net/rest/oauth/authorize'
 ACCESS_TOKEN_URL = 'https://sourceforge.net/rest/oauth/access_token'
