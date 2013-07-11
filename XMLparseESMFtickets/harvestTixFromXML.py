@@ -282,6 +282,7 @@ class TicketHarvester(object):
             append = ''
             if followups:
                 for followup in followups:
+                    # TODO: handle non-unicode characters better
                     try:
                         append += "\n---\n{0}\n{1}\n{2}\n---\n".format(
                             followup.find('submitter').text,
