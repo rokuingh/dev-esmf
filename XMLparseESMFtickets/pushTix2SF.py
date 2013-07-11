@@ -28,16 +28,34 @@ access_token = oauth.Token(ACCESS_KEY, ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 client.ca_certs = certifi.where()
 
+
 # create the ticket list from the gigantic XML file of ESMF tickets
 tixlist = harvest_tix('esmf_export.xml')
 
-# TODO: use the import api
-#   - adds the ability to set the creation date
-#   - requires export in json
+# grab one ticket to test
+#body = tixlist[1378]
 
-body = tixlist[1378]
+
 '''
-print body
+# sumbit 100 blank tickets
+body = {
+        # generic information
+        'ticket_form.summary' : "blank",
+        'ticket_form.description' : "blank",
+        'ticket_form.status' : "closed",
+        'ticket_form.assigned_to' : "nobody"
+        }
+
+for i in range(100):
+    print "Submitting ticket #{0}".format(i)
+    # submit the test ticket to the dummy archive
+    url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+    url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+    response = client.request(url_tracker, 'POST', body=urlencode(body))
+    print "Done.  Response was:"
+    print "\n"+str(response)+"\n"
+'''
+'''
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
 url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 

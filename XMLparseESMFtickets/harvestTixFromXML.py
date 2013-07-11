@@ -22,9 +22,27 @@ class TicketHarvester(object):
         # pull tickets out of the harvested file
         tixlist_temp = root.findall(".//*tracker_item")
 
-        # pull out bugs and support requests
+        # pull tickets out of the individual trackers
         bugs = root[7][0].findall(".//tracker_item")
         supportreqs = root[7][1].findall(".//tracker_item")
+        featurereqs = root[7][2].findall(".//tracker_item")
+        operations = root[7][3].findall(".//tracker_item")
+        vendorbugs = root[7][4].findall(".//tracker_item")
+        applicationissues = root[7][5].findall(".//tracker_item")
+        NUOPCfeaturereqs = root[7][6].findall(".//tracker_item")
+        NUOPCsupportreqs = root[7][7].findall(".//tracker_item")
+
+        '''
+        # Print the number of tickets in each old tracker
+        print "Bugs                   = {0}".format(len(bugs))
+        print "Support requests       = {0}".format(len(supportreqs))
+        print "Feature requests       = {0}".format(len(featurereqs))
+        print "Operations             = {0}".format(len(operations))
+        print "Vendor bugs            = {0}".format(len(vendorbugs))
+        print "Application issues     = {0}".format(len(applicationissues))
+        print "NUOPC feature requests = {0}".format(len(NUOPCfeaturereqs))
+        print "NUOPC support requests = {0}".format(len(NUOPCsupportreqs))
+        '''
 
         # reset the ticketlist to only include bugs and support requests
         tixlist_temp = bugs + supportreqs
@@ -46,7 +64,6 @@ class TicketHarvester(object):
         self.member_map['nobody'] = 'Unknown User'
         self.member_map['rfaincht'] = 'Unknown User'
         self.member_map['flanigan'] = 'Unknown User'
-        print self.member_map
 
         # get the group_ids
         project_bug_groups = root[7][0].findall(".//*group")
@@ -61,8 +78,8 @@ class TicketHarvester(object):
                 group.find('id').text
         # make the group2category_map
         self.group2category_map = {
-                                   # Bug values
-                                   bug_groups['Memory Corruption/Leak']:'',
+                                   # Bugs
+                                   bug_groups['Memory Corruption/Leak']:'bug',
                                    bug_groups['Fix Behavior']:'bug',
                                    bug_groups['Documentation']:'documentation',
                                    bug_groups['Increase Robustness/Handle Error']:
@@ -79,7 +96,7 @@ class TicketHarvester(object):
                                    bug_groups['ZZ-EMPTY GROUP 2']:'',
                                    bug_groups['Memory Optimization']:'bug',
                                    bug_groups['Vendor Problem']:'vendor',
-                                   # Support Request values
+                                   # Support Requests
                                    req_groups['Needs Assistance']:'help',
                                    req_groups['ZZ-EMPTY GROUP 4']:'help',
                                    req_groups['ZZ-EMPTY GROUP 5']:'help',
@@ -101,55 +118,56 @@ class TicketHarvester(object):
             categories[category.find('category_name').text] = \
                 category.find('id').text
         self.category2area_map = {
-                                  categories['Component']:'',
-                                  categories['Time Manager']:'',
-                                  categories['Grid - New']:'',
-                                  categories['Build/Install']:'',
-                                  categories['Field']:'',
-                                  categories['Grid - Old']:'',
-                                  categories['Repository']:'',
-                                  categories['Multiple Categories']:'',
-                                  categories['Website']:'',
-                                  categories['Base']:'',
-                                  categories['Util']:'',
-                                  categories['I/O']:'',
-                                  categories['Tests']:'',
-                                  categories['LogErr']:'',
-                                  categories['FieldBundle']:'',
-                                  categories['State']:'',
-                                  categories['General Documentation']:'',
-                                  categories['Array - Old']:'',
-                                  categories['DELayout']:'',
-                                  categories['Non-ESMF']:'',
-                                  categories['Route']:'',
-                                  categories['Language Interface']:'',
-                                  categories['InternalState']:'',
-                                  categories['ZZ-EMPTY CATEGORY 3']:'',
-                                  categories['ZZ-EMPTY CATEGORY 5']:'',
-                                  categories['ZZ-EMPTY CATEGORY 6']:'',
-                                  categories['Config']:'',
-                                  categories['DistGrid - New']:'',
-                                  categories['ZZ-EMPTY CATEGORY 13']:'',
-                                  categories['ZZ-EMPTY CATEGORY 14']:'',
-                                  categories['ZZ-EMPTY CATEGORY 4']:'',
-                                  categories['PhysGrid']:'',
-                                  categories['Regrid']:'',
-                                  categories['ZZ-EMPTY CATEGORY 7']:'',
-                                  categories['Attribute']:'',
-                                  categories['Mesh']:'',
-                                  categories['ZZ-EMPTY CATEGORY 8']:'',
-                                  categories['ArrayBundle']:'',
-                                  categories['VM']:'',
-                                  categories['Array - New']:'',
-                                  categories['ZZ-EMPTY CATEGORY 12']:'',
-                                  categories['AppDriver']:'',
-                                  categories['Datatype']:'',
-                                  categories['LocalArray']:'',
-                                  categories['F90 Interface']:'',
-                                  categories['LocStream']:'',
-                                  categories['Test Harness']:'',
-                                  categories['Web Services']:'',
-                                  categories['ESMP']:''
+                                  # Bugs
+                                  categories['Component']:'Superstructure',
+                                  categories['Time Manager']:'Time Manager',
+                                  categories['Grid - New']:'Geometry Object',
+                                  categories['Build/Install']:'Build System',
+                                  categories['Field']:'not defined',
+                                  categories['Grid - Old']:'Geometry Object',
+                                  categories['Repository']:'not defined',
+                                  categories['Multiple Categories']:'not defined',
+                                  categories['Website']:'not defined',
+                                  categories['Base']:'not defined',
+                                  categories['Util']:'not defined',
+                                  categories['I/O']:'I/O',
+                                  categories['Tests']:'not defined',
+                                  categories['LogErr']:'not defined',
+                                  categories['FieldBundle']:'not defined',
+                                  categories['State']:'Superstructure',
+                                  categories['General Documentation']:'not defined',
+                                  categories['Array - Old']:'not defined',
+                                  categories['DELayout']:'not defined',
+                                  categories['Non-ESMF']:'not defined',
+                                  categories['Route']:'not defined',
+                                  categories['Language Interface']:'not defined',
+                                  categories['InternalState']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 3']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 5']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 6']:'not defined',
+                                  categories['Config']:'not defined',
+                                  categories['DistGrid - New']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 13']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 14']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 4']:'not defined',
+                                  categories['PhysGrid']:'not defined',
+                                  categories['Regrid']:'Regrid',
+                                  categories['ZZ-EMPTY CATEGORY 7']:'not defined',
+                                  categories['Attribute']:'Attribute',
+                                  categories['Mesh']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 8']:'not defined',
+                                  categories['ArrayBundle']:'not defined',
+                                  categories['VM']:'not defined',
+                                  categories['Array - New']:'not defined',
+                                  categories['ZZ-EMPTY CATEGORY 12']:'not defined',
+                                  categories['AppDriver']:'not defined',
+                                  categories['Datatype']:'not defined',
+                                  categories['LocalArray']:'not defined',
+                                  categories['F90 Interface']:'not defined',
+                                  categories['LocStream']:'Geometry Object',
+                                  categories['Test Harness']:'not defined',
+                                  categories['Web Services']:'not defined',
+                                  categories['ESMP']:'ESMPy Interface Layer'
                                  }
 
         # make the status_map
