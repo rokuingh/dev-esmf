@@ -19,8 +19,17 @@ class TicketHarvester(object):
         tree = ET.parse(xmlfile)
         root = tree.getroot()
 
-        # pull tickets out of the harvested file and sort by id
+        # pull tickets out of the harvested file
         tixlist_temp = root.findall(".//*tracker_item")
+
+        # pull out bugs and support requests
+        bugs = root[7][0].findall(".//tracker_item")
+        supportreqs = root[7][1].findall(".//tracker_item")
+
+        # reset the ticketlist to only include bugs and support requests
+        tixlist_temp = bugs + supportreqs
+
+        # sort the ticket list by id and add to the TicketHarvester
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
 
         # get the project members and make the member map
@@ -37,48 +46,53 @@ class TicketHarvester(object):
         self.member_map['nobody'] = 'Unknown User'
         self.member_map['rfaincht'] = 'Unknown User'
         self.member_map['flanigan'] = 'Unknown User'
+        print self.member_map
 
         # get the group_ids
-        project_groups = root.findall(".//*group")
-        groups = {}
-        for group in project_groups:
-            groups[group.find('group_name').text] = \
+        project_bug_groups = root[7][0].findall(".//*group")
+        project_req_groups = root[7][1].findall(".//*group")
+        bug_groups = {}
+        req_groups = {}
+        for group in project_bug_groups:
+            bug_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_req_groups:
+            req_groups[group.find('group_name').text] = \
                 group.find('id').text
         # make the group2category_map
         self.group2category_map = {
                                    # Bug values
-                                   groups['Memory Corruption/Leak']:'',
-                                   groups['Fix Behavior']:'bug',
-                                   groups['Documentation']:'documentation',
-                                   groups['Increase Robustness/Handle Error']:
+                                   bug_groups['Memory Corruption/Leak']:'',
+                                   bug_groups['Fix Behavior']:'bug',
+                                   bug_groups['Documentation']:'documentation',
+                                   bug_groups['Increase Robustness/Handle Error']:
                                        'bug',
-                                   groups['Performance Optimization']:'bug',
-                                   groups['Organization/Cleanup']:
+                                   bug_groups['Performance Optimization']:'bug',
+                                   bug_groups['Organization/Cleanup']:
                                        'code clean-up',
-                                   groups['Test or Example Needed']:
+                                   bug_groups['Test or Example Needed']:
                                        'test needed',
-                                   groups['ZZ-EMPTY GROUP 1']:'',
-                                   groups['Standardization']:'API clean-up',
-                                   groups['Solution Unclear']:'bug',
-                                   groups['Add Functionality']:'feature',
-                                   groups['ZZ-EMPTY GROUP 2']:'',
-                                   groups['Memory Optimization']:'bug',
-                                   groups['Vendor Problem']:'vendor',
+                                   bug_groups['ZZ-EMPTY GROUP 1']:'',
+                                   bug_groups['Standardization']:'API clean-up',
+                                   bug_groups['Solution Unclear']:'bug',
+                                   bug_groups['Add Functionality']:'feature',
+                                   bug_groups['ZZ-EMPTY GROUP 2']:'',
+                                   bug_groups['Memory Optimization']:'bug',
+                                   bug_groups['Vendor Problem']:'vendor',
                                    # Support Request values
-                                   groups['Needs Assistance']:'help',
-                                   groups['ZZ-EMPTY GROUP 4']:'help',
-                                   groups['ZZ-EMPTY GROUP 5']:'help',
-                                   groups['ZZ-EMPTY GROUP 3']:'help',
-                                   groups['ZZ-EMPTY GROUP 6']:'help',
-                                   groups['Possible Problem']:'help',
-                                   groups['Solution Unclear']:'help',
-                                   groups['ZZ-EMPTY GROUP 2 ']:'help',
-                                   groups['ZZ-EMPTY GROUP 1']:'help',
-                                   groups['Simple Information/Action Request']:'help',
+                                   req_groups['Needs Assistance']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 4']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 5']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 3']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 6']:'help',
+                                   req_groups['Possible Problem']:'help',
+                                   req_groups['Solution Unclear']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 2 ']:'help',
+                                   req_groups['ZZ-EMPTY GROUP 1']:'help',
+                                   req_groups['Simple Information/Action Request']:'help',
                                    # add in a weird default value
                                    '100':'',
                                   }
-        print groups
 
         # make the category2area_map
         project_categories = root.findall(".//*category")

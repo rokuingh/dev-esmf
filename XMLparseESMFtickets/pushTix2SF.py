@@ -36,7 +36,7 @@ tixlist = harvest_tix('esmf_export.xml')
 #   - requires export in json
 
 body = tixlist[1378]
-
+'''
 print body
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
@@ -44,7 +44,7 @@ url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import'
 response = client.request(url_tracker, 'POST', body=urlencode(body))
 print "Done.  Response was:"
 print "\n"+str(response)+"\n"
-
+'''
 
 '''
 # push all tickets to sourceforge
