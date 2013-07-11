@@ -9,7 +9,10 @@
 #
 ###############################################################################
 
-# TODO: separate tickets from different trackers
+import time
+# to convert from epoch to local time
+# time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(epoch)) 
+#   Replace time.localtime with time.gmtime for GMT time.
 
 class TicketHarvester(object):
     def __init__(self, xmlfile):
@@ -44,8 +47,8 @@ class TicketHarvester(object):
         print "NUOPC support requests = {0}".format(len(NUOPCsupportreqs))
         '''
 
-        # reset the ticketlist to only include bugs and support requests
-        tixlist_temp = bugs + supportreqs
+        # reset the ticketlist to include only the ticket we want
+        tixlist_temp = bugs # + supportreqs + featurereqs
 
         # sort the ticket list by id and add to the TicketHarvester
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
@@ -68,13 +71,43 @@ class TicketHarvester(object):
         # get the group_ids
         project_bug_groups = root[7][0].findall(".//*group")
         project_req_groups = root[7][1].findall(".//*group")
+        project_fet_groups = root[7][2].findall(".//*group")
+        project_ops_groups = root[7][3].findall(".//*group")
+        project_vnd_groups = root[7][4].findall(".//*group")
+        project_aps_groups = root[7][5].findall(".//*group")
+        project_nfr_groups = root[7][6].findall(".//*group")
+        project_nsr_groups = root[7][7].findall(".//*group")
         bug_groups = {}
         req_groups = {}
+        fet_groups = {}
+        ops_groups = {}
+        vnd_groups = {}
+        aps_groups = {}
+        nfr_groups = {}
+        nsr_groups = {}
         for group in project_bug_groups:
             bug_groups[group.find('group_name').text] = \
                 group.find('id').text
         for group in project_req_groups:
             req_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_fet_groups:
+            fet_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_ops_groups:
+            ops_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_vnd_groups:
+            vnd_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_aps_groups:
+            aps_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_nfr_groups:
+            nfr_groups[group.find('group_name').text] = \
+                group.find('id').text
+        for group in project_nsr_groups:
+            nsr_groups[group.find('group_name').text] = \
                 group.find('id').text
         # make the group2category_map
         self.group2category_map = {
@@ -112,63 +145,100 @@ class TicketHarvester(object):
                                   }
 
         # make the category2area_map
-        project_categories = root.findall(".//*category")
-        categories = {}
-        for category in project_categories:
-            categories[category.find('category_name').text] = \
+        project_bug_categories = root[7][0].findall(".//*category")
+        project_req_categories = root[7][1].findall(".//*category")
+        project_fet_categories = root[7][2].findall(".//*category")
+        project_ops_categories = root[7][3].findall(".//*category")
+        project_vnd_categories = root[7][4].findall(".//*category")
+        project_aps_categories = root[7][5].findall(".//*category")
+        project_nfr_categories = root[7][6].findall(".//*category")
+        project_nsr_categories = root[7][7].findall(".//*category")
+        bug_categories = {}
+        req_categories = {}
+        fet_categories = {}
+        ops_categories = {}
+        vnd_categories = {}
+        aps_categories = {}
+        nfr_categories = {}
+        nsr_categories = {}
+        for category in project_bug_categories:
+            bug_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_req_categories:
+            req_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_fet_categories:
+            fet_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_ops_categories:
+            ops_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_vnd_categories:
+            vnd_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_aps_categories:
+            aps_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_nfr_categories:
+            nfr_categories[category.find('category_name').text] = \
+                category.find('id').text
+        for category in project_nsr_categories:
+            nsr_categories[category.find('category_name').text] = \
                 category.find('id').text
         self.category2area_map = {
                                   # Bugs
-                                  categories['Component']:'Superstructure',
-                                  categories['Time Manager']:'Time Manager',
-                                  categories['Grid - New']:'Geometry Object',
-                                  categories['Build/Install']:'Build System',
-                                  categories['Field']:'not defined',
-                                  categories['Grid - Old']:'Geometry Object',
-                                  categories['Repository']:'not defined',
-                                  categories['Multiple Categories']:'not defined',
-                                  categories['Website']:'not defined',
-                                  categories['Base']:'not defined',
-                                  categories['Util']:'not defined',
-                                  categories['I/O']:'I/O',
-                                  categories['Tests']:'not defined',
-                                  categories['LogErr']:'not defined',
-                                  categories['FieldBundle']:'not defined',
-                                  categories['State']:'Superstructure',
-                                  categories['General Documentation']:'not defined',
-                                  categories['Array - Old']:'not defined',
-                                  categories['DELayout']:'not defined',
-                                  categories['Non-ESMF']:'not defined',
-                                  categories['Route']:'not defined',
-                                  categories['Language Interface']:'not defined',
-                                  categories['InternalState']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 3']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 5']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 6']:'not defined',
-                                  categories['Config']:'not defined',
-                                  categories['DistGrid - New']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 13']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 14']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 4']:'not defined',
-                                  categories['PhysGrid']:'not defined',
-                                  categories['Regrid']:'Regrid',
-                                  categories['ZZ-EMPTY CATEGORY 7']:'not defined',
-                                  categories['Attribute']:'Attribute',
-                                  categories['Mesh']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 8']:'not defined',
-                                  categories['ArrayBundle']:'not defined',
-                                  categories['VM']:'not defined',
-                                  categories['Array - New']:'not defined',
-                                  categories['ZZ-EMPTY CATEGORY 12']:'not defined',
-                                  categories['AppDriver']:'not defined',
-                                  categories['Datatype']:'not defined',
-                                  categories['LocalArray']:'not defined',
-                                  categories['F90 Interface']:'not defined',
-                                  categories['LocStream']:'Geometry Object',
-                                  categories['Test Harness']:'not defined',
-                                  categories['Web Services']:'not defined',
-                                  categories['ESMP']:'ESMPy Interface Layer'
-                                 }
+                                  bug_categories['Component']:'Superstructure',
+                                  bug_categories['Time Manager']:'Time Manager',
+                                  bug_categories['Grid - New']:'Geometry Object',
+                                  bug_categories['Build/Install']:'Build System',
+                                  bug_categories['Field']:'not defined',
+                                  bug_categories['Grid - Old']:'Geometry Object',
+                                  bug_categories['Repository']:'not defined',
+                                  bug_categories['Multiple Categories']:'not defined',
+                                  bug_categories['Website']:'not defined',
+                                  bug_categories['Base']:'not defined',
+                                  bug_categories['Util']:'not defined',
+                                  bug_categories['I/O']:'I/O',
+                                  bug_categories['Tests']:'not defined',
+                                  bug_categories['LogErr']:'not defined',
+                                  bug_categories['FieldBundle']:'not defined',
+                                  bug_categories['State']:'Superstructure',
+                                  bug_categories['General Documentation']:'not defined',
+                                  bug_categories['Array - Old']:'not defined',
+                                  bug_categories['DELayout']:'not defined',
+                                  bug_categories['Non-ESMF']:'not defined',
+                                  bug_categories['Route']:'not defined',
+                                  bug_categories['Language Interface']:'not defined',
+                                  bug_categories['InternalState']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 3']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 5']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 6']:'not defined',
+                                  bug_categories['Config']:'not defined',
+                                  bug_categories['DistGrid - New']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 13']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 14']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 4']:'not defined',
+                                  bug_categories['PhysGrid']:'not defined',
+                                  bug_categories['Regrid']:'Regrid',
+                                  bug_categories['ZZ-EMPTY CATEGORY 7']:'not defined',
+                                  bug_categories['Attribute']:'Attribute',
+                                  bug_categories['Mesh']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 8']:'not defined',
+                                  bug_categories['ArrayBundle']:'not defined',
+                                  bug_categories['VM']:'not defined',
+                                  bug_categories['Array - New']:'not defined',
+                                  bug_categories['ZZ-EMPTY CATEGORY 12']:'not defined',
+                                  bug_categories['AppDriver']:'not defined',
+                                  bug_categories['Datatype']:'not defined',
+                                  bug_categories['LocalArray']:'not defined',
+                                  bug_categories['F90 Interface']:'not defined',
+                                  bug_categories['LocStream']:'Geometry Object',
+                                  bug_categories['Test Harness']:'not defined',
+                                  bug_categories['Web Services']:'not defined',
+                                  bug_categories['ESMP']:'ESMPy Interface Layer',
+                                  # add in a weird default value
+                                  '100':'not defined',
+                             }
 
         # make the status_map
         self.status_map = {
@@ -203,25 +273,44 @@ class TicketHarvester(object):
         # for custom fields
         # ticket_form.custom_fields._my_field
     
+        # TODO: if there are followups, get the submitter, date and id
+
+
         for tix in self.tixlist:
+            # grab the followups
+            followups = tix.findall(".//followup")
+            append = ''
+            if followups:
+                for followup in followups:
+                    try:
+                        append += "\n---\n{0}\n{1}\n{2}\n---\n".format(
+                            followup.find('submitter').text,
+                            time.strftime("%a, %d %b %Y %H:%M:%S", \
+                                time.localtime(float(followup.find('date').text))),
+                            followup.find('details').text)
+                    except:
+                        append +="\n---\nComment excluded because it contained non \
+                                  unicode characters!\n---\n"
+
             body = {
                     # generic information
-                    'ticket_form.summary' : tix.find('summary').text,
-                    'ticket_form.description' : tix.find('details').text,
+                    'ticket_form.summary' : 
+                        tix.find('summary').text,
+                    'ticket_form.description' : 
+                        tix.find('details').text + append,
                     'ticket_form.status' : 
                         self.status_map[tix.find('status_id').text],
                     'ticket_form.assigned_to' : 
                         self.member_map[tix.find('assignee').text],
-                    # labels are tricky
-                    #'ticket_form.labels' : 'blah,blah,blah'
                     # Custom fields
                     'ticket_form.custom_fields._old_ticket_number' : 
                         tix.find('id').text,
-                    'ticket_form.custom_fields._priority' : 'desirable',
+                    'ticket_form.custom_fields._priority' : 
+                        'desirable',
                     'ticket_form.custom_fields._category' : 
                         self.group2category_map[tix.find('group_id').text],
-                    #'ticket_form.custom_fields._area' : 
-                    #    self.category2area_map[tix.find('category_id').text],
+                    'ticket_form.custom_fields._area' : 
+                        self.category2area_map[tix.find('category_id').text],
                     # proposed custom fields to track old required information
                     #'ticket_form.custom_fields._original_creation_date' : 
                     #    tix.find('submit_date').text,
@@ -234,6 +323,7 @@ class TicketHarvester(object):
                     }
 
             self.body_list.append(body)
+            print tix.find('details').text + append
 
         return
 

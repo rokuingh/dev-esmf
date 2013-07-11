@@ -33,7 +33,7 @@ client.ca_certs = certifi.where()
 tixlist = harvest_tix('esmf_export.xml')
 
 # grab one ticket to test
-#body = tixlist[1378]
+body = tixlist[1379]
 
 
 '''
@@ -55,14 +55,15 @@ for i in range(100):
     print "Done.  Response was:"
     print "\n"+str(response)+"\n"
 '''
-'''
+
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
 url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
 response = client.request(url_tracker, 'POST', body=urlencode(body))
-print "Done.  Response was:"
+print "Done. Response was:"
 print "\n"+str(response)+"\n"
-'''
+print body
+
 
 '''
 # push all tickets to sourceforge
