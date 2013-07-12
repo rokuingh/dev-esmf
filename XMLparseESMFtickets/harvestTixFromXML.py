@@ -277,28 +277,13 @@ class TicketHarvester(object):
 
 
         for tix in self.tixlist:
-            # grab the followups
-            followups = tix.findall(".//followup")
-            append = ''
-            if followups:
-                for followup in followups:
-                    # TODO: handle non-unicode characters better
-                    try:
-                        append += "\n---\n{0}\n{1}\n{2}\n---\n".format(
-                            followup.find('submitter').text,
-                            time.strftime("%a, %d %b %Y %H:%M:%S", \
-                                time.localtime(float(followup.find('date').text))),
-                            followup.find('details').text)
-                    except:
-                        append +="\n---\nComment excluded because it contained non \
-                                  unicode characters!\n---\n"
 
             body = {
                     # generic information
                     'ticket_form.summary' : 
                         tix.find('summary').text,
                     'ticket_form.description' : 
-                        tix.find('details').text + append,
+                        tix.find('details').text + self.gather_comments(tix),
                     'ticket_form.status' : 
                         self.status_map[tix.find('status_id').text],
                     'ticket_form.assigned_to' : 
@@ -312,6 +297,8 @@ class TicketHarvester(object):
                         self.group2category_map[tix.find('group_id').text],
                     'ticket_form.custom_fields._area' : 
                         self.category2area_map[tix.find('category_id').text],
+                    'ticket_form.custom_fields._who' : 
+                        self.gather_who(tix),
                     # proposed custom fields to track old required information
                     #'ticket_form.custom_fields._original_creation_date' : 
                     #    tix.find('submit_date').text,
@@ -324,9 +311,40 @@ class TicketHarvester(object):
                     }
 
             self.body_list.append(body)
-            print tix.find('details').text + append
 
         return
+
+    @staticmethod
+    def gather_comments(ticket):
+        # grab the followups
+        followups = ticket.findall(".//followup")
+        comments = ''
+        if followups:
+            for followup in followups:
+                # TODO: handle non-unicode characters better
+                try:
+                    comments += "\n---\n{0}\n{1}\n{2}\n---\n".format(
+                        followup.find('submitter').text,
+                        time.strftime("%a, %d %b %Y %H:%M:%S", \
+                            time.localtime(float(followup.find('date').text))),
+                        followup.find('details').text)
+                except:
+                    comments +="\n---\nComment excluded because it contained non \
+                              unicode characters!\n---\n"
+        return comments
+
+    @staticmethod
+    def gather_who(ticket):
+        # parse the who line out of the ticket details
+        who = ''
+        details = ticket.find('details').text
+        line = details.split('\n',1)[0]
+        if ('WHO:' or 'Who:' or 'From:') in line:
+            who = line.split(":")[-1]
+        # TODO: set internal based on who
+        #       keywords: NESII, core, ESMF, internal, Gerhard, Cecelia DeLuca
+        #       Peggy Li, Fei Liu, Ryan O'Kuinghttons, Bob Oehmke (**case insensitive)
+        return who
 
     @staticmethod
     def get_id_et(ticket):

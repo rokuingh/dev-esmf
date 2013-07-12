@@ -33,8 +33,7 @@ client.ca_certs = certifi.where()
 tixlist = harvest_tix('esmf_export.xml')
 
 # grab one ticket to test
-body = tixlist[1379]
-
+body = tixlist[1382]
 
 '''
 # sumbit 100 blank tickets
