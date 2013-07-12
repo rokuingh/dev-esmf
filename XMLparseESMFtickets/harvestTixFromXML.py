@@ -298,7 +298,11 @@ class TicketHarvester(object):
                     'ticket_form.custom_fields._area' : 
                         self.category2area_map[tix.find('category_id').text],
                     'ticket_form.custom_fields._who' : 
-                        self.gather_who(tix),
+                        self.gather_who_origin(tix)[0],
+                    'ticket_form.custom_fields._origin' : 
+                        self.gather_who_origin(tix)[1],
+                    'ticket_form.custom_fields._estimated_weeks_to_completion' : 
+                        self.gather_weeks(tix),
                     # proposed custom fields to track old required information
                     #'ticket_form.custom_fields._original_creation_date' : 
                     #    tix.find('submit_date').text,
@@ -334,17 +338,52 @@ class TicketHarvester(object):
         return comments
 
     @staticmethod
-    def gather_who(ticket):
+    def gather_who_origin(ticket):
         # parse the who line out of the ticket details
         who = ''
+        searchstrings = ['Who:', 'From:']
+        #TODO: handle these exceptions
+        #exceptions = ['From Peggy:', "Ryan O'Kuinghttons"]
         details = ticket.find('details').text
         line = details.split('\n',1)[0]
-        if ('WHO:' or 'Who:' or 'From:') in line:
-            who = line.split(":")[-1]
-        # TODO: set internal based on who
-        #       keywords: NESII, core, ESMF, internal, Gerhard, Cecelia DeLuca
-        #       Peggy Li, Fei Liu, Ryan O'Kuinghttons, Bob Oehmke (**case insensitive)
-        return who
+        
+        # case insensitive search for for searchstrings in first line of details
+        for string in searchstrings:
+            if string.lower() in line.lower():
+                who = line.split(":")[-1]
+
+        # internal
+        origin = 'external'
+        keywords = ["NESII", "core", "ESMF", "internal", "Gerhard", \
+                    "Cecelia DeLuca", "Peggy Li", "Fei Liu", \
+                    "Ryan O'Kuinghttons", "Oehmke"]
+        for key in keywords:
+            if key.lower() in who.lower():
+                origin = "internal"
+        
+        return who, origin
+
+    @staticmethod
+    def gather_weeks(ticket):
+        import re
+        # parse the estimated weeks to completion out of the ticket summary
+        weeks = ''
+        summary = ticket.find('summary').text
+        # if LONG: is in the summary line
+        if 'LONG:' in summary:
+            # if there is a number of weeks in the summary line
+            if re.search("\([0-9]+\)",summary):
+                temp = summary.split("(")[-1]
+                weeks = temp.split(")")[0]
+            # default to 2
+            else:
+                weeks = 2
+
+        # return empty string, or an integer value
+        try:
+            return int(weeks)
+        except:
+            return ''
 
     @staticmethod
     def get_id_et(ticket):
@@ -355,7 +394,6 @@ class TicketHarvester(object):
         tixlist_without_deleted = \
             [x for x in self.tixlist if x.find('status_id').text != '3']
         self.tixlist = tixlist_without_deleted
-
 
 def harvest_tix(xmlfile):
 

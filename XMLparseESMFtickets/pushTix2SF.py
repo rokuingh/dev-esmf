@@ -1,7 +1,25 @@
+#!/usr/bin/env python
+
+import sys
+
 from urllib import urlencode
 import oauth2 as oauth
 import certifi
 from harvestTixFromXML import harvest_tix
+
+# get the arguments
+restart = False
+restart_ind = 0
+
+if len(sys.argv) is 3:
+    restart = bool(sys.argv[1])
+    restart_ind = int(sys.argv[2])
+elif len(sys.argv) is not 1:
+    raise SyntaxError("Usage:\n\tpython pushTix2SF.py <restart: (True or False)> <restart index: (#)>")
+
+print 'Restart = {0}'.format(restart)
+print 'Restart index = {0}'.format(restart_ind)
+
 
 # advance api access
 #http://allura.sourceforge.net/migration.html
@@ -32,9 +50,6 @@ client.ca_certs = certifi.where()
 # create the ticket list from the gigantic XML file of ESMF tickets
 tixlist = harvest_tix('esmf_export.xml')
 
-# grab one ticket to test
-body = tixlist[1382]
-
 '''
 # sumbit 100 blank tickets
 body = {
@@ -55,6 +70,14 @@ for i in range(100):
     print "\n"+str(response)+"\n"
 '''
 
+'''
+done = False
+for tix in tixlist:
+    if not done:
+        if tix['ticket_form.custom_fields._estimated_weeks_to_completion'] == 2:
+            body = tix
+            done = True
+
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
 url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
@@ -62,17 +85,23 @@ response = client.request(url_tracker, 'POST', body=urlencode(body))
 print "Done. Response was:"
 print "\n"+str(response)+"\n"
 print body
-
-
 '''
+
+ind = 0
 # push all tickets to sourceforge
 for tix in tixlist:
-    try:
-        body = generate_tix_body(tix)
-        # submit the test ticket to the dummy archive
-        response = client.request(
-            URL_BASE + 'p/' + PROJECT + '/tickets/new', 'POST',
-            body=urlencode(body))
-    except:
-        print "ticket #"+str(tix.find.('id').text)
-'''
+    if restart and ind < restart_ind:
+        ind += 1
+        continue
+    else:
+        try:
+            # submit the test ticket to the dummy archive
+            response = client.request(
+                URL_BASE + 'p/' + PROJECT + '/tickets/new', 'POST',
+                body=urlencode(tix))
+            print "Ticket #{0} Done. Response was:".format(ind)
+            print str(response)+"\n"
+        except:
+            print "\nTicket #{0} Failed!\n".format(ind)
+        ind += 1
+
