@@ -74,7 +74,7 @@ for i in range(100):
 done = False
 for tix in tixlist:
     if not done:
-        if tix['ticket_form.custom_fields._estimated_weeks_to_completion'] == 2:
+        if tix['ticket_form.custom_fields._original_creator'] == 'rokuingh':
             body = tix
             done = True
 
@@ -86,6 +86,7 @@ print "Done. Response was:"
 print "\n"+str(response)+"\n"
 print body
 '''
+
 
 ind = 0
 # push all tickets to sourceforge
@@ -104,4 +105,8 @@ for tix in tixlist:
         except:
             print "\nTicket #{0} Failed!\n".format(ind)
         ind += 1
+
+print "DONE!  {0} tickets were submitted.".format(ind)
+
+
 

@@ -304,14 +304,16 @@ class TicketHarvester(object):
                     'ticket_form.custom_fields._estimated_weeks_to_completion' : 
                         self.gather_weeks(tix),
                     # proposed custom fields to track old required information
-                    #'ticket_form.custom_fields._original_creation_date' : 
-                    #    tix.find('submit_date').text,
-                    #'ticket_form.custom_fields._original_close_date' : 
-                    #    tix.find('close_date').text,
-                    #'ticket_form.custom_fields._original_creator' : 
-                    #    tix.find('submitter').text,
-                    #'ticket_form.custom_fields._original_closer' : 
-                    #    tix.find('closer').text,
+                    'ticket_form.custom_fields._original_creation_date' : 
+                        time.strftime("%a, %d %b %Y %H:%M:%S", \
+                            time.localtime(float(tix.find('submit_date').text))),
+                    'ticket_form.custom_fields._original_close_date' : 
+                        time.strftime("%a, %d %b %Y %H:%M:%S", \
+                            time.localtime(float(tix.find('close_date').text))),
+                    'ticket_form.custom_fields._original_creator' : 
+                        tix.find('submitter').text,
+                    'ticket_form.custom_fields._original_closer' : 
+                        tix.find('closer').text,
                     }
 
             self.body_list.append(body)
