@@ -14,12 +14,11 @@ restart_ind = 0
 if len(sys.argv) is 3:
     restart = bool(sys.argv[1])
     restart_ind = int(sys.argv[2])
+    print 'Restart = {0}'.format(restart)
+    print 'Restart index = {0}\n'.format(restart_ind)
+
 elif len(sys.argv) is not 1:
     raise SyntaxError("Usage:\n\tpython pushTix2SF.py <restart: (True or False)> <restart index: (#)>")
-
-print 'Restart = {0}'.format(restart)
-print 'Restart index = {0}'.format(restart_ind)
-
 
 # advance api access
 #http://allura.sourceforge.net/migration.html
@@ -70,14 +69,15 @@ for i in range(100):
     print "\n"+str(response)+"\n"
 '''
 
-'''
+
 done = False
 for tix in tixlist:
     if not done:
-        if tix['ticket_form.custom_fields._original_creator'] == 'rokuingh':
-            body = tix
+        if tix['ticket_form.custom_fields._original_close_date'] == "":
+            print tix
             done = True
 
+'''
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
 url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
@@ -87,7 +87,7 @@ print "\n"+str(response)+"\n"
 print body
 '''
 
-
+'''
 ind = 0
 # push all tickets to sourceforge
 for tix in tixlist:
@@ -106,7 +106,7 @@ for tix in tixlist:
             print "\nTicket #{0} Failed!\n".format(ind)
         ind += 1
 
-print "DONE!  {0} tickets were submitted.".format(ind)
-
+print "\nDONE!  {0} tickets were submitted.".format(ind)
+'''
 
 

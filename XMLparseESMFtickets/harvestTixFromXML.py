@@ -23,7 +23,7 @@ class TicketHarvester(object):
         root = tree.getroot()
 
         # pull tickets out of the harvested file
-        tixlist_temp = root.findall(".//*tracker_item")
+        #tixlist_temp = root.findall(".//*tracker_item")
 
         # pull tickets out of the individual trackers
         bugs = root[7][0].findall(".//tracker_item")
@@ -48,7 +48,7 @@ class TicketHarvester(object):
         '''
 
         # reset the ticketlist to include only the ticket we want
-        tixlist_temp = bugs # + supportreqs + featurereqs
+        tixlist_temp = bugs + supportreqs #+ featurereqs
 
         # sort the ticket list by id and add to the TicketHarvester
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
@@ -236,6 +236,48 @@ class TicketHarvester(object):
                                   bug_categories['Test Harness']:'not defined',
                                   bug_categories['Web Services']:'not defined',
                                   bug_categories['ESMP']:'ESMPy Interface Layer',
+                                  # Category ID
+                                  req_categories['DistGrid - New']:'not defined',
+                                  req_categories['Yet Undetermined']:'not defined',
+                                  req_categories['Build/Install']:'Build System',
+                                  req_categories['Application Architecture']:'not defined',
+                                  req_categories['Array - Old']:'not defined',
+                                  req_categories['Base']:'not defined',
+                                  req_categories['FieldBundle']:'not defined',
+                                  req_categories['Non-ESMF']:'not defined',
+                                  req_categories['Component']:'Superstructe',
+                                  req_categories['DELayout']:'not defined',
+                                  req_categories['General Documentation']:'not defined',
+                                  req_categories['Field']:'not defined',
+                                  req_categories['Grid - Old']:'not defined',
+                                  req_categories['I/O']:'I/O',
+                                  req_categories['State']:'Superstructure',
+                                  req_categories['Time Manager']:'Time Manager',
+                                  req_categories['Download']:'not defined',
+                                  req_categories['AppDriver']:'not defined',
+                                  req_categories['VM']:'not defined',
+                                  req_categories['LogErr']:'not defined',
+                                  req_categories['Regrid']:'Regrid',
+                                  req_categories['Config']:'not defined',
+                                  req_categories['Multiple Categories']:'not defined',
+                                  req_categories['Tests']:'not defined',
+                                  req_categories['Language Interface']:'not defined',
+                                  req_categories['Attribute']:'Attribute',
+                                  req_categories['Debugger']:'not defined',
+                                  req_categories['Examples and Demos']:'not defined',
+                                  req_categories['Datatype']:'not defined',
+                                  req_categories['Util']:'not defined',
+                                  req_categories['Website']:'not defined',
+                                  req_categories['Repository']:'not defined',
+                                  req_categories['Tutorial']:'not defined',
+                                  req_categories['ArrayBundle']:'not defined',
+                                  req_categories['Array - New']:'not defined',
+                                  req_categories['Grid - New']:'not defined',
+                                  req_categories['LocalArray']:'not defined',
+                                  req_categories['Mesh']:'not defined',
+                                  req_categories['Web Services']:'not defined',
+                                  req_categories['ESMP']:'ESMPy Interface Layer',
+                                  req_categories['NUOPC']:'NUOPC Layer',
                                   # add in a weird default value
                                   '100':'not defined',
                              }
@@ -290,7 +332,7 @@ class TicketHarvester(object):
                         self.member_map[tix.find('assignee').text],
                     # Custom fields
                     'ticket_form.custom_fields._old_ticket_number' : 
-                        tix.find('id').text,
+                        float(tix.find('id').text),
                     'ticket_form.custom_fields._priority' : 
                         'desirable',
                     'ticket_form.custom_fields._category' : 
@@ -305,11 +347,9 @@ class TicketHarvester(object):
                         self.gather_weeks(tix),
                     # proposed custom fields to track old required information
                     'ticket_form.custom_fields._original_creation_date' : 
-                        time.strftime("%a, %d %b %Y %H:%M:%S", \
-                            time.localtime(float(tix.find('submit_date').text))),
+                        self.time(tix)[0],
                     'ticket_form.custom_fields._original_close_date' : 
-                        time.strftime("%a, %d %b %Y %H:%M:%S", \
-                            time.localtime(float(tix.find('close_date').text))),
+                        self.time(tix)[1],
                     'ticket_form.custom_fields._original_creator' : 
                         tix.find('submitter').text,
                     'ticket_form.custom_fields._original_closer' : 
@@ -371,6 +411,12 @@ class TicketHarvester(object):
         # parse the estimated weeks to completion out of the ticket summary
         weeks = ''
         summary = ticket.find('summary').text
+        '''
+        try:
+            print summary
+        except:
+            print "THIS TICKET HAD A NON ASCII CHARACTER!"
+        '''
         # if LONG: is in the summary line
         if 'LONG:' in summary:
             # if there is a number of weeks in the summary line
@@ -389,7 +435,24 @@ class TicketHarvester(object):
 
     @staticmethod
     def get_id_et(ticket):
-        return ticket.find('id').text
+        return float(ticket.find('id').text)
+
+    @staticmethod
+    def time(ticket):
+        submit_date = time.strftime("%Y/%m/%d %H:%M:%S", \
+            time.localtime(float(ticket.find('submit_date').text)))
+        close_date = time.strftime("%Y/%b/%d %H:%M:%S", \
+            time.localtime(float(ticket.find('close_date').text)))
+
+        if ticket.find('submit_date').text == '0':
+            print "DING 111"
+            submit_date = ""
+
+        if ticket.find('close_date').text == '0':
+            print "DING 222"
+            close_date = ""        
+
+        return submit_date, close_date
 
     def remove_deleted(self):
         # remove the items with status 'deleted'
