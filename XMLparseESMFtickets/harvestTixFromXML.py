@@ -411,27 +411,29 @@ class TicketHarvester(object):
         # parse the estimated weeks to completion out of the ticket summary
         weeks = ''
         summary = ticket.find('summary').text
-        '''
-        try:
-            print summary
-        except:
-            print "THIS TICKET HAD A NON ASCII CHARACTER!"
-        '''
-        # if LONG: is in the summary line
-        if 'LONG:' in summary:
-            # if there is a number of weeks in the summary line
-            if re.search("\([0-9]+\)",summary):
-                temp = summary.split("(")[-1]
-                weeks = temp.split(")")[0]
-            # default to 2
-            else:
-                weeks = 2
+        # remove spaces and periods from beginning and end of summary
+        summary = summary.strip(" .")
 
-        # return empty string, or an integer value
-        try:
-            return int(weeks)
-        except:
-            return ''
+        # regular number in parenttheses at end of summary
+        if  re.search("\([0-9]+\)$", summary):
+            temp = summary.split("(")[-1]
+            weeks = int(temp.split(")")[0])
+        # weird double number in parenttheses at end of summary
+        elif re.search("\([0-9]+/[0-9]+\)$",summary):
+            temp = summary.split("(")[-1]
+            temp = temp.split(")")[0]
+            one,two = temp.split("/")
+            weeks = int(one) + int(two)
+        # question mark in parenttheses at end of summary
+        elif re.search("LONG",summary):
+            weeks = 2
+        # LONG
+        elif re.search("\(?\)",summary):
+            weeks = 2
+        else:
+            weeks = ""
+
+        return weeks
 
     @staticmethod
     def get_id_et(ticket):
@@ -445,11 +447,9 @@ class TicketHarvester(object):
             time.localtime(float(ticket.find('close_date').text)))
 
         if ticket.find('submit_date').text == '0':
-            print "DING 111"
             submit_date = ""
 
         if ticket.find('close_date').text == '0':
-            print "DING 222"
             close_date = ""        
 
         return submit_date, close_date
