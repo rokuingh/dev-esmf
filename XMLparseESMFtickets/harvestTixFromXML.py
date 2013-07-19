@@ -47,8 +47,16 @@ class TicketHarvester(object):
         print "NUOPC support requests = {0}".format(len(NUOPCsupportreqs))
         '''
 
+        # remove open support requests
+        supportreqslessopen = []
+        for tix in supportreqs:
+            if tix.find('status_id').text == '1':
+                pass
+            else:
+                supportreqslessopen.append(tix)
+
         # reset the ticketlist to include only the ticket we want
-        tixlist_temp = bugs + supportreqs #+ featurereqs
+        tixlist_temp = bugs + supportreqslessopen #+ featurereqs
 
         # sort the ticket list by id and add to the TicketHarvester
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
