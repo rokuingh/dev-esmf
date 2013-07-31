@@ -340,9 +340,9 @@ class TicketHarvester(object):
                         self.member_map[tix.find('assignee').text],
                     # Custom fields
                     'ticket_form.custom_fields._old_ticket_number' : 
-                        float(tix.find('id').text),
+                        int(tix.find('id').text),
                     'ticket_form.custom_fields._priority' : 
-                        'desirable',
+                        '',
                     'ticket_form.custom_fields._category' : 
                         self.group2category_map[tix.find('group_id').text],
                     'ticket_form.custom_fields._area' : 
@@ -403,7 +403,7 @@ class TicketHarvester(object):
                 who = line.split(":")[-1]
 
         # internal
-        origin = 'external'
+        origin = ''
         keywords = ["NESII", "core", "ESMF", "internal", "Gerhard", \
                     "Cecelia DeLuca", "Peggy Li", "Fei Liu", \
                     "Ryan O'Kuinghttons", "Oehmke"]
@@ -445,7 +445,7 @@ class TicketHarvester(object):
 
     @staticmethod
     def get_id_et(ticket):
-        return float(ticket.find('id').text)
+        return int(ticket.find('id').text)
 
     @staticmethod
     def time(ticket):
