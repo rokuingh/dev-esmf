@@ -69,14 +69,14 @@ for i in range(100):
     print "\n"+str(response)+"\n"
 '''
 
-
+'''
 done = False
 for tix in tixlist:
     if not done:
         if tix['ticket_form.custom_fields._original_close_date'] == "":
             print tix
             done = True
-
+'''
 '''
 # submit the test ticket to the dummy archive
 url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
@@ -87,7 +87,7 @@ print "\n"+str(response)+"\n"
 print body
 '''
 
-'''
+
 ind = 0
 # push all tickets to sourceforge
 for tix in tixlist:
@@ -107,6 +107,6 @@ for tix in tixlist:
         ind += 1
 
 print "\nDONE!  {0} tickets were submitted.".format(ind)
-'''
+
 
 
