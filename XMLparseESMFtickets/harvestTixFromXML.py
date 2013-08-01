@@ -409,13 +409,13 @@ class TicketHarvester(object):
                 who = line.split(":")[-1]
 
         # internal
-        origin = ''
+        origin = 'External'
         keywords = ["NESII", "core", "ESMF", "internal", "Gerhard", \
                     "Cecelia DeLuca", "Peggy Li", "Fei Liu", \
                     "Ryan O'Kuinghttons", "Oehmke"]
         for key in keywords:
             if key.lower() in who.lower():
-                origin = "internal"
+                origin = "Internal"
         
         return who, origin
 
