@@ -348,7 +348,7 @@ class TicketHarvester(object):
                     'ticket_form.custom_fields._old_ticket_number' : 
                         int(tix.find('id').text),
                     'ticket_form.custom_fields._priority' : 
-                        '',
+                        'Desirable',
                     'ticket_form.custom_fields._category' : 
                         self.group2category_map[tix.find('group_id').text],
                     'ticket_form.custom_fields._area' : 
