@@ -75,6 +75,12 @@ class TicketHarvester(object):
         self.member_map['nobody'] = ''
         self.member_map['rfaincht'] = ''
         self.member_map['flanigan'] = ''
+        self.member_map['sujay'] = ''
+        self.member_map['sf-robot'] = ''
+        self.member_map['jplpan'] = ''
+        self.member_map['swartzbr'] = ''
+        self.member_map['seastham'] = ''
+        self.member_map['krb19711'] = ''
 
         # get the group_ids
         project_bug_groups = root[7][0].findall(".//*group")
@@ -359,9 +365,9 @@ class TicketHarvester(object):
                     'ticket_form.custom_fields._original_close_date' : 
                         self.time(tix)[1],
                     'ticket_form.custom_fields._original_creator' : 
-                        tix.find('submitter').text,
+                        self.member_map[tix.find('submitter').text],
                     'ticket_form.custom_fields._original_closer' : 
-                        tix.find('closer').text,
+                        self.member_map[tix.find('closer').text],
                     }
 
             self.body_list.append(body)
