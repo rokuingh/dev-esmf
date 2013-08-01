@@ -80,17 +80,18 @@ for tix in tixlist:
             done = True
 '''
 
-# submit the test ticket to the dummy archive
-body = tixlist[187]
-url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
-url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
-response = client.request(url_tracker, 'POST', body=urlencode(body))
-print "Done. Response was:"
-print "\n"+str(response)+"\n"
-print body
-
-
 '''
+# submit the test ticket to the dummy archive
+for body in tixlist2:
+    url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+    url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+    response = client.request(url_tracker, 'POST', body=urlencode(body))
+    print "Done. Response was:"
+    print "\n"+str(response)+"\n"
+    print body
+'''
+
+
 ind = 0
 # push all tickets to sourceforge
 for tix in tixlist:
@@ -110,6 +111,6 @@ for tix in tixlist:
         ind += 1
 
 print "\nDONE!  {0} tickets were submitted.".format(ind)
-'''
+
 
 

@@ -259,7 +259,7 @@ class TicketHarvester(object):
                                   req_categories['Base']:'Not Defined',
                                   req_categories['FieldBundle']:'Not Defined',
                                   req_categories['Non-ESMF']:'Not Defined',
-                                  req_categories['Component']:'Superstructe',
+                                  req_categories['Component']:'Superstructure',
                                   req_categories['DELayout']:'Not Defined',
                                   req_categories['General Documentation']:'Not Defined',
                                   req_categories['Field']:'Not Defined',
@@ -337,9 +337,9 @@ class TicketHarvester(object):
             body = {
                     # generic information
                     'ticket_form.summary' : 
-                        tix.find('summary').text,
+                        (tix.find('summary').text).encode("ASCII", "replace"),
                     'ticket_form.description' : 
-                        tix.find('details').text + self.gather_comments(tix),
+                        (tix.find('details').text + self.gather_comments(tix)).encode("ASCII", "replace"),
                     'ticket_form.status' : 
                         self.status_map[tix.find('status_id').text],
                     'ticket_form.assigned_to' : 
@@ -354,7 +354,7 @@ class TicketHarvester(object):
                     'ticket_form.custom_fields._area' : 
                         self.category2area_map[tix.find('category_id').text],
                     'ticket_form.custom_fields._who' : 
-                        self.gather_who_origin(tix)[0],
+                        (self.gather_who_origin(tix)[0]).encode("ASCII", "replace"),
                     'ticket_form.custom_fields._origin' : 
                         self.gather_who_origin(tix)[1],
                     'ticket_form.custom_fields._estimated_weeks_to_completion' : 
