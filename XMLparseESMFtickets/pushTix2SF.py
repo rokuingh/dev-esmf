@@ -49,19 +49,34 @@ client.ca_certs = certifi.where()
 
 # create the ticket list from the gigantic XML file of ESMF tickets
 tixlist = harvest_tix('esmf_export.xml')
-
 '''
-# sumbit 100 blank tickets
+body = None
+done = False
+for tix in tixlist:
+    if not done:
+        if tix['ticket_form.labels'] == "NUOPC":
+            body = tix
+            done = True
+
+# submit a test ticket to the dummy archive
+url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+response = client.request(url_tracker, 'POST', body=urlencode(body))
+print "Done. Response was:"
+print "\n"+str(response)+"\n"
+print body
+'''
+
+# sumbit 10000 blank tickets
 body = {
         # generic information
         'ticket_form.summary' : "blank",
         'ticket_form.description' : "blank",
-        'ticket_form.status' : "closed",
+        'ticket_form.status' : "deleted",
         'ticket_form.assigned_to' : "nobody"
         }
-'''
-'''
-for i in range(100):
+
+for i in range(10000):
     print "Submitting ticket #{0}".format(i)
     # submit the test ticket to the dummy archive
     url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
@@ -69,28 +84,6 @@ for i in range(100):
     response = client.request(url_tracker, 'POST', body=urlencode(body))
     print "Done.  Response was:"
     print "\n"+str(response)+"\n"
-'''
-
-'''
-done = False
-for tix in tixlist:
-    if not done:
-        if tix['ticket_form.custom_fields._original_close_date'] == "":
-            print tix
-            done = True
-'''
-
-'''
-# submit the test ticket to the dummy archive
-for body in tixlist2:
-    url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
-    url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
-    response = client.request(url_tracker, 'POST', body=urlencode(body))
-    print "Done. Response was:"
-    print "\n"+str(response)+"\n"
-    print body
-'''
-
 
 ind = 0
 # push all tickets to sourceforge
@@ -111,6 +104,4 @@ for tix in tixlist:
         ind += 1
 
 print "\nDONE!  {0} tickets were submitted.".format(ind)
-
-
 

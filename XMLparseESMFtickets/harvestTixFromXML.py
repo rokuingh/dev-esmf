@@ -22,47 +22,6 @@ class TicketHarvester(object):
         tree = ET.parse(xmlfile)
         root = tree.getroot()
 
-        # pull tickets out of the harvested file
-        #tixlist_temp = root.findall(".//*tracker_item")
-
-        # pull tickets out of the individual trackers
-        bugs = root[7][0].findall(".//tracker_item")
-        supportreqs = root[7][1].findall(".//tracker_item")
-        featurereqs = root[7][2].findall(".//tracker_item")
-        operations = root[7][3].findall(".//tracker_item")
-        vendorbugs = root[7][4].findall(".//tracker_item")
-        applicationissues = root[7][5].findall(".//tracker_item")
-        NUOPCfeaturereqs = root[7][6].findall(".//tracker_item")
-        NUOPCsupportreqs = root[7][7].findall(".//tracker_item")
-
-        
-        # Print the number of tickets in each old tracker
-        print "Bugs                   = {0}".format(len(bugs))
-        print "Support requests       = {0}".format(len(supportreqs))
-        print "Feature requests       = {0}".format(len(featurereqs))
-        print "Operations             = {0}".format(len(operations))
-        print "Vendor bugs            = {0}".format(len(vendorbugs))
-        print "Application issues     = {0}".format(len(applicationissues))
-        print "NUOPC feature requests = {0}".format(len(NUOPCfeaturereqs))
-        print "NUOPC support requests = {0}".format(len(NUOPCsupportreqs))
-        
-
-        # remove open support requests
-        supportreqslessopen = []
-        for tix in supportreqs:
-            if tix.find('status_id').text == '1':
-                pass
-            else:
-                supportreqslessopen.append(tix)
-
-        # reset the ticketlist to include only the ticket we want
-        tixlist_temp = bugs + supportreqslessopen + featurereqs +\
-                       vendorbugs + applicationissues + NUOPCfeaturereqs +\
-                       NUOPCsupportreqs
-
-        # sort the ticket list by id and add to the TicketHarvester
-        self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
-
         # get the project members and make the member map
         #   - submitter, assignee, and closer are all tracked by user_name
         project_members = root.findall(".//*projectmember")
@@ -84,6 +43,7 @@ class TicketHarvester(object):
         self.member_map['seastham'] = ''
         self.member_map['krb19711'] = ''
         self.member_map['platipodium'] = ''
+        self.member_map['jaokalebo'] = ''
 
         # get the group_ids
         project_bug_groups = root[7][0].findall(".//*group")
@@ -156,15 +116,11 @@ class TicketHarvester(object):
                                    fet_groups['Add Code Capability']:'Feature',
                                    fet_groups['Port to New Platform']:'Feature',
                                    fet_groups['Add Other Capability']:'Feature',
-                                   # Vendor Bugs
-                                   '100':'Vendor',
-                                   # Application Issues
-                                   '100':'Help',
-                                   # NUOPC Feature Requests
-                                   '100':'Feature',
-                                   # NUOPC Support Requests
-                                   '100':'Help',
-                                   # add in a weird default value
+                                   # Vendor Bugs - "Vendor"
+                                   # Application Issues - "Help"
+                                   # NUOPC Feature Requests - "Feature"
+                                   # NUOPC Support Requests - "Help"
+                                   # default value
                                    '100':'',
                                   }
 
@@ -333,32 +289,57 @@ class TicketHarvester(object):
                                   fet_categories['Web Services']:'Not Defined',
                                   fet_categories['XGrid']:'Geometry Object',
                                   fet_categories['Container']:'Not Defined',
-                                  # Vendor Bugs
-                                  '100':'',
-                                  # Application Issues
-                                  '100':'',
-                                  # NUOPC Feature Requests
-                                  '100':'',
+                                  # Vendor Bugs - none
+                                  # Application Issues - none
+                                  # NUOPC Feature Requests - none
                                   # NUOPC Support Requests
                                   nsr_categories['Applying NUOPC layer']:'NUOPC Layer',
                                   nsr_categories['Bug in NUOPC layer']:'NUOPC Layer',
-                                  # add in a weird default value
+                                  # default value
                                   '100':'',
                              }
 
         # make the status_map
         self.status_map = {
-                      '1':'Open', 
-                      '2':'Closed', 
-                      '3':'Deleted', 
-                      '4':'Pending'
+                      '1':'open', 
+                      '2':'closed', 
+                      '3':'deleted', 
+                      '4':'pending'
                      }
 
         # allocate body_list
         self.body_list = []
 
-        print self.group2category_map
-        print self.category2area_map
+        # pull tickets out of the individual trackers
+        bugs = root[7][0].findall(".//tracker_item")
+        supportreqs = root[7][1].findall(".//tracker_item")
+        featurereqs = root[7][2].findall(".//tracker_item")
+        operations = root[7][3].findall(".//tracker_item")
+        self.vendorbugs = root[7][4].findall(".//tracker_item")
+        self.applicationissues = root[7][5].findall(".//tracker_item")
+        self.NUOPCfeaturereqs = root[7][6].findall(".//tracker_item")
+        self.NUOPCsupportreqs = root[7][7].findall(".//tracker_item")
+
+        # Print the number of tickets in each old tracker
+        print "Bugs                   = {0}".format(len(bugs))
+        print "Support requests       = {0}".format(len(supportreqs))
+        print "Feature requests       = {0}".format(len(featurereqs))
+        print "Operations             = {0}".format(len(operations))
+        print "Vendor bugs            = {0}".format(len(self.vendorbugs))
+        print "Application issues     = {0}".format(len(self.applicationissues))
+        print "NUOPC feature requests = {0}".format(len(self.NUOPCfeaturereqs))
+        print "NUOPC support requests = {0}".format(len(self.NUOPCsupportreqs))
+        
+        # remove open support requests
+        supportreqslessopen = []
+        for tix in supportreqs:
+            if tix.find('status_id').text == '1':
+                pass
+            else:
+                supportreqslessopen.append(tix)
+
+        # reset the ticketlist to include only the tickets we want
+        self.tixlist = bugs + supportreqslessopen + featurereqs
 
     def count_deleted(self):
         self.deleted_count = 0
@@ -386,46 +367,68 @@ class TicketHarvester(object):
 
 
         for tix in self.tixlist:
+            self.create_body(tix)
 
-            body = {
-                    # generic information
-                    'ticket_form.summary' : 
-                        (tix.find('summary').text).encode("ASCII", "replace"),
-                    'ticket_form.description' : 
-                        (tix.find('details').text + self.gather_comments(tix)).encode("ASCII", "replace"),
-                    'ticket_form.status' : 
-                        self.status_map[tix.find('status_id').text],
-                    'ticket_form.assigned_to' : 
-                        self.member_map[tix.find('assignee').text],
-                    # Custom fields
-                    'ticket_form.custom_fields._old_ticket_number' : 
-                        int(tix.find('id').text),
-                    'ticket_form.custom_fields._priority' : 
-                        'Desirable',
-                    'ticket_form.custom_fields._category' : 
-                        self.group2category_map[tix.find('group_id').text],
-                    'ticket_form.custom_fields._area' : 
-                        self.category2area_map[tix.find('category_id').text],
-                    'ticket_form.custom_fields._who' : 
-                        (self.gather_who_origin(tix)[0]).encode("ASCII", "replace"),
-                    'ticket_form.custom_fields._origin' : 
-                        self.gather_who_origin(tix)[1],
-                    'ticket_form.custom_fields._estimated_weeks_to_completion' : 
-                        self.gather_weeks(tix),
-                    # proposed custom fields to track old required information
-                    'ticket_form.custom_fields._original_creation_date' : 
-                        self.time(tix)[0],
-                    'ticket_form.custom_fields._original_close_date' : 
-                        self.time(tix)[1],
-                    'ticket_form.custom_fields._original_creator' : 
-                        self.member_map[tix.find('submitter').text],
-                    'ticket_form.custom_fields._original_closer' : 
-                        self.member_map[tix.find('closer').text],
-                    }
+        for tix in self.vendorbugs:
+            self.create_body(tix, category="Vendor")
 
-            self.body_list.append(body)
+        for tix in self.applicationissues:
+            self.create_body(tix, category="Help")
 
-        return
+        for tix in self.NUOPCfeaturereqs:
+            self.create_body(tix, category="Feature", label="NUOPC")
+
+        for tix in self.NUOPCsupportreqs:
+            self.create_body(tix, category="Help", label="NUOPC")
+
+        # sort the body list by id 
+        self.body_list_sorted = sorted(self.body_list, key=self.get_id)
+
+
+
+    def create_body(self, tix, category=None, label=None):    
+        body = {
+                # generic information
+                'ticket_form.summary' : 
+                    (tix.find('summary').text).encode("ASCII", "replace"),
+                'ticket_form.description' : 
+                    (tix.find('details').text + self.gather_comments(tix)).encode("ASCII", "replace"),
+                'ticket_form.status' : 
+                    self.status_map[tix.find('status_id').text],
+                'ticket_form.assigned_to' : 
+                    self.member_map[tix.find('assignee').text],
+                'ticket_form.labels' : '',
+                # Custom fields
+                'ticket_form.custom_fields._old_ticket_number' : 
+                    int(tix.find('id').text),
+                'ticket_form.custom_fields._priority' : 
+                    'Desirable',
+                'ticket_form.custom_fields._category' : 
+                    self.group2category_map[tix.find('group_id').text],
+                'ticket_form.custom_fields._area' : 
+                    self.category2area_map[tix.find('category_id').text],
+                'ticket_form.custom_fields._who' : 
+                    (self.gather_who_origin(tix)[0]).encode("ASCII", "replace"),
+                'ticket_form.custom_fields._origin' : 
+                    self.gather_who_origin(tix)[1],
+                'ticket_form.custom_fields._estimated_weeks_to_completion' : 
+                    self.gather_weeks(tix),
+                # proposed custom fields to track old required information
+                'ticket_form.custom_fields._original_creation_date' : 
+                    self.time(tix)[0],
+                'ticket_form.custom_fields._original_close_date' : 
+                    self.time(tix)[1],
+                'ticket_form.custom_fields._original_creator' : 
+                    self.member_map[tix.find('submitter').text],
+                'ticket_form.custom_fields._original_closer' : 
+                    self.member_map[tix.find('closer').text],
+                }
+        if category != None:
+            body['ticket_form.custom_fields._category'] = category
+        if label != None:
+            body['ticket_form.labels'] = label
+
+        self.body_list.append(body)
 
     @staticmethod
     def gather_comments(ticket):
@@ -503,8 +506,8 @@ class TicketHarvester(object):
         return weeks
 
     @staticmethod
-    def get_id_et(ticket):
-        return int(ticket.find('id').text)
+    def get_id(ticket):
+        return ticket['ticket_form.custom_fields._old_ticket_number']
 
     @staticmethod
     def time(ticket):
@@ -532,7 +535,7 @@ def harvest_tix(xmlfile):
     harvester = TicketHarvester(xmlfile)
 
     # optionally remove deleted tickets
-    harvester.remove_deleted()
+    #harvester.remove_deleted()
 
     # generate the body dictionary for each ticket
     harvester.generate_body_list()
