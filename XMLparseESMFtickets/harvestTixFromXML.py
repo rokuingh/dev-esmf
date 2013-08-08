@@ -35,7 +35,7 @@ class TicketHarvester(object):
         NUOPCfeaturereqs = root[7][6].findall(".//tracker_item")
         NUOPCsupportreqs = root[7][7].findall(".//tracker_item")
 
-        '''
+        
         # Print the number of tickets in each old tracker
         print "Bugs                   = {0}".format(len(bugs))
         print "Support requests       = {0}".format(len(supportreqs))
@@ -45,7 +45,7 @@ class TicketHarvester(object):
         print "Application issues     = {0}".format(len(applicationissues))
         print "NUOPC feature requests = {0}".format(len(NUOPCfeaturereqs))
         print "NUOPC support requests = {0}".format(len(NUOPCsupportreqs))
-        '''
+        
 
         # remove open support requests
         supportreqslessopen = []
@@ -56,7 +56,9 @@ class TicketHarvester(object):
                 supportreqslessopen.append(tix)
 
         # reset the ticketlist to include only the ticket we want
-        tixlist_temp = bugs + supportreqslessopen #+ featurereqs
+        tixlist_temp = bugs + supportreqslessopen + featurereqs +\
+                       vendorbugs + applicationissues + NUOPCfeaturereqs +\
+                       NUOPCsupportreqs
 
         # sort the ticket list by id and add to the TicketHarvester
         self.tixlist = sorted(tixlist_temp, key=self.get_id_et)
@@ -81,12 +83,12 @@ class TicketHarvester(object):
         self.member_map['swartzbr'] = ''
         self.member_map['seastham'] = ''
         self.member_map['krb19711'] = ''
+        self.member_map['platipodium'] = ''
 
         # get the group_ids
         project_bug_groups = root[7][0].findall(".//*group")
         project_req_groups = root[7][1].findall(".//*group")
         project_fet_groups = root[7][2].findall(".//*group")
-        project_ops_groups = root[7][3].findall(".//*group")
         project_vnd_groups = root[7][4].findall(".//*group")
         project_aps_groups = root[7][5].findall(".//*group")
         project_nfr_groups = root[7][6].findall(".//*group")
@@ -94,7 +96,6 @@ class TicketHarvester(object):
         bug_groups = {}
         req_groups = {}
         fet_groups = {}
-        ops_groups = {}
         vnd_groups = {}
         aps_groups = {}
         nfr_groups = {}
@@ -107,9 +108,6 @@ class TicketHarvester(object):
                 group.find('id').text
         for group in project_fet_groups:
             fet_groups[group.find('group_name').text] = \
-                group.find('id').text
-        for group in project_ops_groups:
-            ops_groups[group.find('group_name').text] = \
                 group.find('id').text
         for group in project_vnd_groups:
             vnd_groups[group.find('group_name').text] = \
@@ -136,11 +134,11 @@ class TicketHarvester(object):
                                        'Code Clean-Up',
                                    bug_groups['Test or Example Needed']:
                                        'Test Needed',
-                                   bug_groups['ZZ-EMPTY GROUP 1']:'',
+                                   bug_groups['ZZ-EMPTY GROUP 1']:'Bug',
                                    bug_groups['Standardization']:'API Clean-Up',
                                    bug_groups['Solution Unclear']:'Bug',
                                    bug_groups['Add Functionality']:'Feature',
-                                   bug_groups['ZZ-EMPTY GROUP 2']:'',
+                                   bug_groups['ZZ-EMPTY GROUP 2']:'Bug',
                                    bug_groups['Memory Optimization']:'Bug',
                                    bug_groups['Vendor Problem']:'Vendor',
                                    # Support Requests
@@ -154,6 +152,18 @@ class TicketHarvester(object):
                                    req_groups['ZZ-EMPTY GROUP 2 ']:'Help',
                                    req_groups['ZZ-EMPTY GROUP 1']:'Help',
                                    req_groups['Simple Information/Action Request']:'Help',
+                                   # Feature Requests
+                                   fet_groups['Add Code Capability']:'Feature',
+                                   fet_groups['Port to New Platform']:'Feature',
+                                   fet_groups['Add Other Capability']:'Feature',
+                                   # Vendor Bugs
+                                   '100':'Vendor',
+                                   # Application Issues
+                                   '100':'Help',
+                                   # NUOPC Feature Requests
+                                   '100':'Feature',
+                                   # NUOPC Support Requests
+                                   '100':'Help',
                                    # add in a weird default value
                                    '100':'',
                                   }
@@ -162,7 +172,6 @@ class TicketHarvester(object):
         project_bug_categories = root[7][0].findall(".//*category")
         project_req_categories = root[7][1].findall(".//*category")
         project_fet_categories = root[7][2].findall(".//*category")
-        project_ops_categories = root[7][3].findall(".//*category")
         project_vnd_categories = root[7][4].findall(".//*category")
         project_aps_categories = root[7][5].findall(".//*category")
         project_nfr_categories = root[7][6].findall(".//*category")
@@ -170,7 +179,6 @@ class TicketHarvester(object):
         bug_categories = {}
         req_categories = {}
         fet_categories = {}
-        ops_categories = {}
         vnd_categories = {}
         aps_categories = {}
         nfr_categories = {}
@@ -183,9 +191,6 @@ class TicketHarvester(object):
                 category.find('id').text
         for category in project_fet_categories:
             fet_categories[category.find('category_name').text] = \
-                category.find('id').text
-        for category in project_ops_categories:
-            ops_categories[category.find('category_name').text] = \
                 category.find('id').text
         for category in project_vnd_categories:
             vnd_categories[category.find('category_name').text] = \
@@ -236,7 +241,7 @@ class TicketHarvester(object):
                                   bug_categories['Regrid']:'Regrid',
                                   bug_categories['ZZ-EMPTY CATEGORY 7']:'Not Defined',
                                   bug_categories['Attribute']:'Attribute',
-                                  bug_categories['Mesh']:'Not Defined',
+                                  bug_categories['Mesh']:'Geometry Object',
                                   bug_categories['ZZ-EMPTY CATEGORY 8']:'Not Defined',
                                   bug_categories['ArrayBundle']:'Not Defined',
                                   bug_categories['VM']:'Not Defined',
@@ -263,7 +268,7 @@ class TicketHarvester(object):
                                   req_categories['DELayout']:'Not Defined',
                                   req_categories['General Documentation']:'Not Defined',
                                   req_categories['Field']:'Not Defined',
-                                  req_categories['Grid - Old']:'Not Defined',
+                                  req_categories['Grid - Old']:'Geometry Object',
                                   req_categories['I/O']:'I/O',
                                   req_categories['State']:'Superstructure',
                                   req_categories['Time Manager']:'Time Manager',
@@ -286,26 +291,74 @@ class TicketHarvester(object):
                                   req_categories['Tutorial']:'Not Defined',
                                   req_categories['ArrayBundle']:'Not Defined',
                                   req_categories['Array - New']:'Not Defined',
-                                  req_categories['Grid - New']:'Not Defined',
+                                  req_categories['Grid - New']:'Geometry Object',
                                   req_categories['LocalArray']:'Not Defined',
-                                  req_categories['Mesh']:'Not Defined',
+                                  req_categories['Mesh']:'Geometry Object',
                                   req_categories['Web Services']:'Not Defined',
                                   req_categories['ESMP']:'ESMPy Interface Layer',
                                   req_categories['NUOPC']:'NUOPC Layer',
+                                  # Feature Requests
+                                  fet_categories['Array - Old']:'Not Defined',
+                                  fet_categories['AppDriver']:'Not Defined',
+                                  fet_categories['Attribute']:'Attribute',
+                                  fet_categories['Base']:'Not Defined',
+                                  fet_categories['Build/Install']:'Build System',
+                                  fet_categories['Component']:'Superstructure',
+                                  fet_categories['Config']:'Not Defined',
+                                  fet_categories['DELayout']:'Not Defined',
+                                  fet_categories['DistGrid - New']:'Not Defined',
+                                  fet_categories['Field']:'Not Defined',
+                                  fet_categories['FieldBundle']:'Not Defined',
+                                  fet_categories['General Documentation']:'Not Defined',
+                                  fet_categories['Grid - Old']:'Geometry Object',
+                                  fet_categories['I/O']:'I/O',
+                                  fet_categories['Language Interface']:'Not Defined',
+                                  fet_categories['LogErr']:'Not Defined',
+                                  fet_categories['Multiple Categories']:'Not Defined',
+                                  fet_categories['PhysGrid']:'Not Defined',
+                                  fet_categories['Regrid']:'Regrid',
+                                  fet_categories['Route']:'Not Defined',
+                                  fet_categories['State']:'Superstructure',
+                                  fet_categories['Time Manager']:'Time Manager',
+                                  fet_categories['Util']:'Not Defined',
+                                  fet_categories['VM']:'Not Defined',
+                                  fet_categories['Website']:'Not Defined',
+                                  fet_categories['Repository']:'Not Defined',
+                                  fet_categories['ArrayBundle']:'Not Defined',
+                                  fet_categories['Array - New']:'Not Defined',
+                                  fet_categories['Grid - New']:'Geometry Object',
+                                  fet_categories['LocalArray']:'Not Defined',
+                                  fet_categories['Mesh']:'Geometry Object',
+                                  fet_categories['Test Harness']:'Not Defined',
+                                  fet_categories['Web Services']:'Not Defined',
+                                  fet_categories['XGrid']:'Geometry Object',
+                                  fet_categories['Container']:'Not Defined',
+                                  # Vendor Bugs
+                                  '100':'',
+                                  # Application Issues
+                                  '100':'',
+                                  # NUOPC Feature Requests
+                                  '100':'',
+                                  # NUOPC Support Requests
+                                  nsr_categories['Applying NUOPC layer']:'NUOPC Layer',
+                                  nsr_categories['Bug in NUOPC layer']:'NUOPC Layer',
                                   # add in a weird default value
-                                  '100':'Not Defined',
+                                  '100':'',
                              }
 
         # make the status_map
         self.status_map = {
-                      '1':'open', 
-                      '2':'closed', 
-                      '3':'deleted', 
-                      '4':'pending'
+                      '1':'Open', 
+                      '2':'Closed', 
+                      '3':'Deleted', 
+                      '4':'Pending'
                      }
 
         # allocate body_list
         self.body_list = []
+
+        print self.group2category_map
+        print self.category2area_map
 
     def count_deleted(self):
         self.deleted_count = 0
