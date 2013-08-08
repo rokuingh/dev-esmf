@@ -70,10 +70,10 @@ print body
 # sumbit 10000 blank tickets
 body = {
         # generic information
-        'ticket_form.summary' : "blank",
-        'ticket_form.description' : "blank",
-        'ticket_form.status' : "deleted",
-        'ticket_form.assigned_to' : "nobody"
+        'ticket_form.summary' : "",
+        'ticket_form.description' : "",
+        'ticket_form.status' : "Deleted",
+        'ticket_form.assigned_to' : "",
         }
 
 for i in range(10000):

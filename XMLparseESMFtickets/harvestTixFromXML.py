@@ -301,10 +301,10 @@ class TicketHarvester(object):
 
         # make the status_map
         self.status_map = {
-                      '1':'open', 
-                      '2':'closed', 
-                      '3':'deleted', 
-                      '4':'pending'
+                      '1':'Open', 
+                      '2':'Closed', 
+                      '3':'Deleted', 
+                      '4':'Pending'
                      }
 
         # allocate body_list
