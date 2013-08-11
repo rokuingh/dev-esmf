@@ -49,25 +49,30 @@ client.ca_certs = certifi.where()
 
 # create the ticket list from the gigantic XML file of ESMF tickets
 tixlist = harvest_tix('esmf_export.xml')
-'''
+
+# test code to submit selected tickets
 body = None
 done = False
 for tix in tixlist:
     if not done:
         if tix['ticket_form.labels'] == "NUOPC":
-            body = tix
+            newlist = [tix]
             done = True
 
-# submit a test ticket to the dummy archive
-url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
-url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
-response = client.request(url_tracker, 'POST', body=urlencode(body))
-print "Done. Response was:"
-print "\n"+str(response)+"\n"
-print body
-'''
+newlist = []
 
-# sumbit 10000 blank tickets
+for body in newlist:
+    # submit a test ticket to the dummy archive
+    url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+    url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+    response = client.request(url_tracker, 'POST', body=urlencode(body))
+    print "Done. Response was:"
+    print "\n"+str(response)+"\n"
+    print body
+# end of test code
+
+# submit a bunch of blank tickets
+blank_num = 1000
 body = {
         # generic information
         'ticket_form.summary' : "",
@@ -76,17 +81,16 @@ body = {
         'ticket_form.assigned_to' : "",
         }
 
-for i in range(10000):
-    print "Submitting ticket #{0}".format(i)
-    # submit the test ticket to the dummy archive
-    url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
-    url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
-    response = client.request(url_tracker, 'POST', body=urlencode(body))
-    print "Done.  Response was:"
-    print "\n"+str(response)+"\n"
+if not restart:
+    for i in range(blank_num):
+        print "Submitting blank ticket #{0}".format(i)
+        # submit the test ticket to the dummy archive
+        url_tracker = URL_BASE + 'p/' + PROJECT + '/tickets/new'
+        url_api = URL_BASE + 'p/' + PROJECT + '/tickets/perform_import' 
+        response = client.request(url_tracker, 'POST', body=urlencode(body))
 
+# push all 'real' tickets to sourceforge
 ind = 0
-# push all tickets to sourceforge
 for tix in tixlist:
     if restart and ind < restart_ind:
         ind += 1
