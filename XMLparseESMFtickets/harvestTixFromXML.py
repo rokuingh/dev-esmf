@@ -542,4 +542,4 @@ def harvest_tix(xmlfile):
 
     #import pdb; pdb.set_trace()
 
-    return harvester.body_list
+    return harvester.body_list_sorted
