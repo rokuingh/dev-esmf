@@ -311,35 +311,35 @@ class TicketHarvester(object):
         self.body_list = []
 
         # pull tickets out of the individual trackers
-        bugs = root[7][0].findall(".//tracker_item")
-        supportreqs = root[7][1].findall(".//tracker_item")
-        featurereqs = root[7][2].findall(".//tracker_item")
-        operations = root[7][3].findall(".//tracker_item")
+        self.bugs = root[7][0].findall(".//tracker_item")
+        self.supportreqs = root[7][1].findall(".//tracker_item")
+        self.featurereqs = root[7][2].findall(".//tracker_item")
+        #self.operations = root[7][3].findall(".//tracker_item")
         self.vendorbugs = root[7][4].findall(".//tracker_item")
         self.applicationissues = root[7][5].findall(".//tracker_item")
         self.NUOPCfeaturereqs = root[7][6].findall(".//tracker_item")
         self.NUOPCsupportreqs = root[7][7].findall(".//tracker_item")
 
         # Print the number of tickets in each old tracker
-        print "Bugs                   = {0}".format(len(bugs))
-        print "Support requests       = {0}".format(len(supportreqs))
-        print "Feature requests       = {0}".format(len(featurereqs))
-        print "Operations             = {0}".format(len(operations))
+        print "Bugs                   = {0}".format(len(self.bugs))
+        print "Support requests       = {0}".format(len(self.supportreqs))
+        print "Feature requests       = {0}".format(len(self.featurereqs))
+        #print "Operations             = {0}".format(len(operations))
         print "Vendor bugs            = {0}".format(len(self.vendorbugs))
         print "Application issues     = {0}".format(len(self.applicationissues))
         print "NUOPC feature requests = {0}".format(len(self.NUOPCfeaturereqs))
         print "NUOPC support requests = {0}".format(len(self.NUOPCsupportreqs))
         
         # remove open support requests
-        supportreqslessopen = []
-        for tix in supportreqs:
+        self.supportreqslessopen = []
+        for tix in self.supportreqs:
             if tix.find('status_id').text == '1':
                 pass
             else:
-                supportreqslessopen.append(tix)
+                self.supportreqslessopen.append(tix)
 
         # reset the ticketlist to include only the tickets we want
-        self.tixlist = bugs + supportreqslessopen + featurereqs
+        #self.tixlist = bugs + supportreqslessopen + featurereqs
 
     def count_deleted(self):
         self.deleted_count = 0
@@ -366,8 +366,14 @@ class TicketHarvester(object):
         # TODO: if there are followups, get the submitter, date and id
 
 
-        for tix in self.tixlist:
-            self.create_body(tix)
+        for tix in self.bugs:
+            self.create_body(tix, category="Bug")
+
+        for tix in self.featurereqs:
+            self.create_body(tix, category="Feature")
+
+        for tix in self.supportreqslessopen:
+            self.create_body(tix, category="Help")
 
         for tix in self.vendorbugs:
             self.create_body(tix, category="Vendor")
@@ -423,7 +429,7 @@ class TicketHarvester(object):
                 'ticket_form.custom_fields._original_closer' : 
                     self.member_map[tix.find('closer').text],
                 }
-        if category != None:
+        if body['ticket_form.custom_fields._category'] == ('' or None):
             body['ticket_form.custom_fields._category'] = category
         if label != None:
             body['ticket_form.labels'] = label
