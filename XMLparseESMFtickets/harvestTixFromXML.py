@@ -429,7 +429,8 @@ class TicketHarvester(object):
                 'ticket_form.custom_fields._original_closer' : 
                     self.member_map[tix.find('closer').text],
                 }
-        if body['ticket_form.custom_fields._category'] == ('' or None):
+        # set the category and label default values
+        if body['ticket_form.custom_fields._category'] == '':
             body['ticket_form.custom_fields._category'] = category
         if label != None:
             body['ticket_form.labels'] = label
