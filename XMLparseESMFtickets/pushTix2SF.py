@@ -72,7 +72,7 @@ for body in newlist:
 # end of test code
 
 # submit a bunch of blank tickets
-blank_num = 0
+blank_num = 10000
 body = {
         # generic information
         'ticket_form.summary' : "",
