@@ -20,24 +20,13 @@ if len(sys.argv) is 3:
 elif len(sys.argv) is not 1:
     raise SyntaxError("Usage:\n\tpython pushTix2SF.py <restart: (True or False)> <restart index: (#)>")
 
-# advance api access
-#http://allura.sourceforge.net/migration.html
+PROJECT='esmf'
 
-PROJECT='testesmfmigrati'
+CONSUMER_KEY='5da2c9731aaacd3b2880'
+CONSUMER_SECRET='d9ed8512ba582c7ef7ab6b34eb744d6c8a27df5dfe8e9c8f45029f8c951aa0880ebf26816ac0789e'
 
-# old values
-#CONSUMER_KEY='3a3069ed662030e15794'
-#CONSUMER_SECRET='049681debe988488ce9d784ca154437f1890aa5153bcd59d020d9c9aeda627d2bb24f86e8e50b4f9'
-# new values
-CONSUMER_KEY='592778c34012171b0d6d'
-CONSUMER_SECRET='4f5399bd2d82c9e524e31cd0a75e64c4459da62adbb0ccc135cbc26596e0adb38a439d0d189debe9'
-
-# old values
-#ACCESS_KEY='af7f752dc0969bf30bcd'
-#ACCESS_SECRET='ccd39ea358694ec6ba4e21a716a954a33b1f68ed5c33bdea6ec477e387a45da9ec5073c8babd7e3e'
-# new values
-ACCESS_KEY='c45eb2be45cbe10b7680'
-ACCESS_SECRET='4c720e9d9a68a2b581b93e8aca394615c1a50cc78e1bab0800845c63a73a90131c57e39eb8e72b8b'
+ACCESS_KEY='5a0bc582b8b6c6a38357'
+ACCESS_SECRET='48d23fa34b56d8a1cba625c1de43906869c5b28b27100050ebda817dfcd46fbf150391543eb4fb1e'
 
 URL_BASE='http://sourceforge.net/rest/'
 
