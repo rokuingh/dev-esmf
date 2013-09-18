@@ -39,7 +39,7 @@ client.ca_certs = certifi.where()
 # create the ticket list from the gigantic XML file of ESMF tickets
 tixlist = harvest_tix('esmf_export.xml')
 
-tixlist = list( tixlist[i] for i in [36, 38, 56, 60, 68, 69, 74, 85, 99, 101, 
+templist = list( tixlist[i] for i in [36, 38, 56, 60, 68, 69, 74, 85, 99, 101, 
                                      111, 116, 121, 148, 152, 191, 201, 245, 
                                      265, 271, 279, 282, 296, 303, 304, 309, 
                                      313, 326, 327, 329, 332, 338, 340, 343, 
@@ -87,6 +87,9 @@ tixlist = list( tixlist[i] for i in [36, 38, 56, 60, 68, 69, 74, 85, 99, 101,
                                      3066, 3070, 3076, 3079, 3094, 3100, 3103, 
                                      3116] )
 
+tixlist = list( templist[i] for i in [43, 51, 53, 78, 79, 91, 123, 128, 145, 
+                                      163, 177, 196, 258, 267, 273, 276, 278, 
+                                      282, 287, 288]
 '''
 # test code to submit selected tickets
 body = None
