@@ -520,7 +520,7 @@ class TicketHarvester(object):
     def time(ticket):
         submit_date = time.strftime("%Y/%m/%d %H:%M:%S", \
             time.localtime(float(ticket.find('submit_date').text)))
-        close_date = time.strftime("%Y/%b/%d %H:%M:%S", \
+        close_date = time.strftime("%Y/%m/%d %H:%M:%S", \
             time.localtime(float(ticket.find('close_date').text)))
 
         if ticket.find('submit_date').text == '0':
