@@ -87,9 +87,11 @@ templist = list( tixlist[i] for i in [36, 38, 56, 60, 68, 69, 74, 85, 99, 101,
                                      3066, 3070, 3076, 3079, 3094, 3100, 3103, 
                                      3116] )
 
-tixlist = list( templist[i] for i in [43, 51, 53, 78, 79, 91, 123, 128, 145, 
+temp2list = list( templist[i] for i in [43, 51, 53, 78, 79, 91, 123, 128, 145, 
                                       163, 177, 196, 258, 267, 273, 276, 278, 
                                       282, 287, 288] )
+
+tixlist = list( temp2list[i] for i in [6,16])
 '''
 # test code to submit selected tickets
 body = None
