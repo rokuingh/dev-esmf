@@ -10,7 +10,7 @@
 ###############################################################################
 
     # 1) I had to add a newline to the last line in the esmf.json file before running
-    # 2) there are four places that I modified by hand:
+    # 2) there are four places that I modified by hand (3 External and 1 Internal):
         #"_origin": "External"\n    "_
     # 3) had to add the following lines that did not appear in the exported json
         #"open_status_names":"No-First-Contact Open Pending",

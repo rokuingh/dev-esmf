@@ -18,6 +18,8 @@ class Ticket(object):
         self.date = date
     def get_date(self):
         return self.date
+    def get_ticket_num(self):
+        return self.num
 
 
 def buffer_tickets(json, old=False):
@@ -30,12 +32,8 @@ def buffer_tickets(json, old=False):
 
     for line in json:
         if not go:
-            if old:
-                if '{\n' == line:
-                    go = True
-            else:
-                if '{"tickets": [{\n' == line:
-                    go = True
+            if '{"tickets": [{\n' == line:
+                go = True
         else:
 
             # end
@@ -84,7 +82,7 @@ def read_file(jsonfile):
         read_data = f.read()
     return read_data
 
-def write_file(tickets, infile, jsonoutfile):
+def write_combined_file(tickets, infile, jsonoutfile):
     IF = open(infile, 'r')
     OF = open(jsonoutfile, 'w')
 
@@ -94,8 +92,11 @@ def write_file(tickets, infile, jsonoutfile):
     for ticket in tickets:
         buff.append(ticket.buff)
 
-    # pop the last line of the file
+    # pop the last line of the file (an extra ticket separator)
+    splitme = buff[-1]
     del buff[-1]
+    saveme = splitme.split('},{')[0]
+    buff.append(saveme)
 
     # write what we have
     for lines in buff:
@@ -113,9 +114,46 @@ def write_file(tickets, infile, jsonoutfile):
     IF.close()
     OF.close()
 
+def read_file(jsonfile):
+    with open(jsonfile, 'r') as f:
+        read_data = f.read()
+    return read_data
+
+# must be called after list has been combined
+def renumber_new_tickets(json, maxtixnum):
+    json = json.splitlines(True)
+    json_mod = ""
+    buff = ""
+    maxnum = maxtixnum
+    for line in json:
+        # EOF
+        if "]}" == line:
+            json_mod += buff
+            json_mod += line
+        elif '"ticket_num":' in line:
+            val = line.rsplit(":")[1]
+            if 'null' in val:
+                val = None
+            else:
+                val = int(val.rstrip(",\n"))
+            if val < 10000:
+                new_line = "  \"ticket_num\":  "+str(maxnum+1)+",\n"
+                maxnum += 1
+                buff += new_line
+                continue
+        # buffer the line
+        buff += line 
+
+    return json_mod
+
+def write_file(json, jsonfile):
+    with open(jsonfile, 'w') as f:
+        f.write(json)
+
+
 if __name__ == '__main__':
 
-    oldtickets = read_file('esmf-mod.json')
+    oldtickets = read_file('tickets-mod.json')
     newtickets = read_file('tickets-interim-mod.json')
 
     oldtix = buffer_tickets(oldtickets, True)
@@ -125,4 +163,15 @@ if __name__ == '__main__':
 
     sortedlist = sorted(concatlist, key=Ticket.get_date)
 
-    write_file(sortedlist, 'tickets-interim-mod.json', 'tickets-new.json')
+    write_combined_file(sortedlist, 'tickets-interim-mod.json', 'tickets-new.json')
+
+    # get max ticket and renumber the unnumbered tickets from there..
+    maxtix = max(concatlist, key=Ticket.get_ticket_num)
+    maxtixnum = maxtix.num
+    
+    json = read_file('tickets-new.json')
+
+    json = renumber_new_tickets(json, maxtixnum)
+
+    write_file(json, "tickets-new.json")
+

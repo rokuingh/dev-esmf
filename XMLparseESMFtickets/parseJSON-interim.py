@@ -11,6 +11,10 @@
 #
 ###############################################################################
 
+    # There are two lines that need to be deleted from the exported json file before running:
+    # the extra open_status_names and closed_status_names lines..
+
+
 def modify_close_date(json, field, new_field):
     import time
     json = json.splitlines(True)
@@ -27,42 +31,6 @@ def modify_close_date(json, field, new_field):
                 json_mod += "    \""+new_field+"\": \""+field_val+"\",\n"
         else:
             json_mod += line
-
-    return json_mod
-
-# must be called after ticket numbers have been changed
-def remove_duplicates(json):
-    json = json.splitlines(True)
-    json_mod = ""
-    tix_nums = []
-    buff = ""
-    duplicate = False
-    for line in json:
-        # EOF
-        if "]}\n" in line:
-            json_mod += buff
-            json_mod += line
-        # start of footer case
-        elif "}],\n" in line:
-            if not duplicate:
-                json_mod += buff
-            buff = ""
-        # new ticket, print last if it was not a duplicate, forget if it was
-        elif "},{\n" in line:
-            if not duplicate:
-                json_mod += buff
-            buff = ""
-            duplicate = False
-        elif 'ticket_num' in line:
-            val = line.rsplit(":")[1]
-            val = int(val.rstrip(",\n"))
-            if val in tix_nums:
-                print "DUPLICATE!!!"
-                duplicate = True
-            else:
-                tix_nums.append(val)
-        # buffer the line
-        buff += line 
 
     return json_mod
 
