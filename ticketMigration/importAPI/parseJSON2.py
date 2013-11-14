@@ -4,6 +4,8 @@
 #
 # Massage a JSON file to hold correct tickets
 #
+# json validator: http://www.jsoneditoronline.org/
+#
 # Use this script on the tickets.json file exported from the ESMF sourceforge 
 # tracker to modify some fields for import into a new tracker.  It can be used
 # as part 1 of a 3 part workflow to create ESMF tickets compatible with the
@@ -13,7 +15,7 @@
 # There is one by hand modification that must be made to the output file of
 # this script because I haven't yet had time to script it, it is:
 #
-# add and delete commas as needed (3 External and 1 Internal), use this search:
+# add and delete commas as needed (1 External and 1 Internal), use this search:
 #"_origin": "External"\n    "_
 #
 # input: tickets.json

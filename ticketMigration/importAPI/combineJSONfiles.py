@@ -172,7 +172,7 @@ if __name__ == '__main__':
 
     sortedlist = sorted(concatlist, key=Ticket.get_date)
 
-    write_combined_file(sortedlist, 'tickets-interim-mod.json', 'tickets-new.json')
+    write_combined_file(sortedlist, 'tickets-mod.json', 'tickets-new.json')
 
     # get max ticket and renumber the unnumbered tickets from there..
     maxtix = max(concatlist, key=Ticket.get_ticket_num)

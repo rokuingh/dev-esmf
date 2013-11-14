@@ -13,15 +13,6 @@
 # active tickets-interim tracker.
 #
 #
-#  *** I'm not sure if the following is still true ***
-# There is one by hand modification that must be made to the output file of
-# this script because I haven't yet had time to script it, it is:
-#
-# Two lines must be deleted from the exported json file before running:
-# the extra open_status_names and closed_status_names lines..
-# *** END - I'm not sure if the following is still true ***
-#
-#
 # input: tickets-interim.json
 # output: tickets-interim-mod.json
 #
