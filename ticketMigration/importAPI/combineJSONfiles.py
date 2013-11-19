@@ -12,6 +12,15 @@
 # new sourceforge trackers in a new format, and merge them with the currently
 # active tickets-interim tracker.
 #
+## remove these fields from the footer "custom_fields" section:
+  # original_creator
+  # original_close_date
+  # original_creation_date
+  # old_ticket_number
+#
+# line 68616 has a weird thing going on with regex expression:
+#   you have to add a quote mark at the end of the line
+#
 # input: tickets.json and tickets-interim.json
 # output: tickets-new.json
 #
@@ -145,7 +154,7 @@ def renumber_new_tickets(json, maxtixnum):
                 val = None
             else:
                 val = int(val.rstrip(",\n"))
-            if val < 10000:
+            if val < 20000:
                 new_line = "  \"ticket_num\":  "+str(maxnum+1)+",\n"
                 maxnum += 1
                 buff += new_line
@@ -158,7 +167,6 @@ def renumber_new_tickets(json, maxtixnum):
 def write_file(json, jsonfile):
     with open(jsonfile, 'w') as f:
         f.write(json)
-
 
 if __name__ == '__main__':
 

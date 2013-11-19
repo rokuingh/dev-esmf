@@ -123,6 +123,65 @@ def replace_field(json, old_field, new_field):
 
     return json_mod
 
+# must be run before "_old_ticket_number" field is replaced
+def record_old_ticket_number(json):
+    json = json.splitlines(True)
+    runbuff = False
+    buff = ""
+    description = ''
+    tixnum = 0
+    json_mod = ""
+    tixnumlist = []
+    # iterate through the gigantic xml file
+    for line in json:
+        if '"ticket_num":' in line:
+            # get the ticket number
+            tixnum = line.rsplit(":")[1]
+            tixnum = tixnum.rstrip(",\n")
+            if tixnum != " null":
+                tixnum = int(tixnum)
+                if tixnum < 20000:
+                    tixnumlist.append(tixnum)
+            if runbuff:
+                buff += line
+            else:
+                json_mod += line
+        elif '"_old_ticket_number":' in line:
+            # get the ticket number
+            tixnum = line.rsplit(":")[1]
+            tixnum = tixnum.rstrip(",\n")
+            if tixnum != " null":
+                tixnum = int(tixnum)
+                if tixnum < 20000:
+                    tixnumlist.append(tixnum)
+            if tixnumlist:
+                oldtixnums = "old ticket number: "
+                for num in tixnumlist:
+                    oldtixnums += str(num) + ", "
+                oldtixnums = oldtixnums.rstrip(', ')
+                oldtixnums += "\\n\\n"
+                # modify the description line and add buffer to file
+                description = oldtixnums + description
+            # write out the new description line
+            description = '  "description": ' + '"' + description + '",\n'
+            buff = description + buff
+            json_mod += buff
+            json_mod += line
+            buff = ""
+            runbuff = False
+        elif runbuff:
+            buff += line
+        else:
+            # have to hack the search because of similar search fields
+            if '"description":' in line:
+                description = line.rsplit(': "')[1]
+                description = description.rstrip('",\n')
+                runbuff = True
+            else:
+                json_mod += line
+
+    return json_mod
+
 def replace_field_alreves(json, old_field, new_field):
     json = json.splitlines(True)
     runbuff = False
@@ -168,6 +227,8 @@ if __name__ == '__main__':
     json = read_file('tickets-interim.json')
 
     json = remove_field(json, '"reported_by_id":')
+
+    json = record_old_ticket_number(json)
 
     json = replace_field(json, '_old_ticket_number', 'ticket_num')
 

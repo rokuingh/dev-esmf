@@ -78,23 +78,34 @@ CODE:
 
 importAPI:
   - fragments: old attempt at replacing fields in the tickets tracker tickets
-  files
+  - combineJSONfiles.py - script to combine the json files for both esmf trackers
+  - parseJSON-interim.py - script to clean up tickets on the esmf interim tracker
+  - parseJSON2.py - script to clean up tickets on old esmf tracker
+  - tickets-interim-mod.json - output file from parseJSON-interim.py, input file for combineJSONfiles.py
+  - tickets-interim.json - input file from parseJSON-interim.py
+  - tickets-mod.json - output file from parseJSON2.py, input file for combineJSONfiles.py
+  - tickets-new.json - output file from combineJSONfiles.py
+  - tickets.json - intput file for parseJSON2.py
 
 
 trackerAPI:
   - outputTrackerCreate: output files from the tickets tracker creation using the tracker API.
-  - accessSFaccount.py - 
-  - allura_import.py - 
-  - harvestTixFromXML.py - 
-  - pushTix2SF.py - 
+  - accessSFaccount.py - one of two files to generate keys
+  - allura_import.py - one of two files to generate keys
+  - harvestTixFromXML.py - harvest individual tickets from xml output tracker
+  - pushTix2SF.py - script to push the tickets to sourceforge/allura
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DATA:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+There is a data subdirectory that holds all of the data files related to this project.  These files are:
+
 esmf-backup-2013-09-18-180150.zip - first export of the esmf tickets tracker, which was created with the tracker API
 
 esmf-backup-2013-10-16-193828.zip - export of the tickets-interim tracker
+
+esmf-backup-2013-10-16-193828.zip - export of tickets-interim and tickets trackers
 
 esmf-export.xml - exported XML file from the original tickets tracker
 
