@@ -1,0 +1,1533 @@
+{"tickets": [{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Dae-Yong Eom from Seoul National University\r\n\r\nHi \\!\\!\r\n\r\nI want to build WRF coupling ESMF.\r\n\r\nWRF V2.1.2\\(Last release\\) is support to ESMF coupling\r\noption.\\(You can find WRF-configure\\)\r\n\r\nMy using machine is Linux PC cluster\\(Xeon 2.8GHz CPU\\)\r\nand PGI compiler & INTEL compiler available.\r\n\r\nI can do that ESMF V3.0.0 install\\(optimize & 32-bit\\).\r\nall installing is successful.\r\n\r\nSo I try to WRF V2.1.2 porting for coupling ESMF.\r\n\r\nbut compile is not good. This is error message\r\n\r\n\\------------------------------------\r\n\u2026\r\n/lib/cpp -C -P -traditional -DEM\\_CORE=1 -DNMM\\_CORE=0\r\n-DNMM\\_MAX\\_DIM=2600 -DCOAMPS\\_CORE=0 -DEXP\\_CORE=0\r\n-DNONSTANDARD\\_SYSTEM -DF90\\_STANDALONE\r\n-DCONFIG\\_BUF\\_LEN=8192 -DMAX\\_DOMAINS\\_F=21  -C -P\r\n-DESMF\\_COUPLING module\\_symbols\\_util.F90 &gt;\r\nmodule\\_symbols\\_util.f\r\npgf90 -r4 -i4  -w -byteswapio -Mfree -tp p6  \r\n-I/home2/r106kaf/dyeom/ESMF/esmf/mod/modO/Linux.pgi.32.default\r\n-c -g -I../ioapi\\_share module\\_symbols\\_util.f\r\nPGF90-S-0084-Illegal use of symbol esmf\\_r8\\_ap - not\r\npublic entity of module \\(module\\_symbols\\_util.f: 871\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_r4\\_ap - not\r\npublic entity of module \\(module\\_symbols\\_util.f: 869\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_lrgridadddistgridblock - not public entity of\r\nmodule \\(module\\_symbols\\_util.f: 754\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_lrgridadddistgridarb - not public entity of module\r\n\\(module\\_symbols\\_util.f: 753\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_id\\_distgrid -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 638\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_i4\\_ap - not\r\npublic entity of module \\(module\\_symbols\\_util.f: 622\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_gridmakedistgridspace - not public entity of\r\nmodule \\(module\\_symbols\\_util.f: 529\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_gridgetdistgrid\r\n\\- not public entity of module \\(module\\_symbols\\_util.f: 523\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_gridadddistgrid\r\n\\- not public entity of module \\(module\\_symbols\\_util.f: 477\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_domaintype -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 411\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridvalidate - not public entity of module\r\n\\(module\\_symbols\\_util.f: 404\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridtype -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 403\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridsetde -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 402\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridsetcounts - not public entity of module\r\n\\(module\\_symbols\\_util.f: 401\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridset -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 400\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridserialize - not public entity of module\r\n\\(module\\_symbols\\_util.f: 399\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridlocaltoglobalindex - not public entity of\r\nmodule \\(module\\_symbols\\_util.f: 397\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridlocal -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 396\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridglobaltolocalindex - not public entity of\r\nmodule \\(module\\_symbols\\_util.f: 395\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridglobal\r\n\\- not public entity of module \\(module\\_symbols\\_util.f: 394\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridgetdelayout - not public entity of module\r\n\\(module\\_symbols\\_util.f: 393\\)\r\nPGF90-S-0084-Illegal use of symbol esmf\\_distgridgetde -\r\nnot public entity of module \\(module\\_symbols\\_util.f: 392\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridgetallcounts - not public entity of module\r\n\\(module\\_symbols\\_util.f: 391\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgridgetallaxisindex - not public entity of\r\nmodule \\(module\\_symbols\\_util.f: 390\\)\r\nPGF90-S-0084-Illegal use of symbol\r\nesmf\\_distgriddeserialize - not public entity of module\r\n\\(module\\_symbols\\_util.f: 387\\)\r\nPGF90-F-0008-Error limit exceeded\r\n\\(module\\_symbols\\_util.f: 388\\)\r\nPGF90/any Linux/x86 5.2-2: compilation aborted\r\nmake\\[3\\]: \\[module\\_symbols\\_util.o\\] Error 2 \\(ignored\\)\r\n\u2026\r\n\\------------------------------------------\r\n\r\nThis is first error message.\r\n\r\nI think that ESMF module is not enough to build WRF\r\nmodel coupling ESMF.\r\n\r\nI have two Question.\r\n\r\n1\\. WRF model coupling ESMF is not release??\r\n2\\. Solution this error message \\!\\!\r\n\r\nI'm pleasure to help me\r\n\r\nThank you\r\n\r\nEom..\r\n\r\n\r\n===============================================\r\nDae-Yong Eom\r\nNumerical Weather Prediction Laboratory\r\nProgram in Atmospheric Sciences\r\nDepartment of Earth and Environmental Sciences \r\nSeoul National University\r\nPhone : +82-10-2411-5728\r\nE-mail : dyeatmos@nwp2.snu.ac.kr\r\nmsn : dyfflove@hotmail.com\r\n===============================================",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Waiting for WRF to work with current version of ESMF",
+  "discussion_thread": {
+    "_id": "ad2e888f",
+    "posts": [
+      {
+        "text": "- **assigned_to**: theurich --> donstark",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2006-09-27 18:35:10",
+        "slug": "1e10",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=1453265\n\nThe user was getting some illegal symbols that were due to some demoted types \r\nsuch as ESMF\\_R8\\_AP. This should be solved by moving to ESMF 2.2.0rp1, which \r\nis a version of the framework before these changes were implemented.",
+        "attachments": [],
+        "author": "donstark",
+        "timestamp": "2006-10-06 17:46:08",
+        "slug": "da1b",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **status**: open --> pending",
+        "attachments": [],
+        "author": "donstark",
+        "timestamp": "2006-10-06 17:46:08",
+        "slug": "ed9d",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **assigned_to**: donstark --> theurich\n- **status**: pending --> open",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2007-03-30 16:37:09",
+        "slug": "894b",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **status**: open --> pending",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2007-03-30 16:38:07",
+        "slug": "7b3a",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nSent 1st request to verify that provided support solved the issue: 01/12/2007 \\(Don\\)\r\nSent 2nd request to verify that provided support solved the issue: 04/11/2007\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2007-04-12 05:11:27",
+        "slug": "2331",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nTom Henderson wrote:\r\n\r\n&gt;\r\n&gt; Gerhard,\r\n&gt;\r\n&gt; Yup.  Some important caveats regarding the WRF ESMF component:\r\n&gt;  - It is \"experimental\" which in WRF lingo means it has not been extensively tested.  I expect that users who attempt to do things much beyond the simple WRF+CPL+SST example will run into difficulties.  The original work was done using earlier versions of ESMF.  We plan to make use of newer ESMF features to improve the WRF component, but have not done so yet.\r\n&gt;  - Coupling communication occurs prior to a WRF time step \\(both import and export\\).  This is adequate for concurrent coupling in which precise synchronization is not required \\(like earlier efforts by John Michalakes, Matthew Bettencourt, Dan Schaffer, and others to couple WRF to ocean models\\).  However it is not convenient for sequential coupling when precise synchronization is required.  Fortunately it will be easy to extend the implementation to allow import and export to each occur before or after a WRF time step \\(specified at run time\\) and I plan to do so.  But this extension is not in WRF 2.2.\r\n&gt;\r\n&gt; Most of these limitations are documented in the WRF 2.2 release -- but not everyone reads documentation...  ;-\\)\r\n&gt;\r\n&gt; Regards,\r\n&gt;\r\n&gt; Tom\r\n&gt;\r\n&gt;\r\n&gt; ESMF Support wrote:\r\n&gt;\r\n&gt;&gt; Hi Tom,\r\n&gt;&gt;\r\n&gt;&gt; One more question, does this mean WRF 2.2 works with ESMF 2.2.2r? Can we tell people that have trouble with the WRF/ESMF combo to try WRF 2.2 with ESMF 2.2.2r? Thanks,\r\n&gt;&gt;\r\n&gt;&gt; -Gerhard\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2007-04-24 22:20:20",
+        "slug": "9840",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **status**: pending --> open",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2007-06-08 20:23:02",
+        "slug": "dc8b",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nWe'll keep this ticket open to track WRF development that is to address the reported issue:\r\n\r\nDear Dae-Yong, Eom,\r\n\r\nThank you for the update. Sounds like the issue is being addressed by ongoing WRF development. We will keep this ESMF support ticket open to track any change wrt the issue you reported. I am also CC'ing Tom Henderson from the WRF team to keep him in the loop. Thank you,\r\n\r\n-Gerhard\r\n\r\n\r\n\r\n\uc5c4\ub300\uc6a9 wrote:\r\n\r\n&gt; Dear Gerhard\r\n&gt;\r\n&gt; Thank you for your mail and attention \\!\r\n&gt;\r\n&gt; 1 month ago, I can talk with WRF developers on 1st East Asia WRF workshop and tutorial.\r\n&gt;\r\n&gt; They say that WRF coupling ESMF is some problem about WRF and Ocean model coupling.\r\n&gt;\r\n&gt; And Next WRF version solves this problem.\r\n&gt;\r\n&gt; So I stop this research , but I am checking this matter \\!\r\n&gt;\r\n&gt; Gerhard\\!\\! Are you talking about WRF coupling ESMF with WRF developers ?\r\n&gt;\r\n&gt;\r\n&gt;  Regard Dae-Yong, Eom\r\n&gt;\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2007-06-14 16:32:04",
+        "slug": "e00f",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **milestone**: 155253 --> 367128",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2007-06-14 16:32:04",
+        "slug": "29fd",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=1596389\nOriginator: NO\n\nGerhard & Cecelia:\r\n\r\nThis ticket bothers me b/c it represents an issue we shall be dealing with more and more.  WRF released a version of the their model that included a very limited ESMF capability.  A third-party user tried to used WRF and ESMF beyond these limited capabilities.  They end up contacting us, we end up opening a ticket and contacting the original model developers.  They tell us, tough beans, the user is going to have to wait for another more advanced version of the model.  This may not happen for a long, long, long time.  So, philosophically, do we:\r\n\r\na\\) leave the ticket open until the model developers get around to upgrading their model \\(could be AGES\\).\r\nthis impacts our metrics by leaving open a ticket that we have no control over. If we go this route, I suggest we create a new key to indicate this is out of our hands e.g. EMBED\\_ESMF: Waiting on others or some such.\r\n\r\nb\\) if there is no clear indication that the issue is going to be fixed in a timely manner \\(say 6 months or less\\) which I suspect will often be the case, then close the ticket.  I suspect the user is not going to hang around and wait for the original model developers given their needs.  It is also possible that the public distribution is a dead end \\(e.g. CICE\\) and the original developers have no intention of upgrading or changing their ESMF implementation.\r\n\r\n\r\nWhat are your thoughts?\r\n\r\n\r\nSylvia\r\n",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2007-08-27 21:55:25",
+        "slug": "143d",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **assigned_to**: theurich --> nobody\n- **milestone**: 367128 --> \n- **labels**: 509038 --> ",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-02-08 18:58:29",
+        "slug": "845c",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=79909\nOriginator: NO\n\nWaiting for WRF upgrade. - Cecelia",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-07-18 21:30:09",
+        "slug": "850e",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "- **summary**: WRF model coupling ESMF Error --> Waiting for WRF to work with current version of ESMF",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-07-18 21:30:09",
+        "slug": "9ab8",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      },
+      {
+        "text": "Contact user again after winter 2009 code contact with status of WRF. - Sylvia",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2009-01-16 19:05:11",
+        "slug": "e59b",
+        "subject": "#1 Waiting for WRF to work with current version of ESMF"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2008-07-18 21:30:09",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33562718463761fc2471",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/ad2e888f/",
+  "ticket_num": 1,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2006-09-26 17:10:27"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Thomas Loridan from the Barcelona Supercomputing Center\r\n\r\nHello,\r\n\r\nI am having problem with version 3\\_0\\_1 of the ESMF library. I need to use this version and not a newer one because the model I need to run \\(UMO\\) uses it. We are working on an IBM Power PC with Linux SuSe Distribution \r\nand IBM compiler xlf. The Model seems to riun just fine but never writes out anything, and when looking into the code we realized that it was never entering the call to \r\n\r\nCALL ESMF\\_GridCompRun\\(atm\\_int\\_state%WRT\\_COMPS\\(J\\)...\\)\r\n\r\nwhere WRT\\_COMPS is the writting component. When replacing this call by the actual writting part of the routine we get an error saying \r\n\r\nWARNING: No Import ESMF quantities for the Write Component\r\n\r\nAnd when asking people who designed he code they replied:\r\n\\---------------------------------------------------------------------\r\nMy feeling is that this is an ESMF problem.  Something may be going \r\nwrong when ESMF stows away the pointer to WRT\\_RUN during the call to \r\nESMF\\_GridCompSetEntryPoint\\(\\) \\(via ESMF\\_GridCompSetServices\\(\\)\\).\r\n\r\nThe only difference between the write component and the others is that there can be more than one of them.  So, the call to \r\nESMF\\_GridCompSetServices\\(\\) is made repeatedly for WRITE\\_REGISTER:\r\n\r\nDO I=1,WRITE\\_GROUPS\r\nCALL ESMF\\_GridCompSetServices\\(atm\\_int\\_state%WRT\\_COMPS\\(I\\)  &  \r\n\\!&lt;-- The read followed by the write gridded components\r\n,WRITE\\_REGISTER  &  \\!&lt;-- The user's \r\nsubroutine name\r\n,IRC\\)\r\nENDDO\r\n\r\nThis should work just fine.  ESMF core team should be able to help.\r\n\\----------------------------------------------------------------------\r\n\r\nWould you have any idea of how to fix tha?\r\n\r\nMany thanks\r\n\r\nThomas\r\n\r\n\r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf",
+  "discussion_thread": {
+    "_id": "06103c81",
+    "posts": [
+      {
+        "text": "- **summary**: Problem writing with version 3_0_1 --> Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-02-08 19:26:00",
+        "slug": "530d",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      },
+      {
+        "text": "- **labels**: 588645 --> \n- **milestone**: 356870 --> \n- **assigned_to**: theurich --> nobody",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-02-08 19:37:31",
+        "slug": "2e49",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      },
+      {
+        "text": "- **assigned_to**: nobody --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-02-08 23:55:53",
+        "slug": "997e",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nsent email asking for more info, specifically about UMO developers\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-07-17 02:38:07",
+        "slug": "8b2f",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      },
+      {
+        "text": "Unresponsive user, closed.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-01-26 19:49:49",
+        "slug": "e96c",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-01-26 19:49:49",
+        "slug": "d608",
+        "subject": "#2 Problem with UMO app / ESMF 3.0.1 on Linux/PowerPC/xlf"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-01-26 19:49:49",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33592718463761fc24c4",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/06103c81/",
+  "ticket_num": 2,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2007-12-01 17:26:13"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Daniel Kokron from NASA GSFC\r\n\r\nNotification of Ticket Change \r\nThe following changes have been made to this Ticket: Changed Resolution.\r\nTicket:\t baselibs compiled with Intel V10 compiler\r\nTicket Number:\t 13715\r\n\r\nPriority:\t Medium\t  \t Date:\t 12/28/2007\r\nTime:\t 13:03:18\t  \t Creation Date:\t 12/18/2007\r\nCreation Time:\t 13:01:06\t  \r\n\r\nDescription:\r\nDan,\r\nThe crash is coming from function ESMF\\_StateCreate in file\r\nesmf/src//Superstructure/State/src/ESMF\\_State.F90. Just to let you know in case something was done with this function in your previous build. Still digging...\r\nHamid\r\n\r\nCurrent Assignees: Applications Team\r\n\r\nTicket Information:\r\n\r\nSystem:\t Other\r\n\r\nProblem Type:\t Other\t  \t  \t  \r\nResolution:\r\nTo esmf\\_support@ucar.edu:\r\nWe are trying to use ESMF v 2\\_2\\_0rp2 on palm \\(SGI Altix\\). We are building both ESMF and GEOSGCM with Intel compiler v.10.0.025. The ESMF build options are\r\nESMF\\_ARCH: Linux\r\nESMF\\_COMPILER: intel\r\nESMF\\_BOPT: g\r\nESMF\\_PREC: 64\r\nESMF\\_COMM: mpi\r\nESMF\\_SITE: default\r\nESMF\\_EXHAUSTIVE: OFF\r\nESMF\\_PTHREADS: ON\r\nESMF\\_TESTWITHTHREADS: OFF\r\n\r\nOther flags from the build log are:\r\nCompiling C with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nCompiling C++ with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nLinking C with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -lifcoremt -lunwind -lrt\r\n-ldl -pthread\r\nCompiling Fortran with flags: -g -size\\_lp64 -threads -DS64=1\r\nLinking Fortran with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -limf -lm -lunwind\r\n-lrt -ldl -threads\r\n\r\nWe are getting SIGSEGV\\(11\\) that seems to be coming from function ESMF\\_StateCreate. The run makes to just before the call to ESMF\\_StateConstruct. However, it appears to\r\ndie before the first executable statement in ESMF\\_StateConstruct. Any ideas on what to do?\r\nThanks.\r\n\r\nBy the wat, the problem also seems to show up while executing \"gmake all\\_tests\". The summaries of the tests are:\r\n\r\nSYSTEM TESTS SUMMARY\r\nFound 14 system tests, 0 passed and 14 failed.\r\n\r\n\r\n\r\nEXAMPLES SUMMARY\r\nFound 39 examples, 22 passed and 17 failed.\r\n\r\n\r\n\r\nUNIT TESTS SUMMARY\r\nFound 274 non-exhaustive multi-processor unit tests, 117 passed and 157 failed.\r\n\r\nHamid\r\nContact Information:\r\n\r\nLast Name:\t Kokron\t  \t First Name:\t Daniel\r\nEmail Address:\t dkokron@nccs.nasa.gov\t  \t User ID:\t dkokron\r\nPhone:\t 301-614-5192\t  \t Address:\t NASA Goddard Space Flight Cent\r\ner $ Mailstop 610.5 $ Greenbel\r\nt MD 20771 $ USA\r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version",
+  "discussion_thread": {
+    "_id": "4731f06c",
+    "posts": [
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\n\\*\\*\\*ENTER YOUR COMMENTS ABOVE THIS LINE ONLY\\! \\(COMMENTS BELOW THIS LINE ARE AUTOMATICALLY OMITTED.\\)\\*\\*\\* Notification of Ticket Change\r\nThe following changes have been made to this Ticket: Appended a new Description.\r\n\r\nTicket: \tbaselibs compiled with Intel V10 compiler\r\nTicket Number: \t13715\r\n\r\nPriority: \tMedium \t  \tDate: \t01/11/2008\r\nTime: \t09:10:27 \t  \tCreation Date: \t12/18/2007\r\nCreation Time: \t13:01:06 \t \r\n\r\nDescription:\r\nWe are trying to use ESMF v 2\\_2\\_0rp2 on palm \\(SGI Altix\\). We are building both ESMF\r\nand GEOSGCM with Intel compiler v.10.0.025. The ESMF build options are\r\nESMF\\_ARCH: Linux\r\nESMF\\_COMPILER: intel\r\nESMF\\_BOPT: g\r\nESMF\\_PREC: 64\r\nESMF\\_COMM: mpi\r\nESMF\\_SITE: default\r\nESMF\\_EXHAUSTIVE: OFF\r\nESMF\\_PTHREADS: ON\r\nESMF\\_TESTWITHTHREADS: OFF\r\n\r\nOther flags from the build log are:\r\nCompiling C with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nCompiling C++ with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nLinking C with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -lifcoremt -lunwind -lrt\r\n-ldl -pthread\r\nCompiling Fortran with flags: -g -size\\_lp64 -threads -DS64=1\r\nLinking Fortran with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -limf -lm -lunwind\r\n-lrt -ldl -threads\r\n\r\nWe are getting SIGSEGV\\(11\\) that seems to be coming from function ESMF\\_StateCreate.\r\nThe run makes it to just before the call to ESMF\\_StateConstruct. However, it appears to\r\ndie before the first executable statement in ESMF\\_StateConstruct. It could be that what appears to\r\nbe a corruption of the address of unused optional string array argument when entering\r\nESMF\\_StateCreate is responsible for the subsequent failure as teh code tries to enter\r\nESMF\\_StateConstruct. Any ideas on what to do?\r\nThanks.\r\n\r\nBy the wat, the problem also seems to show up while executing \"gmake all\\_tests\". The\r\nsummaries of the tests are:\r\n\r\nSYSTEM TESTS SUMMARY\r\nFound 14 system tests, 0 passed and 14 failed.\r\n\r\nEXAMPLES SUMMARY\r\nFound 39 examples, 22 passed and 17 failed.\r\n\r\nUNIT TESTS SUMMARY\r\nFound 274 non-exhaustive multi-processor unit tests, 117 passed and 157 failed.\r\n\r\nHamid\r\n\r\nCurrent Assignees: Applications Team\r\n\r\nTicket Information:\r\n\r\nSystem: \tOther\r\n\r\nProblem Type: \tOther \t  \t  \t \r\nResolution:\r\nTo esmf\\_support@ucar.edu:\r\nWe are trying to use ESMF v 2\\_2\\_0rp2 on palm \\(SGI Altix\\). We are building both ESMF\r\nand GEOSGCM with Intel compiler v.10.0.025. The ESMF build options are\r\nESMF\\_ARCH: Linux\r\nESMF\\_COMPILER: intel\r\nESMF\\_BOPT: g\r\nESMF\\_PREC: 64\r\nESMF\\_COMM: mpi\r\nESMF\\_SITE: default\r\nESMF\\_EXHAUSTIVE: OFF\r\nESMF\\_PTHREADS: ON\r\nESMF\\_TESTWITHTHREADS: OFF\r\n\r\nOther flags from the build log are:\r\nCompiling C with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nCompiling C++ with flags: -g -size\\_lp64 -cxxlib-gcc -pthread -DS64=1 -D\\_\\_SDIR\\_\\_=''\r\nLinking C with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -lifcoremt -lunwind -lrt\r\n-ldl -pthread\r\nCompiling Fortran with flags: -g -size\\_lp64 -threads -DS64=1\r\nLinking Fortran with libraries: -lesmf -lmpi -lmpi++ -lstdc++ -limf -lm -lunwind\r\n-lrt -ldl -threads\r\n\r\nWe are getting SIGSEGV\\(11\\) that seems to be coming from function ESMF\\_StateCreate.\r\nThe run makes to just before the call to ESMF\\_StateConstruct. However, it appears to\r\ndie before the first executable statement in ESMF\\_StateConstruct. Any ideas on what\r\nto do?\r\nThanks.\r\n\r\nBy the wat, the problem also seems to show up while executing \"gmake all\\_tests\". The\r\nsummaries of the tests are:\r\n\r\nSYSTEM TESTS SUMMARY\r\nFound 14 system tests, 0 passed and 14 failed.\r\n\r\n\r\n\r\nEXAMPLES SUMMARY\r\nFound 39 examples, 22 passed and 17 failed.\r\n\r\n\r\n\r\nUNIT TESTS SUMMARY\r\nFound 274 non-exhaustive multi-processor unit tests, 117 passed and 157 failed.\r\n\r\nHamid\r\n\r\nContact Information:\r\n\r\nLast Name: \tKokron \t  \tFirst Name: \tDaniel\r\nEmail Address: \tdkokron@nccs.nasa.gov \t  \tUser ID: \tdkokron\r\nPhone: \t301-614-5192 \t  \tAddress: \tNASA Goddard Space Flight Cent\r\ner $ Mailstop 610.5 $ Greenbel\r\nt MD 20771 $ USA\r\n\r\n\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-01-11 20:49:57",
+        "slug": "6158",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "- **assigned_to**: oehmke --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-01-11 20:49:57",
+        "slug": "99a5",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nESMF 2.2.0rp2 did not support Intel compiler version 10. I tested with 2.2.2rp3 and it works fine on columbia with the identical compiler module Dan was using on palm. We communicated this to Dan and Hamid and are waiting to hear back from them.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-02-09 00:11:13",
+        "slug": "862b",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "- **milestone**: 356870 --> 155253\n- **status**: open --> pending",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-02-09 00:11:14",
+        "slug": "7009",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nDan and Hamid had trouble compiling their GMAO/GEOS/MAPL/ESMF application with ESMF 2.2.2rp2 and could not figure out what the issue is. At this point they decided to wait for Atanas to finish the ESMF 3.1.0r based GEOS/MAPL version.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-07 04:27:27",
+        "slug": "00cc",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "- **labels**: 588651 --> \n- **milestone**: 155253 --> \n- **summary**: baselibs compiled with Intel V10 compiler --> GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-07 04:27:27",
+        "slug": "f19d",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "Notified the entire crew, incl. Max and Atanas, that they should try with the latest GEOS version based on ESMF 3.1.0rp2 again and let us know.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-02-13 23:41:03",
+        "slug": "ba4b",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "Not much more we could/should do\\!\r\n\\*gjt\\*\r\n\r\nDan Kokron wrote:\r\n\r\n&gt;&gt; I was not able to reproduce this problem using the latest codes.  I\r\n&gt;&gt; think we should close this ticket\r\n&gt;&gt; \r\n&gt;&gt; Dan\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-02-25 22:34:50",
+        "slug": "a3d9",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      },
+      {
+        "text": "- **status**: pending --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-02-25 22:34:50",
+        "slug": "0b60",
+        "subject": "#3 GEOSGCM waiting for ESMF 3.1.0r based GEOS/MAPL version"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-02-25 22:34:50",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d335b2718463761fc24e9",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/4731f06c/",
+  "ticket_num": 3,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2007-12-28 18:17:03"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Heidar Thor Thrastarson from the University of London\r\n\r\n\r\nHello,\r\n\r\nI'm using the Community Atmosphere Model \\(CAM\\), including the ESMF distribution that comes with it \\(ESMC\\_VERSION\\_NUMBER \"MF Version 0.0.1, Released Apr. 9, 2001\"\\). Now I am trying without success to get the model working on a Mac OS X \\(see details below\\) with an Absoft compiler \\(Pro Fortran 9.2\\) and I think my problems are related to the ESMF library.\r\n\r\nWhen I try to build CAM with gnumake, including building the ESMF library, I get a message in make.out saying:\r\n\r\nranlib: file:\r\n/Users/heidar/CAM3/work/4defaultcase/bld/esmf/lib/libO/Darwin\\_absoft/libesmf.a\\(ESMF\\_BasicUtilMod.o\\)\r\nhas no symbols\r\n\r\nAlso I get similar messages for other files that should be included in\r\nlibesmf.a. Later, the build will fail when the library is needed.\r\n\r\nCan anyone help me with this? Any experience from other people trying the same?\r\n\r\nI include with this mail the make.out file, resulting from trying to build CAM. That file includes info from base\\_variables, ESMF\\_conf.h, and other specific files for building ESMF with Darwin/Absoft, that are included\r\nwith the CAM distribution. I guess I might have to modify some flags set in these files. Any ideas on that?\r\n\r\nMy platform:\r\n\\(uname -a\r\nDarwin chostar.maths.qmul.ac.uk 8.10.0 Darwin Kernel Version 8.10.0: Wed\r\nMay 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE\\_PPC Power Macintosh\r\npowerpc\\).\r\n\r\nPlease let me know if you need more info.\r\n\r\nFast response would be appreciated\\!\r\n\r\nWith best regards,\r\n\r\nHeidar Thor Thrastarson,\r\nPhD student,\r\nQueen Mary, University of London, Astronomy Unit.\r\n\r\n",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "ESMF with CAM on MAC OS X",
+  "discussion_thread": {
+    "_id": "1bc9f2d3",
+    "posts": [
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> \n- **assigned_to**: theurich --> nobody",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-02-08 18:55:27",
+        "slug": "55df",
+        "subject": "#4 ESMF with CAM on MAC OS X"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=1952837\nOriginator: NO\n\nI am also working in the similar area. I have installed ESMF3.1, CCSM3.0, CAM3.0 and GME \\(atm model\\) on IBM p690 seperately. I have started to couple GME with POP \\(CCSM\\) using ESMF.\r\nDo you have any idea of coupling two different models \\(atm and ocean\\)?\r\n\r\n\r\nYogesh Kumkar\r\nPhD student,\r\nIntegrated Climate system Modeling Lab,\r\nSouth Korea.\r\n82 10 5812 0483",
+        "attachments": [],
+        "author": "yogeshkumkar",
+        "timestamp": "2008-06-19 01:08:37",
+        "slug": "d014",
+        "subject": "#4 ESMF with CAM on MAC OS X"
+      },
+      {
+        "text": "- **summary**: ESMF with CAM on MAC OS X, --> ESMF with CAM on MAC OS X",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-06-23 16:05:18",
+        "slug": "f8d6",
+        "subject": "#4 ESMF with CAM on MAC OS X"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=79909\nOriginator: NO\n\nContacted Heidar 6/08.  He is now working on a Linux system, but would still like to run on Darwin.  Contact him when CAM4 comes out or Brian Eaton back-ports ESMF interfaces to earlier versions of CAM. - Cecelia",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-06-23 16:06:45",
+        "slug": "5fbf",
+        "subject": "#4 ESMF with CAM on MAC OS X"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2008-06-23 16:05:18",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d335f2718463761fc251d",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/1bc9f2d3/",
+  "ticket_num": 4,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-01-22 16:15:37"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Jules Kouatchou from NASA\r\n\r\n\r\nGerhard,\r\n\r\nI hope you are doing well.\r\nIf you do not mind, I want to ask you a question on ESMF.\r\nI want to write an ESMF application that has the following features:\r\n\r\n\\- \"n+1\" PEs are available\r\n\\- the initialize/run/finalize methods use \"n\" PEs only\r\n\r\nOperations within initialize/run/finalize methods should be performed on \"n\" PEs but my code crashes because \"n+1\" PEs are involved. My guess is that the child VM is not properly initialized. For instance, when I do inside the initialize method:\r\n\r\ncall ESMF\\_VMGetCurrent\\(vm, RC=STATUS \\)\r\nVERIFY\\_\\(STATUS\\)\r\ncall ESMF\\_VMGet\\(vm, PetCount=numPEs, RC=STATUS \\)\r\nVERIFY\\_\\(STATUS\\)\r\n\r\nnumPEs = n+1 but not n \\(as I want\\). Down the road, the call\r\n\r\ncall ESMF\\_VMBarrier\\(vm, rc=rc\\)\r\n\r\ncauses the code to freeze because \"n+1\" PEs are expected when in fact \"n\" PEs only can reach the call.\r\n\r\nHere is my initial setup:\r\n\r\nworkerLayout = ESMF\\_DELayoutCreate\\(vm, deCountList=\\(/NX, NY/\\), &\r\n& petList=petList, rc=status\\)\r\nVERIFY\\_\\(STATUS\\)\r\n\r\n.........\r\n\r\ncall ESMF\\_GridDistribute\\(grid, deLayout=workerLayout, &\r\n& countsPerDEDim1=ims, countsPerDEDim2=jms, rc=status\\)\r\nVERIFY\\_\\(STATUS\\)\r\n\r\nGCS = ESMF\\_GridCompCreate\\(vm, NAME='advCore', configFile=configFile, &\r\n& grid=grid, petList=petList, RC=STATUS\\)\r\nVERIFY\\_\\(STATUS\\)\r\n\r\nwhere n = NX \\* NY and petList is an array containing the \"n\" PEs.\r\n\r\nCould you tell me if there is anything else I need to setup \\(for the child VM\\) so that numPEs \\(see above\\) is \"n\" \\(but not \"n+1\"\\)?\r\n\r\nThank you in advance for your help.\r\n\r\nCheers,\r\n\r\nJules\r\n\r\n\\-- -------------------------------------------------------------------------\r\nJules Kouatchou, PhD\r\nAdvanced Management Technology, Inc. | Tel: 301-286-6059\r\nNASA GSFC - Code 610.3 | Fax: 301-286-1775\r\nGreenbelt, MD 20771 | Jules.Kouatchou-1@.nasa.gov\r\n\\-------------------------------------------------------------------------\r\nLife is good\\! It depends on how you perceive events unfolding around you. ------------------------------------------------------------------------- ",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "numPEs issue w/ ESMF in GMI b/c MAPL advecCore",
+  "discussion_thread": {
+    "_id": "d88d7a60",
+    "posts": [
+      {
+        "text": "- **summary**: Question on ESMF --> Question on numPEs in ESMF",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-06-23 18:58:11",
+        "slug": "be79",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "- **labels**: 588640 --> \n- **milestone**: 155253 --> \n- **summary**: Question on numPEs in ESMF --> numPEs issue w/ ESMF in GMI b/c MAPL advecCore",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-07-18 15:43:03",
+        "slug": "07cc",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nThis issue will be addressed in task 141720 \"COMP\\_MAPL: Component concept works w/ MAPL\".\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-09-04 17:31:23",
+        "slug": "9e50",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "Sent update about GEOS-5/MAPL being at ESMF 3.1.0rp2 now. Still will not fix Jules' issue, but would be good for them to follow GEOS-5/MAPL into the 3-series from prev. 2-series they were using at SIVO.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-02-14 00:24:26",
+        "slug": "f7e1",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "Task 141720 \"COMP\\_MAPL: Component concept works w/ MAPL\" has been addressed in ESMF 4.0.0. However, at this point there is no GEOS-5/MAPL available that works with ESMF 4.0.0. Atanas is working on it. Once it becomes available, then it may be worth pointing Jules to ESMF 4.0.0/GEOS-5/MAPL, so he can test and verify that his code works correctly with it. However, it is not until ESMF 4.0.0r that we want the majority of users moving to the ESMF 4-series\\!\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-05-26 17:36:11",
+        "slug": "46ff",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "ESMF 4.0.0rp2 based GEOS-5/MAPL is available. However, Jules worked around this issue in the GMI code based on the old MAPL code that was ESMF 3 based. There does not seem to be any ongoing effort or plan to change the GMI code again to leverage the improved ESMF/MAPL interaction\\!\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2010-06-25 05:44:30",
+        "slug": "af45",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2010-06-25 05:44:30",
+        "slug": "0bb7",
+        "subject": "#5 numPEs issue w/ ESMF in GMI b/c MAPL advecCore"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2010-06-25 05:44:30",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33602718463761fc253b",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/d88d7a60/",
+  "ticket_num": 5,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-04-24 05:47:53"
+},{
+  "status": "closed",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "From: Dani Bundy\r\n\r\nCecelia,\r\n\r\nI'm working with Brian Eaton to run a recent development version of CAM \r\n\\(cam3\\_5\\_43\\) using the ESMF libraries.   We started \r\nwith ESMF version 3, but we don't want to change the existing CAM interfaces to \r\nthe libraries since we often use a fortran implementation of the routines \r\nfrom WRF. \r\n\r\nSo now I'm trying to build ESMF 2.2.2. Brian successfully installed a \r\nbeta version 2.2.2 but I've just had problem after problem with building \r\nthe libraries-- actually, with linking-- \\(even with version 3\\). If you \r\nhave someone who could come sit with me for an hour or so to try to get it \r\nworking, that would help a lot.  Or even to talk with someone over the \r\nphone.\r\n\r\nI'm trying to install on a linux cluster \\(CGD's bangkok\\), where it \r\nbuilds okay but the checks fail with a linking error. \r\n\r\nThe build was also successful on bluevista but I haven't yet figured \r\nout how to make the tests use lsf instead of Load Leveler so I don't know \r\nif the link is working or not.\r\n\r\nThanks very much for any help you can offer. \r\n\r\nDani",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Waiting for CAM build modification to become official",
+  "discussion_thread": {
+    "_id": "77eb81e6",
+    "posts": [
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nDani is up and running with ESMF 3.1.0r + modifications + CAM + modificiations. Will contact again once modifications are officially released with 3.1.0rp1.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-07-09 22:58:56",
+        "slug": "e4ed",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "- **status**: open --> pending",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-07-09 22:58:56",
+        "slug": "ef02",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "- **summary**: Trouble building for use with CAM --> Waiting for CAM build modification to become official\n- **labels**: 509038 --> \n- **milestone**: 155253 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-06 16:03:57",
+        "slug": "3222",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=1312539\nOriginator: NO\n\nThis Tracker item was closed automatically by the system. It was\npreviously set to a Pending status, and the original submitter\ndid not respond within 14 days \\(the time period specified by\nthe administrator of this Tracker\\).",
+        "attachments": [],
+        "author": "sf-robot",
+        "timestamp": "2008-08-07 02:20:17",
+        "slug": "47c2",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "- **status**: pending --> closed",
+        "attachments": [],
+        "author": "sf-robot",
+        "timestamp": "2008-08-07 02:20:17",
+        "slug": "ba6a",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nback to pending, sf-robot has no clue\\!\\!\\!\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-07 04:08:02",
+        "slug": "5ff5",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "- **status**: closed --> pending",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-07 04:08:02",
+        "slug": "6e5e",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "Dani informed us that the CAM build modification is now official as tag cam3\\_6\\_57.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-09-22 22:39:11",
+        "slug": "4770",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      },
+      {
+        "text": "- **status**: pending --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-09-22 22:39:12",
+        "slug": "0b1e",
+        "subject": "#6 Waiting for CAM build modification to become official"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-09-22 22:39:12",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33632718463761fc2565",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/77eb81e6/",
+  "ticket_num": 6,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-06-26 17:28:22"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Craig D. \"Ghee\" Fry from Exploration Physics International, Inc. \\(EXPI\\)\r\n\r\n\r\n\r\nHi Sylvia or ESMF Support team,\r\n\r\nCan you point me to more info on the ESMF coupler Cecelia mentioned below?  Is this a canned coupler we should be considering for our projects?  \r\n\r\nVince Eccles and I are in the process of writing a stub coupler and then a functional coupler for BEI-03 HAF-GAIM coupling.  We have decided we need the HAF export state \\(4x4x4xN arrays of solar wind speed, density, magnetic field at times t=0-N\\) passed to GAIM as its import state \\(1xN arrays of the same solar wind parameters interpolated at a fixed point in the center of the HAF 4x4x4 arrays\\).   Can you recommend a particular sample ESMF coupler implementation that will serve as an example for us?  We can figure out the interpolation part.  It's the coupling part that we don't want to be spinning our wheels.\r\n\r\nGhee\r\n\r\n\r\nDr. Craig D. \"Ghee\" Fry, President\r\nExploration Physics International, Inc. \\(EXPI\\)\r\n6275 University Dr. NW, Suite 37-105\r\nHuntsville, AL 35806-1776\r\nTel: 256-971-4080, gfry@expi.com\r\n\r\n\r\nHi all,\r\n\r\nFei Liu and other members of the ESMF team have been\r\ncollaborating with Community Climate System Model\r\n\\(CCSM\\) staff to develop an ESMF-based coupler, ESMCpl.\r\nIf you'd like to receive updates on the ESMCpl, or are\r\ninterested in participating in its development, please write\r\nesmf\\_support@ucar.edu and let us know.\r\n\r\nBest,\r\nCecelia\r\n",
+  "labels": [],
+  "assigned_to": "cdeluca",
+  "assigned_to_id": "4f568833b9363c6a5a000769",
+  "private": false,
+  "summary": "ESMF-based coupler, ESMCpl",
+  "discussion_thread": {
+    "_id": "e3671ca7",
+    "posts": [
+      {
+        "text": "Logged In: YES \nuser\\_id=79909\nOriginator: NO\n\nContact Ghee when there is a usable version of the coupler. - Cecelia",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-08-03 14:55:25",
+        "slug": "0705",
+        "subject": "#7 ESMF-based coupler, ESMCpl"
+      },
+      {
+        "text": "- **labels**: 588640 --> \n- **milestone**: 495011 --> ",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2008-08-03 14:55:25",
+        "slug": "1856",
+        "subject": "#7 ESMF-based coupler, ESMCpl"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2008-08-03 14:55:25",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33672718463761fc259a",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/e3671ca7/",
+  "ticket_num": 7,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-07-31 17:30:59"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Chris Schaffer at LIS\r\n\r\n\r\nHello,\r\n\r\nUsing ESMF 2.2.2rp3, I am attempting to build the executable for LIS 5.0 \\(on Linux with portland compiler\\).  When attempting to compile the LIS source code, I receive the following error:\r\n\r\nPGF90-F-0004-Unable to open MODULE file esmf\\_initmacrosmod.mod \\(../dataassim/obs/AMSREsm/\r\nAMSREsmobs\\_module.F90: 37\\)\r\nPGF90/any Linux/x86-64 6.1-6: compilation aborted\r\ngmake: \\*\\*\\* \\[AMSREsmobs\\_module.o\\] Error 2\r\n\r\nThe error mentions an ESMF module, and I was wondering if anyone else has had difficulties with this module.\r\n\r\nThanks for your help\\!\r\n\r\nSincerely,\r\nChris\r\n\r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0",
+  "discussion_thread": {
+    "_id": "e58a4d62",
+    "posts": [
+      {
+        "text": "- **summary**:  esmf_initmacrosmod.mod --> ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-04 20:19:04",
+        "slug": "9942",
+        "subject": "#8 ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> \n- **status**: open --> pending",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-06 20:43:56",
+        "slug": "7b84",
+        "subject": "#8 ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0"
+      },
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nThis turned out to be a configuration issue with LIS 5.0. Chris had previously tried to build LIS 5.0 against a more recent version of ESMF. For some reason the LIS build could not be convinced by Chris to not look at this newer version of ESMF in later build attempts. This resulted in a very inconsistent situation with ESMF 2.2.2rp3 confliciting with the more recent ESMF version he had tried previously. Anyway, the ESMF 2.2.2rp3 build turned out to be complete on his system and after he downloaded a fresh copy of LIS 5.0 he was able to build against his ESMF 2.2.2rp3 installation successfully\\! :-\\)\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-06 20:48:47",
+        "slug": "ef13",
+        "subject": "#8 ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0"
+      },
+      {
+        "text": "- **status**: pending --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-08-06 20:48:47",
+        "slug": "b457",
+        "subject": "#8 ESMF 2.2.2rp3 on Linux/x86_64 w/ PGI 6.1-6 for LIS 5.0"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2008-08-06 20:48:47",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33682718463761fc25ab",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/e58a4d62/",
+  "ticket_num": 8,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-08-04 03:20:43"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Ufuk Utku Turuncoglu from the ITU, Informatics Institute HPC Lab, Turkey\r\n\r\n\r\n\r\nHi,\r\n\r\nI try to compile WRF model \\(3.0.1.1\\) using ESMF 3.1.0r but it fails. Now, i try to install ESMF 2.2.2r but i get following error mesages,\r\n\r\nicpc: command line warning \\#10156: ignoring option '-s'; no argument required\r\nicpc: command line error: option '-cxxlib-icc' not supported\r\nmake\\[7\\]: \\*\\*\\* \\[/SFS2/progs/atmos/esmf-2.2.2r/lib/libO/Linux.intel.64.intelmpi.default/libesmf.a\\(mpi.o\\)\\] Error 1\r\nmake\\[7\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/mod/modO/Linux.intel.64.intelmpi.default'\r\nmake\\[6\\]: \\*\\*\\* \\[esmflib\\] Error 2\r\nmake\\[6\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/mod/modO/Linux.intel.64.intelmpi.default'\r\nmake\\[5\\]: \\*\\*\\* \\[tree\\_lib\\] Error 2\r\nmake\\[5\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/src/Infrastructure/stubs/mpiuni'\r\nmake\\[4\\]: \\*\\*\\* \\[tree\\] Error 1\r\nmake\\[4\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/src/Infrastructure/stubs'\r\nmake\\[3\\]: \\*\\*\\* \\[tree\\] Error 1\r\nmake\\[3\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/src/Infrastructure'\r\nmake\\[2\\]: \\*\\*\\* \\[tree\\] Error 1\r\nmake\\[2\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r/src'\r\nmake\\[1\\]: \\*\\*\\* \\[tree\\] Error 1\r\nmake\\[1\\]: Leaving directory \\`/SFS2/progs/atmos/esmf-2.2.2r'\r\nmake: \\*\\*\\* \\[build\\_libs\\] Error 2\r\n\r\nI check the differences of the build\\_rules.mk files between ESMF 3.1.0r and 2.2.2r. I think that the 2.2.2r is not support our architecture. You can find detailed information about installation environment as follows,\r\n\r\nIntel Xeon Cluster\r\nIntel Compiler \\(C/C++ and Fortran\\) 10.1.012\r\nIntel MPI 3.0\r\nuname -a : Linux cn02 2.6.9-42.0.10.EL\\_SFS2.2\\_1smp \\#1 SMP Tue Feb 26 11:50:41 EET 2008 x86\\_64 x86\\_64 x86\\_64 GNU/Linux\r\n\r\nand ESMF environment variables is set to,\r\n\r\nsetenv ESMF\\_DIR /SFS2/progs/atmos/esmf-2.2.2r\r\nsetenv ESMF\\_OS Linux\r\nsetenv ESMF\\_MACHINE x86\\_64\r\nsetenv ESMF\\_ABI 64\r\nsetenv ESMF\\_COMPILER intel\r\nsetenv ESMF\\_BOPT O\r\nsetenv ESMF\\_OPTLEVEL 3\r\nsetenv ESMF\\_COMM intelmpi\r\nsetenv ESMF\\_SITE default\r\nsetenv ESMF\\_BATCH lsf.ibmpjl.batch\r\nsetenv ESMF\\_BATCHOPTIONS \"-K -a intelmpi -q trccsq -c 00:20\"\r\nsetenv ESMF\\_PTHREADS ON\r\nsetenv ESMF\\_ARRAY\\_LITE FALSE\r\nsetenv ESMF\\_NO\\_INTEGER\\_1\\_BYTE FALSE\r\nsetenv ESMF\\_NO\\_INTEGER\\_2\\_BYTE FALSE\r\nsetenv ESMF\\_FORTRANSYMBOLS default\r\nsetenv ESMF\\_TESTEXHAUSTIVE ON\r\nsetenv ESMF\\_TESTWITHTHREADS OFF\r\nsetenv ESMF\\_TESTMPMD: OFF\r\n\r\nI have to try this version of ESMF because i try to couple WRF and ROMS using ESMF. WRF gives error in 3.1.0 and ROMS is not support 3.x versions. Any suggestions will be helpful.\r\n\r\nBest wishes,\r\n\r\nUfuk Utku Turuncoglu\r\nITU, Informatics Institute\r\nHPC Lab\r\n\r\n",
+  "labels": [],
+  "assigned_to": "cdeluca",
+  "assigned_to_id": "4f568833b9363c6a5a000769",
+  "private": false,
+  "summary": "ROMS and WRF coupling w/ ESMF",
+  "discussion_thread": {
+    "_id": "0f130127",
+    "posts": [
+      {
+        "text": "Logged In: YES \nuser\\_id=340034\nOriginator: NO\n\nThe installation issue was resolved, ESMF 2.2.2rp3 works out-of-the-box as expected. Now this is more of an application/coupling issue that may be outside our scope.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-09-04 18:06:04",
+        "slug": "ab1f",
+        "subject": "#9 ROMS and WRF coupling w/ ESMF"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> \n- **summary**: installation problem in esmf 2.2.2r --> ROMS and WRF coupling w/ ESMF",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2008-09-04 18:06:04",
+        "slug": "2cf3",
+        "subject": "#9 ROMS and WRF coupling w/ ESMF"
+      },
+      {
+        "text": "- **assigned_to**: theurich --> cdeluca",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2009-01-16 18:57:59",
+        "slug": "8827",
+        "subject": "#9 ROMS and WRF coupling w/ ESMF"
+      },
+      {
+        "text": "Ufuk is no longer working on this issue and after being at NCAR for  6 months is now working on CCSM",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-05-22 17:53:29",
+        "slug": "8f14",
+        "subject": "#9 ROMS and WRF coupling w/ ESMF"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-05-22 17:53:29",
+        "slug": "3539",
+        "subject": "#9 ROMS and WRF coupling w/ ESMF"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-05-22 17:53:29",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d336a2718463761fc25c6",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/0f130127/",
+  "ticket_num": 9,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-08-26 15:40:30"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "From: Tom Black\r\n\r\nNCEP isn't using halo bounds to delineate the region of their memory that is valid data, so when they start doiong communication it will cause problems for them.",
+  "labels": [],
+  "assigned_to": "oehmke",
+  "assigned_to_id": "5047c467b9363c23f32bff2b",
+  "private": false,
+  "summary": "Array sections at NCEP",
+  "discussion_thread": {
+    "_id": "91509d2c",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2008-11-10 20:26:04",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d336c2718463761fc25e6",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/91509d2c/",
+  "ticket_num": 10,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2008-11-10 20:26:04"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Samuel Zehel from the California University of Pennsylvania\r\n\r\n\r\nIs it possible to run either MM5, or WRF on ESMF using a Hewlett Packard/Red Hat Enterprise 5 GNU/Linux machine already running LDM?\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nFrom: Tom Yoksas \\[yoksas@unidata.ucar.edu\\]\r\nSent: Thursday, March 05, 2009 10:05 PM\r\nTo: Zehel, Samuel\r\nCc: Tom Yoksas; Kauffman, Chad; Staffen, William\r\nSubject: 20090305: FW: \\[nws-changes\\] 20090226: NGM model removal-\\[Fwd: ADMIN NOTICE NOUS42 KWNO\\] \\(cont.\\)\r\n\r\nHi Samuel,\r\n\r\nre:\r\nI've noticed that NCAR uses the ESMF \\(Earth System Modeling Framework\\) to\r\ngenerate WRF, would it be possible for CUP to run WRF on our equipment here\r\nusing ESMF.\r\n\r\nYes, it should be.  You should contact the ESMF folks for authoritative\r\ninformation, however.\r\n\r\nWould it be possible to run the MM5 model on ESMF instead?\r\n\r\nI imagine so, but why would you want to when the community has\r\ntransitioned from MM5 to WRF?\r\n\r\nCheers,\r\n\r\nTom\r\n\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nFrom: Tom Yoksas \\[yoksas@unidata.ucar.edu\\]\r\nSent: Saturday, February 28, 2009 12:47 PM\r\nTo: Zehel, Samuel\r\nCc: Tom Yoksas\r\nSubject: 20090227: FW: \\[nws-changes\\] 20090226: NGM model removal-\\[Fwd: ADMI=\r\nN NOTICE NOUS42 KWNO\\] \\(cont.\\)\r\n\r\nHi Samuel,\r\n\r\nre: cessation of NGM model data\r\nI'm glad it won't affect McIDAS adversely.\r\n\r\nAt the time the McIDAS Learning Guide and Workshop materials were\r\nwritten the NGM was an active and popular model.  Since then, its use\r\nhas been less and less as the newer mesoscale models like the ETA got\r\nbetter and better. The Weather Service has continued to provide the NGM\r\ndata for continuity and to give users some time to convert over to use\r\nof the ETA and now WRF.  Eliminating the NGM model data from the\r\noperational NOAAPort broadcast was, quite frankly, long overdue.\r\n\r\nIs there a way to run the NGM model locally?\r\n\r\nI would imagine that one could, but it would make a LOT more sense to\r\nimplement the WRF.\r\n\r\nP.S. I'm glad to be a reminder.\r\n\r\nAgain, I really appreciate your reminders and input\\!\r\n\r\nCheers,\r\n\r\nTom\r\n\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nFrom: Tom Yoksas \\[yoksas@unidata.ucar.edu\\]\r\nSent: Friday, February 27, 2009 11:42 AM\r\nTo: Zehel, Samuel\r\nCc: Tom Yoksas\r\nSubject: 20090227: FW: \\[nws-changes\\] 20090226: NGM model removal-\\[Fwd: ADM=\r\nI=3D\r\nN NOTICE NOUS42 KWNO\\] \\(comment\\)\r\n\r\nHi Samuel,\r\n\r\nre:\r\nWon't this adversely affect the mcidas-x's workshop?\r\n\r\nNo, I don't believe so.\r\n\r\nSpecifically:\r\nhttp://www.unidata.ucar.edu/software/mcidas/current/workshop/realtime-9.h=\r\nt=3D\r\nml\r\nstep 5.\r\n\r\nI will simply change the Workshop and Learning Guide materials to\r\nuse one of the many other model datasets \\(e.g., RUC, NAM, GFS, UKMET,\r\netc.\\) that are available through ADDE.\r\n\r\nThanks for reminding me of the mods that will be needed in the\r\nworkshop and Learning Guide materials\\!\r\n\r\nCheers,\r\n\r\nTom\r\n\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nFrom: nws-changes-bounces@unidata.ucar.edu \\[nws-changes-bounces@unidata.u=\r\nc=3D\r\na=3D3D\r\nr.edu\\] On Behalf Of Linda Miller \\[lmiller@unidata.ucar.edu\\]\r\nSent: Thursday, February 26, 2009 1:03 PM\r\nTo: nws-changes@unidata.ucar.edu\r\nSubject: \\[nws-changes\\] 20090226: NGM model removal-\\[Fwd: ADMIN NOTICE NOU=\r\nS=3D\r\n4=3D3D\r\n2    KWNO\\]\r\n\r\n\\-------- Original Message --------\r\n\r\n931\r\nNOUS42 KWNO 261751\r\nADMNFD\r\n\r\n\r\nSENIOR DUTY METEOROLOGIST NWS ADMINISTRATIVE MESSAGE\r\nNWS NCEP CENTRAL OPERATIONS CAMP SPRINGS MD\r\n1747Z THU FEB 26 2009\r\n\r\n\r\n\r\nTHE NGM MODEL AND ALL OF ITS ASSOCIATED PRODUCTS\r\nWILL BE REMOVED FROM THE NWS OPERATIONAL\r\nPRODUCTION SUITE NEXT TUESDAY, MARCH 3, 2009.\r\nTHE LAST ISSUANCE OF THE NGM WILL BE THE 0000 UTC\r\nCYCLE ON MARCH 3RD. THE PRODUCTS TO BE REMOVED\r\nINCLUDE ALL DIRECT-MODEL OUTPUT IN TEXT, BUFR AND\r\nGRIDDED FORM, THE NGM MOS GUIDANCE, AND THE\r\nNGM-BASED TRAJECTORY MODEL OUTPUT.\r\n\r\n\r\n$$\r\n\r\nSHIREY/SDM/NCO/NCEP\r\n\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nnws-changes mailing list\r\nnws-changes@unidata.ucar.edu\r\nFor list information or to unsubscribe, visit: http://www.unidata.ucar.ed=\r\nu=3D\r\n/=3D3D\r\nmailing\\_lists/\r\n\r\n\r\n\\--\r\n+----------------------------------------------------------------------------+\r\n\\* Tom Yoksas                                            UCAR Unidata Program \\*\r\n\\* \\(303\\) 497-8642 \\(last resort\\)                                 P.O. Box 3000 \\*\r\n\\* yoksas@unidata.ucar.edu                                  Boulder, CO 80307 \\*\r\n\\* Unidata WWW Service                            http://www.unidata.ucar.edu/\\*\r\n+----------------------------------------------------------------------------+\r\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\r\nEsmf\\_support mailing list\r\n",
+  "labels": [],
+  "assigned_to": "cdeluca",
+  "assigned_to_id": "4f568833b9363c6a5a000769",
+  "private": false,
+  "summary": "NGM model removal",
+  "discussion_thread": {
+    "_id": "7a8fc4e8",
+    "posts": [
+      {
+        "text": "Moving this to application issue.  It is a WRF problem and so far the user has not let us know if they have contacted the WRF user group as we have suggested.\r\n\r\n",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-05-11 16:59:44",
+        "slug": "aaff",
+        "subject": "#11 NGM model removal"
+      },
+      {
+        "text": "- **labels**: 588640 --> \n- **milestone**: 495011 --> ",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-05-11 16:59:44",
+        "slug": "2358",
+        "subject": "#11 NGM model removal"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-05-11 16:59:44",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d336d2718463761fc25ee",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/7a8fc4e8/",
+  "ticket_num": 11,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2009-03-11 17:34:05"
+},{
+  "status": "closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Don Stark from NCAR MMM\r\n\r\nGuys,\r\nI'm running ESMF on a 32 bit Linux box, with pgi fortran and gcc,  \r\nusing mpich 1.2.7. I'm using ESMF\\_3\\_1\\_0rp2 tag of the framework. The  \r\nframework builds successfully and both the system and units tests  \r\ncomplete without any errors. But I keep getting undefined reference  \r\nerrors \\(see below\\). This time it appears to be related to MPI.  \r\nPreviously it was connected to netcdf. Does this appear to be an issue  \r\nwith the local build of these libraries? Or is it related to the esmf  \r\nbuild? I've attached both the make info output and the compiler message.\r\n\r\n\\--------------------------------------------------------------\r\nMake version:\r\nGNU Make 3.80\r\nCopyright \\(C\\) 2002  Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.\r\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A\r\nPARTICULAR PURPOSE.\r\n\r\n\\--------------------------------------------------------------\r\nFortran Compiler version:\r\nmpif90 for 1.2.7 \\(release\\) of : 2005/11/04 11:54:51\r\npgf90-Warning-No files to process\r\n\r\npgf90 6.2-5 32-bit target on x86 Linux\r\nCopyright 1989-2000, The Portland Group, Inc.  All Rights Reserved.\r\nCopyright 2000-2006, STMicroelectronics, Inc.  All Rights Reserved.\r\n\r\n\\--------------------------------------------------------------\r\nC++ Compiler version:\r\nmpiCC for 1.2.7 \\(release\\) of : 2005/11/04 11:54:51\r\ng++ \\(GCC\\) 3.4.6 20060404 \\(Red Hat 3.4.6-8\\)\r\nCopyright \\(C\\) 2006 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There  \r\nis NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR  \r\nPURPOSE.\r\n\r\n\r\n\\--------------------------------------------------------------\r\nPreprocessor version:\r\ngcc \\(GCC\\) 3.4.6 20060404 \\(Red Hat 3.4.6-8\\)\r\nCopyright \\(C\\) 2006 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There  \r\nis NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR  \r\nPURPOSE.\r\n\r\n\r\n\\--------------------------------------------------------------\r\nESMF\\_VERSION\\_STRING \"3.1.0rp2\"\r\n\\--------------------------------------------------------------\r\n\r\n\\--------------------------------------------------------------\r\n\\* User set ESMF environment variables \\*\r\nESMF\\_DIR=/big/users/stark/esmf\r\nESMF\\_NETCDF\\_LIBPATH=/big/users/wrfhelp/external/netcdf/netcdf-3.6.1/ \r\npgi\\_i686/lib\r\nESMF\\_COMM=mpich\r\nESMF\\_TESTEXHAUSTIVE=OFF\r\nESMF\\_BOPT=g\r\nESMF\\_ABI=32\r\nESMF\\_NETCDF\\_INCLUDE=/big/users/wrfhelp/external/netcdf/netcdf-3.6.1/ \r\npgi\\_i686/include\r\nESMF\\_COMPILER=pgigcc\r\n\r\n\\--------------------------------------------------------------\r\n\\* ESMF environment variables \\*\r\nESMF\\_DIR: /big/users/stark/esmf\r\nESMF\\_OS:                Linux\r\nESMF\\_MACHINE:           i686\r\nESMF\\_ABI:               32\r\nESMF\\_COMPILER:          pgigcc\r\nESMF\\_BOPT:              g\r\nESMF\\_COMM:              mpich\r\nESMF\\_SITE:              default\r\nESMF\\_PTHREADS:          ON\r\nESMF\\_ARRAY\\_LITE:        FALSE\r\nESMF\\_NO\\_INTEGER\\_1\\_BYTE: FALSE\r\nESMF\\_NO\\_INTEGER\\_2\\_BYTE: FALSE\r\nESMF\\_FORTRANSYMBOLS:    default\r\nESMF\\_TESTEXHAUSTIVE:    OFF\r\nESMF\\_TESTWITHTHREADS:   OFF\r\nESMF\\_TESTMPMD:          OFF\r\nESMF\\_MPIRUN:            mpirun\r\n\r\n\\--------------------------------------------------------------\r\n\\* ESMF environment variables pointing to 3rd party software \\*\r\nESMF\\_NETCDF\\_INCLUDE: /big/users/wrfhelp/external/netcdf/netcdf-3.6.1/ \r\npgi\\_i686/include\r\nESMF\\_NETCDF\\_LIBPATH: /big/users/wrfhelp/external/netcdf/netcdf-3.6.1/ \r\npgi\\_i686/lib\r\n\r\n\\--------------------------------------------------------------\r\n\\* ESMF environment variables for final installation \\*\r\nESMF\\_INSTALL\\_PREFIX:    ./DEFAULTINSTALLDIR\r\nESMF\\_INSTALL\\_HEADERDIR: include\r\nESMF\\_INSTALL\\_MODDIR:    mod/modg/Linux.pgigcc.32.mpich.default\r\nESMF\\_INSTALL\\_LIBDIR:    lib/libg/Linux.pgigcc.32.mpich.default\r\nESMF\\_INSTALL\\_DOCDIR:    doc\r\n\r\n\r\n\\--------------------------------------------------------------\r\n\\* Compilers, Linkers, Flags, and Libraries \\*\r\nLocation of the preprocessor:      /usr/bin/gcc\r\nLocation of the Fortran compiler:  /usr/local/mpich-pgi/bin/mpif90\r\nLocation of the Fortran linker:    /usr/local/mpich-pgi/bin/mpif90\r\nLocation of the C++ compiler:      /usr/local/mpich-pgi/bin/mpiCC\r\nLocation of the C++ linker:        /usr/local/mpich-pgi/bin/mpiCC\r\n\r\nFortran compiler flags:\r\nESMF\\_F90COMPILEOPTS: -g\r\nESMF\\_F90COMPILEPATHS: -I/big/users/stark/esmf/mod/modg/Linux.pgigcc. \r\n32.mpich.default -I/big/users/stark/esmf/src/include -I/big/users/ \r\nwrfhelp/external/netcdf/netcdf-3.6.1/pgi\\_i686/include\r\nESMF\\_F90COMPILECPPFLAGS:  -DS32=1 -DESMF\\_OS\\_Linux=1\r\n\r\nFortran linker flags:\r\nESMF\\_F90LINKOPTS:\r\nESMF\\_F90LINKPATHS: -L/big/users/stark/esmf/lib/libg/Linux.pgigcc. \r\n32.mpich.default -L/usr/lib/gcc/i386-redhat-linux/3.4.6/ -L/big/users/ \r\nwrfhelp/external/netcdf/netcdf-3.6.1/pgi\\_i686/lib\r\nESMF\\_F90LINKRPATHS: -Wl,-rpath,/big/users/stark/esmf/lib/libg/ \r\nLinux.pgigcc.32.mpich.default\r\nESMF\\_F90LINKLIBS:  -lpmpich++ -lmpich -lstdc++ -lrt -lC -lc -lnetcdf\r\nESMF\\_F90ESMFLINKLIBS: -lesmf  -lpmpich++ -lmpich -lstdc++ -lrt -lC -lc  \r\n-lnetcdf\r\n\r\nC++ compiler flags:\r\nESMF\\_CXXCOMPILEOPTS: -g\r\nESMF\\_CXXCOMPILEPATHS: -I/big/users/stark/esmf/src/include -I/big/users/ \r\nwrfhelp/external/netcdf/netcdf-3.6.1/pgi\\_i686/include\r\nESMF\\_CXXCOMPILECPPFLAGS: -DS32=1 -DESMF\\_OS\\_Linux=1 -D\\_\\_SDIR\\_\\_='' - \r\nDESMF\\_MPICH\r\n\r\nC++ linker flags:\r\nESMF\\_CXXLINKOPTS:\r\nESMF\\_CXXLINKPATHS: -L/big/users/stark/esmf/lib/libg/Linux.pgigcc. \r\n32.mpich.default -L/usr/pgi/linux86/6.2/lib -L/big/users/wrfhelp/ \r\nexternal/netcdf/netcdf-3.6.1/pgi\\_i686/lib\r\nESMF\\_CXXLINKRPATHS: -Wl,-rpath,/big/users/stark/esmf/lib/libg/ \r\nLinux.pgigcc.32.mpich.default -Wl,-rpath,/usr/pgi/linux86/6.2/lib\r\nESMF\\_CXXLINKLIBS:  -lrt           -lpgf90 -lpgf90\\_rpm1 -lpgf902 - \r\nlpgf90rtl -lpgftnrtl -lpgsse1 -lpgsse2 -lnspgc -lpgc   -lm -lgcc -lc - \r\nlgcc -lnetcdf\r\nESMF\\_CXXESMFLINKLIBS: -lesmf  -lrt           -lpgf90 -lpgf90\\_rpm1 - \r\nlpgf902 -lpgf90rtl -lpgftnrtl -lpgsse1 -lpgsse2 -lnspgc -lpgc   -lm - \r\nlgcc -lc -lgcc -lnetcdf\r\n\r\n\r\n\\--------------------------------------------------------------\r\nCompiling on Mon May 11 17:02:16 MDT 2009 on big\r\nMachine characteristics: Linux big 2.6.9-78.0.13.ELsmp \\#1 SMP Wed Jan  \r\n14 16:12:46 EST 2009 i686 i686 i386 GNU/Linux\r\n==============================================================\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n/lib/cpp -C -P -C -P -traditional -I/big/users/wrfhelp/external/ \r\nnetcdf/netcdf-3.6.1/pgi\\_i686/incl\r\nude -I../ioapi\\_share diffwrf.F90 &gt; diffwrf.f ; \\\r\nfi\r\npgf90 -w  -Mfree -byteswapio -c  -I/big/users/wrfhelp/external/netcdf/ \r\nnetcdf-3.6.1/pgi\\_i686/include\r\n-I../ioapi\\_share diffwrf.f\r\ndiffwrf io\\_netcdf is being built now.\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.r.\\_ZTVN3MPI2OpE+0x10\\): undefined ref\r\nerence to \\`MPI::Op::Init\\(void \\(\\*\\)\\(void const\\*, void\\*, int,  \r\nMPI::Datatype const&\\), bool\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.r.\\_ZTVN3MPI2OpE+0x14\\): undefined ref\r\nerence to \\`MPI::Op::Free\\(\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype9Pack\\_sizeEiRKNS\r\n\\_4CommE+0x27\\): In function \\`PMPI::Datatype::Pack\\_size\\(int, PMPI::Comm  \r\nconst&\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:156: undefined  \r\nreference to \\`MPI\\_Pack\\_size'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype6UnpackEPKviPviR\r\niRKNS\\_4CommE+0x32\\): In function \\`PMPI::Datatype::Unpack\\(void const\\*,  \r\nint, void\\*, int, int&, PMPI::Co\r\nmm const&\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:148: undefined  \r\nreference to \\`MPI\\_Unpack'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype4PackEPKviPviRiR\r\nKNS\\_4CommE+0x32\\): In function \\`PMPI::Datatype::Pack\\(void const\\*, int,  \r\nvoid\\*, int, int&, PMPI::Comm c\r\nonst&\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:139: undefined  \r\nreference to \\`MPI\\_Pack'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI8Datatype4FreeEv+0x11\\): In\r\nfunction \\`PMPI::Datatype::Free\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:131: undefined  \r\nreference to \\`MPI\\_Type\\_free'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI8Datatype6CommitEv+0x11\\):\r\nIn function \\`PMPI::Datatype::Commit\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:125: undefined  \r\nreference to \\`MPI\\_Type\\_commit'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype10Get\\_extentERiS\r\n1\\_+0x13\\): In function \\`PMPI::Datatype::Get\\_extent\\(int&, int&\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:118: undefined  \r\nreference to \\`MPI\\_Type\\_lb'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype10Get\\_extentERiS\r\n1\\_+0x27\\):/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:119:  \r\nundefined reference to \\`MPI\\_Type\\_exte\r\nnt'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype8Get\\_sizeEv+0x14\r\n\\): In function \\`PMPI::Datatype::Get\\_size\\(\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:109: undefined  \r\nreference to \\`MPI\\_Type\\_size'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype14Create\\_hvector\r\nEiii+0x21\\): In function \\`PMPI::Datatype::Create\\_hvector\\(int, int, int\\)  \r\nconst':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:99: undefined  \r\nreference to \\`MPI\\_Type\\_hvector'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype15Create\\_hindexe\r\ndEiPKiS2\\_+0x21\\): In function \\`PMPI::Datatype::Create\\_hindexed\\(int, int  \r\nconst\\*, int const\\*\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:87: undefined  \r\nreference to \\`MPI\\_Type\\_hindexed'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype14Create\\_indexed\r\nEiPKiS2\\_+0x21\\): In function \\`PMPI::Datatype::Create\\_indexed\\(int, int  \r\nconst\\*, int const\\*\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:57: undefined  \r\nreference to \\`MPI\\_Type\\_indexed'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype13Create\\_vectorE\r\niii+0x21\\): In function \\`PMPI::Datatype::Create\\_vector\\(int, int, int\\)  \r\nconst':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:47: undefined  \r\nreference to \\`MPI\\_Type\\_vector'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI8Datatype17Create\\_contigu\r\nousEi+0x1b\\): In function \\`PMPI::Datatype::Create\\_contiguous\\(int\\) const':\r\n/usr/local/mpich/include/mpi2c++/datatype\\_inln.h:38: undefined  \r\nreference to \\`MPI\\_Type\\_contiguous'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI8DatatypeD0Ev+0x22\\): In fu\r\nnction \\`PMPI::Datatype::~Datatype\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/pdatatype.h:35: undefined reference  \r\nto \\`operator delete\\(void\\*\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI8DatatypeD1Ev+0x22\\): In fu\r\nnction \\`PMPI::Datatype::~Datatype\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/pdatatype.h:35: undefined reference  \r\nto \\`operator delete\\(void\\*\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI7RequestD0Ev+0x22\\): In fun\r\nction \\`PMPI::Request::~Request\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/prequest.h:35: undefined reference to  \r\n\\`operator delete\\(void\\*\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI7RequestD1Ev+0x22\\): In fun\r\nction \\`PMPI::Request::~Request\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/prequest.h:35: undefined reference to  \r\n\\`operator delete\\(void\\*\\)'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZN4PMPI8Prequest5StartEv+0x11\\): I\r\nn function \\`PMPI::Prequest::Start\\(\\)':\r\n/usr/local/mpich/include/mpi2c++/request\\_inln.h:332: undefined  \r\nreference to \\`MPI\\_Start'\r\n/big/users/stark/bin/lib/libesmf.a\\(ESMC\\_Util\\_F.o\\) \r\n\\(.gnu.linkonce.t.\\_ZNK4PMPI7Request6CancelEv+0x11\\):\r\n\r\n\r\n\\--\r\n\\---------------------------------------------------------------\r\nDon Stark, PhD                          stark@ucar.edu\r\nMMM, NCAR                               303.497.2472\r\n\\---------------------------------------------------------------\r\n\r\n\r\n\r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": " libesmf.a: undefined references",
+  "discussion_thread": {
+    "_id": "273795df",
+    "posts": [
+      {
+        "text": "It looks as if the application build system does not use the MPICH compiler wrappers, and thus does not find the MPI symbols when linking. Waiting for Don's confirmation.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-05-21 22:58:26",
+        "slug": "323c",
+        "subject": "#12  libesmf.a: undefined references"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 495011 --> \n- **status**: open --> pending",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-05-21 22:58:26",
+        "slug": "43df",
+        "subject": "#12  libesmf.a: undefined references"
+      },
+      {
+        "text": "- **summary**:  libesmf.so: undefined references -->  libesmf.a: undefined references",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-05-29 17:01:42",
+        "slug": "046a",
+        "subject": "#12  libesmf.a: undefined references"
+      },
+      {
+        "text": "Don agrees that this can be closed. It looks like an application build system issue, or an issue with the PGI installation on the particular machine. In any case, he is not getting to it right now, and it does not seem like anything w/ ESMF.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-07-17 18:04:45",
+        "slug": "1efe",
+        "subject": "#12  libesmf.a: undefined references"
+      },
+      {
+        "text": "- **status**: pending --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2009-07-17 18:04:45",
+        "slug": "b629",
+        "subject": "#12  libesmf.a: undefined references"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-07-17 18:04:45",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d336e2718463761fc25ff",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/273795df/",
+  "ticket_num": 12,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2009-05-11 23:11:22"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Moguo Sun from NASA\r\nDear Helper,\r\n\r\nMy name is Moguo Sun and am working for NASA Langley. I am trying  \r\nto compile NCAR CAM. Here I got a problem with ESMF.\r\n\r\nthe problem is that CAM uses old ESMF \\(2004yr\\) which is  \r\nnot configured for Darwin with gfortran. Then I download new ESMF  \r\n\\(current version\\) and compile on my Mac. It is successfully compiled  \r\nbut it uses different time managing routines from the old ESMF which  \r\nCAM uses. So, I can't compile CAM without old ESMF support.\r\n\r\nSo, is there a quick way to make ESMF \\(either new or old  \r\nversion\\) work for CAM? Or any suggestions? Thank you.\r\n\r\nMoguo",
+  "labels": [],
+  "assigned_to": "svasquez",
+  "assigned_to_id": "4d9cded00594ca3edf000b09",
+  "private": false,
+  "summary": " compile CAM with ESMF",
+  "discussion_thread": {
+    "_id": "c223a628",
+    "posts": [
+      {
+        "text": "- **assigned_to**: theurich --> svasquez",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2009-06-03 17:32:22",
+        "slug": "35ed",
+        "subject": "#13  compile CAM with ESMF"
+      },
+      {
+        "text": "Moving to applications",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-06-26 17:47:10",
+        "slug": "b8b2",
+        "subject": "#13  compile CAM with ESMF"
+      },
+      {
+        "text": "- **labels**: 588640 --> \n- **milestone**: 155253 --> ",
+        "attachments": [],
+        "author": "murphysj",
+        "timestamp": "2009-06-26 17:47:10",
+        "slug": "bda9",
+        "subject": "#13  compile CAM with ESMF"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-06-26 17:47:10",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33702718463761fc261f",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/c223a628/",
+  "ticket_num": 13,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2009-06-03 15:23:24"
+},{
+  "status": "open",
+  "reported_by_id": "5047c467b9363c23f32bff2b",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "oehmke",
+  "description": "Ratko reports that he is still seeing very minor memory leaks in ESMF. The leak is so small he says \"but it is so small, I don't even bother looking where it appears\". This isn't a priority for them, but we should keep it in mind and look into it in the future.   ",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Small memory leaks at NCEP",
+  "discussion_thread": {
+    "_id": "99592113",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2009-07-20 16:24:59",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33712718463761fc2635",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/99592113/",
+  "ticket_num": 14,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2009-07-20 16:24:59"
+},{
+  "status": "pending",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Ronaldo Palmeir from Rio de Janeiro Federal University\r\n\r\ni Silverio,\r\n\r\nMany thanks. \r\ncan you help me? how it will get one of the sets of the already implemented models \\(WRF, HYCOM, ROMS\\) and etc.?\\!\r\n\r\nregards,\r\n\r\nRonaldo M. de J. Palmeira\r\nPost-graduate student\r\nRio de Janeiro Federal University \r\n",
+  "labels": [],
+  "assigned_to": "svasquez",
+  "assigned_to_id": "4d9cded00594ca3edf000b09",
+  "private": false,
+  "summary": "access to applications",
+  "discussion_thread": {
+    "_id": "a6bd02f9",
+    "posts": [
+      {
+        "text": "- **summary**: ESMF implemented models --> access to applications",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2009-12-18 18:18:19",
+        "slug": "ad28",
+        "subject": "#15 access to applications"
+      },
+      {
+        "text": "- **status**: open --> pending",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2010-01-13 23:16:54",
+        "slug": "c09d",
+        "subject": "#15 access to applications"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2010-01-13 23:16:54",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33722718463761fc263c",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/a6bd02f9/",
+  "ticket_num": 15,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2009-12-18 17:57:01"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Sujay Kumar, LIS/GSFC/NASA\r\n\r\nHi Cecelia, \r\nThanks for these slides. In fact, Shujia and I had discussed this as an option sometime back. \r\n\r\nCurrently the LIS-WRF coupling is implemented without breaking the run loop. WRF writes the export ESMF state to one of the I/O streams, and then the coupler reads them and LIS executes. The system works fine for a single domain. One issue that we are struggling with is to extend this to support a nested configuration of WRF \\(with concurrent nests running\\) -- We then would have export states defined for each nest. Currently the WRF I/O to ESMF translator can not handle this requirement. From what I understand, the direct coupling will not solve this issue either. \r\n\r\nIn any case, this is good to know because it avoids the need for the code to bubble back up to to the top level, right? \r\n-S\r\n\r\nOn Apr 6, 2010, at 1:36 PM, Cecelia DeLuca wrote:\r\n\r\n&gt; Hi Christa,\r\n&gt;\r\n&gt; Gerhard Theurich implemented the direct coupling approach.  There is\r\n&gt; a slide deck on it at:\r\n&gt; http://www.earthsystemmodeling.org/presentations/pres\\_0804\\_directcoupling.pdf\r\n&gt; and Gerhard can point you to a system test.  I think Sujay may have\r\n&gt; already had\r\n&gt; a little exposure to it already.\r\n&gt;\r\n&gt; I would encourage you to include Gerhard in discussion, since he can help\r\n&gt; explain the capability, and can also comment on how it could potentially\r\n&gt; be modified if necessary.\r\n&gt;\r\n&gt; -- Cecelia\r\n&gt;\r\n&gt;\r\n&gt;\r\n&gt; -- \r\n&gt; ===================================================================\r\n&gt; Cecelia DeLuca\r\n&gt; NESII/CIRES/NOAA Earth System Research Laboratory\r\n&gt; 325 Broadway, Boulder 80305-337\r\n&gt; Email: cecelia.deluca@noaa.gov\r\n&gt; Phone: 303-497-3604\r\n&gt;\r\n\r\n\\------------------------------------\r\nSujay Kumar, Ph.D\r\nCode 614.3, SAIC/NASA GSFC\r\nGreenbelt, MD 20771\r\nEmail: Sujay.V.Kumar@nasa.gov\r\nWeb:http://neptune.gsfc.nasa.gov/hsb/?skumar\r\nPh: 301-286-8663, Fax: 301-286-8624\r\n\\------------------------------------\r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "LIS-WRF coupling for nested domains",
+  "discussion_thread": {
+    "_id": "47d2b15c",
+    "posts": [
+      {
+        "text": "There has been discussion with Sujay about this. An email was sent in May 2010 to John M. about this, too, but no response \\(he was just in the process of leaving WRF at that time\\). Leave this open and move to apps because the issue \\(while it is not moving forward right now\\) will probably come up again in the future.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-01-13 17:08:29",
+        "slug": "57d6",
+        "subject": "#16 LIS-WRF coupling for nested domains"
+      },
+      {
+        "text": "- **labels**: 588640 --> \n- **milestone**: 155253 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-01-13 17:08:29",
+        "slug": "8052",
+        "subject": "#16 LIS-WRF coupling for nested domains"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-01-13 17:08:29",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33722718463761fc264d",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/47d2b15c/",
+  "ticket_num": 16,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2010-04-06 17:57:20"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO:  Ram      - no last name or affiliation provided\r\n\r\ndear sir/madam \r\n\r\n\r\nI am installing  CAM3.0\\( community atmospheric model\\)  on Red Hat Linux which is supported \r\nby operating system CENTOS. \r\n\r\nwhile installing I am facing certain problems. while building the CAM ESMF library is need to be installed so i did it separately but it is not taken by CAM, \r\nand while working in  CAM itself i am facing the below problem.\r\n\r\n\r\nAfter the successful execution of \r\n\r\n% ./cam1/models/atm/cam/bld/configure  \r\n\r\nproblem lies in executing gmake in the building of ESMF library. \r\n\r\nafter the execution of gmake i got the following output.  \r\n\r\n\r\n\\[2009ast3222@ajaymeru cam\\]$ gmake \r\ncd /shome/2009ast3222/cam/cam1/models/utils/esmf; \\ \r\necho \"Build the ESMF library.\"; \\ \r\necho \"ESMF is NOT supported by the CCSM project, but by the \r\nESMF core team in NCAR/SCD\"; \\ \r\necho \"See http://www.esmf.ucar.edu\"; \\ \r\ngmake -j 1 BOPT=O \r\nESMF\\_BUILD=/shome/2009ast3222/cam/esmf \r\nESMF\\_DIR=/shome/2009ast3222/cam/cam1/models/utils/esmf \r\nESMF\\_ARCH=; \r\nBuild the ESMF library. \r\nESMF is NOT supported by the CCSM project, but by the ESMF core \r\nteam in NCAR/SCD \r\nSee http://www.esmf.ucar.edu \r\ngmake\\[1\\]: Entering directory \r\n\\`/shome/2009ast3222/cam/cam1/models/utils/esmf' \r\nmakefile:15: \r\n/shome/2009ast3222/cam/cam1/models/utils/esmf/build//base: No such \r\nfile or directory \r\ngmake\\[1\\]: \\*\\*\\* No rule to make target \r\n\\`/shome/2009ast3222/cam/cam1/models/utils/esmf/build//base'.  Stop. \r\ngmake\\[1\\]: Leaving directory \r\n\\`/shome/2009ast3222/cam/cam1/models/utils/esmf' \r\ngmake: \\*\\*\\* \\[/shome/2009ast3222/cam/esmf/lib/libO//libesmf.a\\] Error 2 \r\n\r\n\r\n\r\nso i want to know what changes and where it should be done to build the \r\nESMF libraries successfully. \r\n\r\nthanking you. \r\nram \r\n\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "CAM3.0 build problem",
+  "discussion_thread": {
+    "_id": "314c5557",
+    "posts": [
+      {
+        "text": "- **priority**: 5 --> 9\n- **assigned_to**: svasquez --> theurich",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2011-01-06 17:24:59",
+        "slug": "2f38",
+        "subject": "#17 CAM3.0 build problem"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> \n- **priority**: 9 --> 5\n- **summary**: problem regarding building of ESMF library --> CAM3.0 build problem",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-01-13 16:57:20",
+        "slug": "01e0",
+        "subject": "#17 CAM3.0 build problem"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-01-13 16:57:20",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33742718463761fc265e",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/314c5557/",
+  "ticket_num": 17,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2010-06-22 15:40:13"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Bosko Telenta Senior Physicist - Numerical Weather Forecasting SENES Consultants Limited RICHMOND HILL, Ontario CANADA\r\n\r\nHello,\r\n\r\nI am trying to compile one subroutine \\(by PGF90 compiler\\) where  within subroutine there is call as follows:\r\n\r\n\r\nCALL ESMF\\_AttributeGet\\(bundle    =HISTORY\\_BUNDLE                &  \\!&lt;-- The Bundle o\r\nf history data\r\n,name      ='JM'                          &  \\!&lt;-- Name of the\r\nAttribute to extract\r\n,count     =1                             &  \\!&lt;-- Length of At\r\ntribute\r\n,valueList =wrt\\_int\\_state%JM              &  \\!&lt;-- Extract this\r\nAttribute from History Bundle\r\n,rc        =RC\\)\r\n\r\nError message I got is:\r\n\r\nPGF90-S-0155-Could not resolve generic procedure esmf\\_attributeget \\(module\\_WRITE\\_ROUTINES.f90: 271\\)\r\n\r\nNumber 271 is the line within program \\(module\\_WRITE\\_ROUTINES.f90\\) \r\nwhere starts line CALL ESMF\\_AttributeGet\\(\\*\\)\r\n\r\nESMF v5.0.0 is compiled by PGF compilers.\r\n\r\nI appreciate  any type of your suggestions.\r\n\r\nWith my best regards,\r\nBosko \r\n\r\n\r\n\\-- \r\nBosko Telenta M.Sc.\r\nSenior Physicist - Numerical Weather Forecasting\r\nSENES Consultants Limited\r\n121 Granton Drive, Unit 12\r\nRICHMOND HILL, Ontario\r\nCANADA L4B 3N4\r\nTel: \\(905\\) 764-9380\r\nFax: \\(905\\) 764-9386\r\nEmail Address: btelenta@senes.ca\r\nWeb Site: http://www.senes.ca/\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NEMS/NMM execution problem on Linux/PGI",
+  "discussion_thread": {
+    "_id": "60c9f653",
+    "posts": [
+      {
+        "text": "- **summary**: ESMF- question --> Compilation problem with PGF",
+        "attachments": [],
+        "author": "cdeluca",
+        "timestamp": "2010-06-25 15:54:09",
+        "slug": "2486",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      },
+      {
+        "text": "From follow on emails it looks like Bosko is trying to compile NEMS in NMM mode. He needs to use ESMF 3.1.0rp2 for this. He has switched to that and now is able to build the NEMS executable. However, he is running into execution problems now.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2010-07-23 16:09:02",
+        "slug": "a2c8",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      },
+      {
+        "text": "- **summary**: Compilation problem with PGF --> NEMS/NMM execution problem on Linux/PGI\n- **assigned_to**: svasquez --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2010-07-23 16:09:03",
+        "slug": "37f4",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      },
+      {
+        "text": "- **priority**: 5 --> 7",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-01-13 16:55:37",
+        "slug": "473b",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      },
+      {
+        "text": "Making contact again to see where he stands with the remaining issue \\(which looks more like an application-porting thing than ESMF\\).\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-02-09 23:36:34",
+        "slug": "b920",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **priority**: 7 --> 5\n- **milestone**: 155253 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-02-09 23:36:34",
+        "slug": "b10c",
+        "subject": "#18 NEMS/NMM execution problem on Linux/PGI"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-02-09 23:36:34",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33752718463761fc266f",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/60c9f653/",
+  "ticket_num": 18,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2010-06-23 20:20:54"
+},{
+  "status": "open",
+  "reported_by_id": "4d794255b9363c57d70002fc",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "murphysj",
+  "description": "Who: David LeBauer, \r\n\r\n\r\nHello,\r\n\r\nI get an error when trying to install the \\[Kepler\\] earth\r\nmodule following the instructions in the\r\nhttp://esmf.cvs.sourceforge.net/viewvc/esmfcontrib/workflow/earth/README.txt\r\nhere is a copy of my command line interaction:\r\n\r\n==========================\r\ndlebauer@dlebauer-desktop:~/KeplerData/CCSM/build-area$ ant change-to\r\n-Dsuite=earth\r\nBuildfile: /home/dlebauer/KeplerData/CCSM/build-area/build.xml\r\n\r\nchange-to:\r\n\\[change-to\\] Retrieving modules....\r\n\\[change-to\\]\r\n\\[change-to\\] earth:\r\n\\[change-to\\] Downloading earth...\r\n\\[change-to\\] svn co -r head\r\nhttp://code.kepler-project.org/code/kepler/trunk/modules/earth\r\n/home/dlebauer/KeplerData/CCSM/earth\r\n\\[change-to\\] svn: URL\r\n'http://code.kepler-project.org/code/kepler/trunk/modules/earth'\r\ndoesn't exist\r\n\\[change-to\\]\r\n\r\nBUILD FAILED\r\n/home/dlebauer/KeplerData/CCSM/build-area/build.xml:77: ERROR: It\r\nappears that the command did not execute properly and exited with an\r\nexit code of: 1\r\n============================\r\nDo you have any suggestions?\r\n\r\nThank you,\r\n\r\nDavid LeBauer\r\n\r\n\\--\r\nDavid LeBauer, PhD\r\nEnergy Biosciences Institute\r\nUniversity of Illinois Urbana-Champaign\r\n1206 W. Gregory Drive\r\nUrbana, IL  61801, U.S.A.",
+  "labels": [],
+  "assigned_to": "ksaint",
+  "assigned_to_id": "4f18caf91be1ce4f1d0007f2",
+  "private": false,
+  "summary": "Trouble downloading Kepler Earth Module",
+  "discussion_thread": {
+    "_id": "0d5ab8fa",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2010-08-16 15:04:37",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33762718463761fc2694",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/0d5ab8fa/",
+  "ticket_num": 19,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2010-08-16 15:04:37"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Shraddha Desai from the Centre of Advanced Computing, India\r\n\r\nDear Sir/Madam,\r\nWhile running CCSM4 I am getting error in logfile named: /home/shraddha/Test3/run/cpl.log.101022-095708 as:\r\n\r\n\\(seq\\_mct\\_drv\\) USE\\_ESMF\\_LIB is NOT set, using esmf\\_wrf\\_timemgr\r\n\r\nSo I thought to install ESMF library.\r\n\r\n\r\nI have downloaded esmf\\_4\\_0\\_0rp1\\_src.tar.gz and want to install it with Intel-9.1.053 and MPICH2 MPI-Implementation.\r\n\r\nI have set following environment variables in login startup file: named .bashrc\r\n\r\n\\#Individual ESMF installation with Intel-9-1-053\r\nexport ESMF\\_DIR=/home/shraddha/CCSM/ESMF/intel/Intel-9-1-053/esmf\r\nexport ESMF\\_INSTALL\\_PREFIX=/home/shraddha/CCSM/ESMF/intel/Intel-9-1-053/esmf\r\nexport ESMF\\_COMM=mpich2\r\nexport ESMF\\_COMPILER=intel\r\nexport ESMF\\_OS=Linux\r\nexport ESMF\\_BOPT='g'\r\nexport ESMF\\_MACHINE=x86\\_64\r\n\\#export ESMF\\_ARCH=x86\\_64\r\n\r\nIs this much settings are enough???\r\n\r\nI have to go and change in the build\\_config/Linux.intel.default/build\\_rules.mk and build/common.mk file anything?? Or it will take changes automatically???\r\n\r\nYour suggestion will be helpful and appreciable for me.\r\n\r\nThanks $ Regards,\r\nShraddha Desai\r\n\r\n\r\n",
+  "labels": [],
+  "assigned_to": "feiliu",
+  "assigned_to_id": "4fec892e1be1ce74e0000017",
+  "private": false,
+  "summary": "ESMF_4_0_0rp1 ESMF Installation",
+  "discussion_thread": {
+    "_id": "67427a2e",
+    "posts": [
+      {
+        "text": "- **assigned_to**: svasquez --> feiliu",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2010-10-25 16:41:04",
+        "slug": "6b25",
+        "subject": "#20 ESMF_4_0_0rp1 ESMF Installation"
+      },
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> ",
+        "attachments": [],
+        "author": "feiliu",
+        "timestamp": "2011-01-06 17:07:37",
+        "slug": "141d",
+        "subject": "#20 ESMF_4_0_0rp1 ESMF Installation"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-01-06 17:07:37",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33772718463761fc269c",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/67427a2e/",
+  "ticket_num": 20,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2010-10-22 15:34:15"
+},{
+  "status": "open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Lanli Guo\r\n\r\nHi,\r\nI try to do the WRF\\_SST\\_CPL test. I downloaded the WRFV3.2.1 and ESMF v4.0.0rp2. I installed the ESMF successfully by using PGI compiler. I set the environment variables \"ESMFLIB\" and \"ESMFINC\" and changed the Registry.EM\\_SST to Registry.EM before I install WRF.  But I can't get any .exe files in WRF/main directory.\r\nThere are several errors during the WRF compiling process:\r\nPGF90-S-0155-esmf\\_timege is use-associated from modules esmf\\_timemod and module\\_esmf\\_extensions, and cannot be accessed \\(module\\_domain.f90: 7670\\)\r\nPGF90-S-0155-esmf\\_timele is use-associated from modules esmf\\_timemod and module\\_esmf\\_extensions, and cannot be accessed \\(module\\_domain.f90: 7676\\)\r\n\r\nCOMPILING mediation\\_wrfmain.F WITHOUT OMP\r\nmake\\[2\\]: \\[mediation\\_integrate.o\\] Error 2 \\(ignored\\)\r\n\r\nCOMPILING wrf\\_SST\\_ESMF.F WITHOUT OMP\r\nPGF90-S-0017-Unable to open include file: mpif.h \\(wrf\\_SST\\_ESMF.f90: 69\\)\r\n0 inform,   0 warnings,   1 severes, 0 fatal for sst\\_component\\_init1\r\n0 inform,   1 warnings,   0 severes, 0 fatal for sst\\_component\\_init2\r\nmake\\[1\\]: \\[wrf\\_SST\\_ESMF.o\\] Error 2 \\(ignored\\)\r\n\r\n1\\) The machine I use is Linux clhead 2.6.9-67.ELsmp \\#1 SMP Wed Nov 7 13:56:44 EST 2007 x86\\_64 x86\\_64 x86\\_64 GNU/Linux  ,  Server is SunFire X4100 or SunFire X2200\r\n2\\)The operation system is Redhat AS 4\r\n3\\)The pgi is 8.0-6 for linux86-64. \r\n4\\)MPI is OpenMP\r\nThe attachments are the install information of ESMF and configure.wrf. \r\nCould you give me some suggestions?\r\nThanks a lot.\r\n\r\nLanli Guo",
+  "labels": [],
+  "assigned_to": "eschwab",
+  "assigned_to_id": "519d016be88f3d628adf1e1f",
+  "private": false,
+  "summary": "How to compile WRF with ESMF",
+  "discussion_thread": {
+    "_id": "14bca765",
+    "posts": [
+      {
+        "text": "- **labels**: 509038 --> \n- **milestone**: 155253 --> \n- **priority**: 5 --> 7",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-01-13 16:44:01",
+        "slug": "449a",
+        "subject": "#21 How to compile WRF with ESMF"
+      },
+      {
+        "text": "- **assigned_to**: theurich --> eschwab",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2011-01-14 03:36:42",
+        "slug": "0c9f",
+        "subject": "#21 How to compile WRF with ESMF"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-01-14 03:36:42",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33772718463761fc26ae",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/14bca765/",
+  "ticket_num": 21,
+  "custom_fields": {
+    "_priority": "7"
+  },
+  "created_date": "2010-12-02 16:20:22"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "Natalie is currently implementing a coupled ATM-OCN model \\(COAMPS and ROMS\\). We would like to talk to her about the architecture she is designing in light of the NUOPC effort.\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Conversation about ATM-OCN model architecture",
+  "discussion_thread": {
+    "_id": "d61f1d13",
+    "posts": [
+      {
+        "text": "- **assigned_to**: nobody --> theurich\n- **summary**: Conversation about model architecture --> Conversation about ATM-OCN model architecture",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-03-03 18:57:07",
+        "slug": "8f72",
+        "subject": "#22 Conversation about ATM-OCN model architecture"
+      },
+      {
+        "text": "Bob and I had a good phone call with Natalie where she gave us a lot of details of what she is doing. A summary of this conversation went to esmf\\_support under the ticket number. Natalie also followed up with a lot of written material, including source code that she send in under the ticket number. \r\n\r\nNext I need to go through Natalie's material and continue the conversation with her.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-04-07 15:57:03",
+        "slug": "77b8",
+        "subject": "#22 Conversation about ATM-OCN model architecture"
+      },
+      {
+        "text": "Moving over to application to track conversation about application architecture.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-01-12 17:19:09",
+        "slug": "9316",
+        "subject": "#22 Conversation about ATM-OCN model architecture"
+      },
+      {
+        "text": "- **labels**: 588640 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-01-12 17:19:09",
+        "slug": "ee2f",
+        "subject": "#22 Conversation about ATM-OCN model architecture"
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2012-01-12 17:19:09",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d33782718463761fc26c0",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/d61f1d13/",
+  "ticket_num": 22,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-03-03 18:54:12"
+},{
+  "status": "open",
+  "reported_by_id": "5047c467b9363c23f32bff2b",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "oehmke",
+  "description": "WHO: Mariana Vertenstein of CESM\r\n\r\nMariana and Jim Edwards expressed an interest in using our sparse matrix multiply. This ticket is to help them to use it. Part of this task is to make the method for reading weights from a SCRIP file public and to put an example of using it into the reference manual, the rest is to assist them with using it in their code. ",
+  "labels": [],
+  "assigned_to": "feiliu",
+  "assigned_to_id": "4fec892e1be1ce74e0000017",
+  "private": false,
+  "summary": "LONG: Help CESM to use ESMF Sparse Mat. Mul. ",
+  "discussion_thread": {
+    "_id": "626c089d",
+    "posts": [
+      {
+        "text": "Marked long and scheduled by CRB",
+        "attachments": [],
+        "author": "feiliu",
+        "timestamp": "2011-12-06 16:58:33",
+        "slug": "b0ae",
+        "subject": "#23 LONG: Help CESM to use ESMF Sparse Mat. Mul. "
+      },
+      {
+        "text": "- **labels**: 667262 --> \n- **milestone**: 155253 --> \n- **assigned_to**: oehmke --> feiliu\n- **summary**: Help CESM to use ESMF Sparse Mat. Mul.  --> LONG: Help CESM to use ESMF Sparse Mat. Mul. ",
+        "attachments": [],
+        "author": "feiliu",
+        "timestamp": "2011-12-06 16:58:33",
+        "slug": "8448",
+        "subject": "#23 LONG: Help CESM to use ESMF Sparse Mat. Mul. "
+      }
+    ],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2011-12-06 16:58:33",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d337a2718463761fc26db",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/626c089d/",
+  "ticket_num": 23,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-08-25 21:07:33"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Ratko Vasic from NCEP/EMC\r\n\r\n\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Gerhard,\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; My compilation of the NMM-B on zeus finished fine.  Later \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Ratko compiled too and tried to execute a forecast and it \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; failed immediately.  Here is his message:\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Hi Tom,\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; I compiled it, but it cannot run. In submit script, line: \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; mpiexec\\_mpt -np 48 ./NEMS.x\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; it immediately stops with message:\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; + mpiexec\\_mpt -np 48 ./NEMS.x\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; MPI: r34i0n6: 0x71400004f638c04: ./NEMS.x: error while loading \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; shared libraries: libesmf.so: cannot open shared object file: \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; No such file or directory\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; MPI: could not run executable \\(case \\#4\\)\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; It is complaining that there is no libesmf.so, but that \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; library exist in his directory:\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; /home/Gerhard.Theurich/ESMF-INSTALLS/520rp2bs03/Intel12/lib/libesmf.so \r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; I'm not familiar with this kind of message.\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Ratko\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NEMS trouble using libesmf.so",
+  "discussion_thread": {
+    "_id": "352570bf",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2012-04-05 18:13:18",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d337b2718463761fc26ed",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/352570bf/",
+  "ticket_num": 24,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-04-05 18:13:18"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Gerhard \\(core team\\) for Raghu Reddy and Ratko Vasic \\(both EMC/UMIG/NEMS at NCEP\\)\r\n\r\nSimplification of NEMS configuration files on Zeus wrt ESMF dependencies.\r\n\r\nSee email traffic for details.\r\n\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NEMS configuration for Zeus",
+  "discussion_thread": {
+    "_id": "69b30441",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2013-04-22 19:53:40",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d337b2718463761fc26f4",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/69b30441/",
+  "ticket_num": 25,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2013-04-22 19:53:40"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Gerhard \\(core team\\) for Patrick Tripp and Raghu Reddy \\(both EMC/UMIG/NEMS at NCEP\\)\r\n\r\nI installed the latest ESMF snapshot tag \\(620bs21\\) on Zeus with an associated module file I would like to share with the NEMS team. Using this ESMF installation I tested the current NEMS development HEAD version with NUOPC turned on, and find that some API changes need to be made to NEMS. I have a working NEMS version in my sandbox ready to commit, and need to coordinate that with UMIG.\r\n\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NEMS update to latest NUOPC API (v6.2.0)",
+  "discussion_thread": {
+    "_id": "ea9768fc",
+    "posts": [],
+    "discussion_id": "519d33562718463761fc2462",
+    "subject": ""
+  },
+  "mod_date": "2013-04-23 16:12:45",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d337b2718463761fc26fb",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/application-issues/_discuss/thread/ea9768fc/",
+  "ticket_num": 26,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2013-04-23 16:12:45"
+}],
+"tracker_config":{
+  "_id": "519d33562718463761fc2460",
+  "options": {
+    "ordinal": 15,
+    "import_id": "tracker/1037999",
+    "mount_point": "application-issues",
+    "TicketMonitoringType": "AllTicketChanges",
+    "TicketHelpNew": "",
+    "EnableVoting": false,
+    "TicketHelpSearch": "",
+    "TicketMonitoringEmail": "esmf_support@list.woc.noaa.gov",
+    "mount_label": "Application Issues"
+  }
+},
+"milestones":[],
+"custom_fields":[
+  {
+    "milestones": [],
+    "type": "milestone",
+    "name": "_milestone",
+    "label": "Group"
+  },
+  {
+    "type": "select",
+    "label": "Priority",
+    "show_in_search": true,
+    "options": "1 2 3 4 *5 6 7 8 9",
+    "name": "_priority"
+  }
+],
+"open_status_names":"open unread accepted pending",
+"closed_status_names":"closed wont-fix",
+"saved_bins":[
+  {
+    "sort": "",
+    "_id": "5230e5dca02bb1586bd6dc47",
+    "terms": "*:*",
+    "summary": "All"
+  }
+]}

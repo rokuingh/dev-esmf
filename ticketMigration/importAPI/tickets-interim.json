@@ -7565,7 +7565,7 @@
   },
   "created_date": "2013-04-01 16:00:50"
 },{
-  "status": "Open",
+  "status": "Closed",
   "reported_by_id": "4d9cded00594ca3edf000b09",
   "related_artifacts": [],
   "attachments": [],
@@ -7628,12 +7628,28 @@
         "timestamp": "2013-09-18 22:09:00.132000",
         "slug": "08a7",
         "subject": "#69 Edge issue in Regridding Daymet Joined Tiles in NCL 6.1.0 "
+      },
+      {
+        "text": "- **status**: Open --> Closed\n",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-11-15 17:10:36.504000",
+        "slug": "d88c",
+        "subject": "#69 Edge issue in Regridding Daymet Joined Tiles in NCL 6.1.0 "
+      },
+      {
+        "text": "User reports issue is fixed. ",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-11-15 17:10:37.694000",
+        "slug": "bfad",
+        "subject": "#69 Edge issue in Regridding Daymet Joined Tiles in NCL 6.1.0 "
       }
     ],
     "discussion_id": "523a21193e5e833c358845a0",
     "subject": ""
   },
-  "mod_date": "2013-09-18 22:08:59.909000",
+  "mod_date": "2013-11-15 17:10:37.785000",
   "votes_down": 0,
   "votes_up": 0,
   "_id": "519d2ffe2718463761fbddb7",
@@ -10652,7 +10668,7 @@
   "related_artifacts": [],
   "attachments": [],
   "reported_by": "svasquez",
-  "description": "WHO: Mike Hobson, UK MetOffice\r\n\r\nHi,\r\n \r\nWhen I try to compile ESMF v6.2.0 on our IBM Power7 machine using IBM's own xlf compiler, I get an error. This was using xlf v14.1.0.1 - although it also fails on every other version of xlf I tested it on. I think the error is a problem with IBM's compiler (as I think the ESMF code is valid standard Fortran), but I thought I'd check it with the ESMF team too.\r\n \r\nWhen trying to build esmf/src/Infrastructure/FieldBundle/src/ESMF_FieldBundle.F90. The problem occurs on lines 2067 and 4929. These are similar lines that look like:\r\n \r\n    character(len=len (file)+len (cnum)) :: filename\r\n \r\nWhere file is an assumed size character variable and cnum is defined in the previous line to be of size 3.\r\n \r\nIn my view, this is a perfectly valid line of code, but xlf gives the error message: \"Expression or initial value must be evaluated at compile time.\" If I replace the \"len (cnum)\" with just the number \"3\" (which is clearly equivalent in this case), the code compiles successfully.\r\n \r\nAs I said, I think this is an IBM problem and I am raising it with them, but I thought you should know, also.\r\n \r\n \r\nMike Hobson  Scientific Software Engineer\r\nMet Office Hadley Centre FitzRoy Road Exeter Devon EX1 3PB United Kingdom\r\nTel: +44 (0) 1392 884847\r\nE-mail: mike.hobson@metoffice.gov.uk Website: http://www.metoffice.gov.uk\r\n ",
+  "description": "WHO: Mike Hobson, UK MetOffice\r\n\r\nHi,\r\n \r\nWhen I try to compile ESMF v6.2.0 on our IBM Power7 machine using IBM's own xlf compiler, I get an error. This was using xlf v14.1.0.1 - although it also fails on every other version of xlf I tested it on. I think the error is a problem with IBM's compiler (as I think the ESMF code is valid standard Fortran), but I thought I'd check it with the ESMF team too.\r\n \r\nWhen trying to build esmf/src/Infrastructure/FieldBundle/src/ESMF_FieldBundle.F90. The problem occurs on lines 2067 and 4929. These are similar lines that look like:\r\n \r\n    character(len=len (file)+len (cnum)) :: filename\r\n \r\nWhere file is an assumed size character variable and cnum is defined in the previous line to be of size 3.\r\n \r\nIn my view, this is a perfectly valid line of code, but xlf gives the error message: \"Expression or initial value must be evaluated at compile time.\" If I replace the \"len (cnum)\" with just the number \"3\" (which is clearly equivalent in this case), the code compiles successfully.\r\n \r\nAs I said, I think this is an IBM problem and I am raising it with them, but I thought you should know, also.\r\n \r\n \r\nMike Hobson  Scientific Software Engineer\r\n ",
   "labels": [
     "ESMF",
     "NUOPC"
@@ -10759,12 +10775,28 @@
         "timestamp": "2013-10-03 21:01:31.002000",
         "slug": "ebc3",
         "subject": "#100 Problem building ESMF on an IBM machine using the xlf compiler"
+      },
+      {
+        "text": "- Description has changed:\n\nDiff:\n\n~~~~\n\n--- old\n+++ new\n@@ -16,7 +16,4 @@\n  \n  \n Mike Hobson  Scientific Software Engineer\n-Met Office Hadley Centre FitzRoy Road Exeter Devon EX1 3PB United Kingdom\n-Tel: +44 (0) 1392 884847\n-E-mail: mike.hobson@metoffice.gov.uk Website: http://www.metoffice.gov.uk\n  \n\n~~~~\n\n",
+        "attachments": [],
+        "author": "w6ws",
+        "timestamp": "2013-12-02 14:25:47.532000",
+        "slug": "5fd2",
+        "subject": "#100 Problem building ESMF on an IBM machine using the xlf compiler"
+      },
+      {
+        "text": "Edit out email details for privacy.",
+        "attachments": [],
+        "author": "w6ws",
+        "timestamp": "2013-12-02 14:25:48.573000",
+        "slug": "160c",
+        "subject": "#100 Problem building ESMF on an IBM machine using the xlf compiler"
       }
     ],
     "discussion_id": "523a21193e5e833c358845a0",
     "subject": ""
   },
-  "mod_date": "2013-10-03 21:01:31.184000",
+  "mod_date": "2013-12-02 14:25:48.806000",
   "votes_down": 0,
   "votes_up": 0,
   "_id": "5229f3c9c4314341b1af263a",
@@ -12491,7 +12523,7 @@
   "reported_by": "theurich",
   "description": "",
   "labels": [],
-  "assigned_to": "nobody",
+  "assigned_to": null,
   "assigned_to_id": null,
   "private": false,
   "summary": "none",
@@ -13628,8 +13660,8 @@
   "labels": [
     "ESMF"
   ],
-  "assigned_to": "oehmke",
-  "assigned_to_id": "5047c467b9363c23f32bff2b",
+  "assigned_to": "w6ws",
+  "assigned_to_id": "4fec89a80594ca1fde000006",
   "private": false,
   "summary": "Error of ESMF 6.2 on Linux PC.",
   "discussion_thread": {
@@ -13658,12 +13690,20 @@
         "timestamp": "2013-11-08 15:59:17.496000",
         "slug": "6a72",
         "subject": "#136 Error of ESMF 6.2 on Linux PC."
+      },
+      {
+        "text": "- **assigned_to**: oehmke --> Walter Spector\n",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2013-11-21 17:23:34.576000",
+        "slug": "4f9b",
+        "subject": "#136 Error of ESMF 6.2 on Linux PC."
       }
     ],
     "discussion_id": "523a21193e5e833c358845a0",
     "subject": ""
   },
-  "mod_date": "2013-11-08 15:59:18.216000",
+  "mod_date": "2013-11-21 17:23:36.834000",
   "votes_down": 0,
   "votes_up": 0,
   "_id": "525c0962b9363c4e7e2316ec",
@@ -13871,7 +13911,7 @@
   },
   "created_date": "2013-10-23 19:21:36.204000"
 },{
-  "status": "Pending",
+  "status": "Closed",
   "reported_by_id": "4d9cded00594ca3edf000b09",
   "related_artifacts": [],
   "attachments": [],
@@ -13918,12 +13958,28 @@
         "timestamp": "2013-11-14 17:34:58.993000",
         "slug": "7bda",
         "subject": "#140 ESMF 6.1.1 and turn off logging"
+      },
+      {
+        "text": "- **status**: Pending --> Closed\n",
+        "attachments": [],
+        "author": "w6ws",
+        "timestamp": "2013-12-02 16:31:22.438000",
+        "slug": "b142",
+        "subject": "#140 ESMF 6.1.1 and turn off logging"
+      },
+      {
+        "text": "George tested the snapshot and is happy with the fix.  Closing.",
+        "attachments": [],
+        "author": "w6ws",
+        "timestamp": "2013-12-02 16:31:23.527000",
+        "slug": "5d25",
+        "subject": "#140 ESMF 6.1.1 and turn off logging"
       }
     ],
     "discussion_id": "523a21193e5e833c358845a0",
     "subject": ""
   },
-  "mod_date": "2013-11-14 17:34:59.257000",
+  "mod_date": "2013-12-02 16:31:23.882000",
   "votes_down": 0,
   "votes_up": 0,
   "_id": "526e9cd27929e5476cf911a6",
@@ -14302,7 +14358,7 @@
   },
   "created_date": "2013-11-08 17:57:37.202000"
 },{
-  "status": "No-First-Contact",
+  "status": "Closed",
   "reported_by_id": "4d9cded00594ca3edf000b09",
   "related_artifacts": [],
   "attachments": [],
@@ -14317,11 +14373,36 @@
   "summary": "Regridding issue...",
   "discussion_thread": {
     "_id": "68650442",
-    "posts": [],
+    "posts": [
+      {
+        "text": "- **status**: No-First-Contact --> Open\n",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-11-14 19:38:36.360000",
+        "slug": "25e5",
+        "subject": "#147 Regridding issue..."
+      },
+      {
+        "text": "- **status**: Open --> Closed\n",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-12-03 18:35:07.997000",
+        "slug": "be13",
+        "subject": "#147 Regridding issue..."
+      },
+      {
+        "text": "After suggestion about adding source regional flag, the user now reports that it works fine. ",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-12-03 18:35:09.157000",
+        "slug": "feeb",
+        "subject": "#147 Regridding issue..."
+      }
+    ],
     "discussion_id": "523a21193e5e833c358845a0",
     "subject": ""
   },
-  "mod_date": "2013-11-13 23:20:03.175000",
+  "mod_date": "2013-12-03 18:35:09.374000",
   "votes_down": 0,
   "votes_up": 0,
   "_id": "528409220594ca353fb5f252",
@@ -14341,6 +14422,183 @@
     "_old_ticket_number": null
   },
   "created_date": "2013-11-13 23:20:02.140000"
+},{
+  "status": "Closed",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Hartmut Kapitza Institut fuer Kuestenforschung \r\n\r\nDear Support Team Members,\r\n\r\nI stumbled over a bug in the Reference Manual Chapter 38.4.4. The return type of the function should be \"ESMF_TimeInterval\" and not \"ESMF_Time\". The descriptive text is correct, though.\r\n\r\nSincerely\r\nHartmut Kapitza\r\n-- \r\n----------------------------------------------------------------\r\nDr. Hartmut Kapitza              Tel.: +49 (0)4152 87-1846\r\nInstitut fuer Kuestenforschung   Fax.: +49 (0)4152 87-2818\r\nE-mail: hartmut.kapitza@hzg.de\r\n----------------------------------------------------------------",
+  "labels": [],
+  "assigned_to": "svasquez",
+  "assigned_to_id": "4d9cded00594ca3edf000b09",
+  "private": false,
+  "summary": "Bug in Reference Manual for Fortran Version 5.2.0rp3",
+  "discussion_thread": {
+    "_id": "6eb53a16",
+    "posts": [
+      {
+        "text": "- **status**: No-First-Contact --> Closed\n",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2013-11-19 17:43:11.500000",
+        "slug": "bc0d",
+        "subject": "#149 Bug in Reference Manual for Fortran Version 5.2.0rp3"
+      },
+      {
+        "text": "The current version of the Reference Manual has the correct return type.",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2013-11-19 17:43:12.101000",
+        "slug": "df8a",
+        "subject": "#149 Bug in Reference Manual for Fortran Version 5.2.0rp3"
+      }
+    ],
+    "discussion_id": "523a21193e5e833c358845a0",
+    "subject": ""
+  },
+  "mod_date": "2013-11-19 17:43:12.194000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "528b8c7581b24b520530334e",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/tickets-interim/_discuss/thread/6eb53a16/",
+  "ticket_num": 149,
+  "custom_fields": {
+    "_area": "Not Defined",
+    "_estimated_weeks_to_completion": null,
+    "_original_closer": "",
+    "_who": "Hartmut Kapitza Institut fuer Kuestenforschung ",
+    "_original_close_date": "",
+    "_original_creation_date": "",
+    "_category": "Help",
+    "_priority": "Desirable",
+    "_original_creator": "svasquez",
+    "_origin": "External",
+    "_old_ticket_number": null
+  },
+  "created_date": "2013-11-19 16:06:13.560000"
+},{
+  "status": "Open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Michael Long Harvard School of Engineering and Applied Sciences\r\n\r\nDear support,\r\n\r\nDeep inside my code, far from the reasonable ability to start anew and build in halos, some haloing is being done with simple MPI.\r\nIs it possible to query the ESMF DE grid to establish the North/South/East/West PET indeces for this process?\r\ne.g. Determine to which PET's northernmost region the local PET will send its southernmost data?\r\n\r\nThanks in advance,\r\nMichael Long\r\n\r\n-- \r\n.............................\r\nPost-Doctoral Research Associate\r\nAtmospheric Chemistry Modeling Group\r\nSchool of Engineering and Applied Sciences\r\nHarvard University\r\n\r\nWeb   : http://people.seas.harvard.edu/~mlong/\r\nEmail : mlong@seas.harvard.edu\r\n       mslong@virginia.edu\r\nPhone : 617-496-9395\r\nOffice: 100B Pierce Hall\r\n-----------------------------",
+  "labels": [
+    "ESMF"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "PET index for neighboring DE's",
+  "discussion_thread": {
+    "_id": "f38f4fcd",
+    "posts": [
+      {
+        "text": "- **assigned_to**: Peggy Li --> Gerhard Theurich\n",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2013-11-21 17:49:43.901000",
+        "slug": "c308",
+        "subject": "#150 PET index for neighboring DE's"
+      },
+      {
+        "text": "- **status**: No-First-Contact --> Open\n",
+        "attachments": [],
+        "author": "oehmke",
+        "timestamp": "2013-11-26 00:06:21.900000",
+        "slug": "0a65",
+        "subject": "#150 PET index for neighboring DE's"
+      }
+    ],
+    "discussion_id": "523a21193e5e833c358845a0",
+    "subject": ""
+  },
+  "mod_date": "2013-11-26 00:06:23.208000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "528e456dbcf63a7552673e18",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/tickets-interim/_discuss/thread/f38f4fcd/",
+  "ticket_num": 150,
+  "custom_fields": {
+    "_area": "Not Defined",
+    "_estimated_weeks_to_completion": null,
+    "_original_closer": "",
+    "_who": "Michael Long Harvard School of Engineering and Applied Sciences",
+    "_original_close_date": "",
+    "_original_creation_date": "",
+    "_category": "Help",
+    "_priority": "Desirable",
+    "_original_creator": "svasquez",
+    "_origin": "External",
+    "_old_ticket_number": null
+  },
+  "created_date": "2013-11-21 17:39:57.309000"
+},{
+  "status": "Open",
+  "reported_by_id": "4d9cded00594ca3edf000b09",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "svasquez",
+  "description": "WHO: Ying Sun The University of Texas at Austin\r\n\r\nHi,\r\n\r\nI'm running single-point CLM on Texas Advanced Computer Center (TACC), which uses ESMF for regridding. I built and installed ESMF on TACC, and no errors were reported during this process. However, when I started running CLM, error pops out and the log file PET0.RegridWeightGen.Log looks like the following:\r\n\r\n20131121 161119.736 INFO     PET0 Running with ESMF Version 5.2.0rp3\r\n20131121 161218.573 ERROR    PET0 ESMCI_GridUtil_F.C:236 c_esmc_gridtomesh() Internal error: Unknown error std::bad_alloc\r\n20131121 161218.573 ERROR    PET0 ESMF_GridUtil.F90:389 ESMF_GridToMesh() Internal error: Unknown error - Internal subroutine call returned Error\r\n20131121 161218.573 ERROR    PET0 ESMF_FieldRegrid.F90:660 ESMF_FieldRegridStoreNX Internal error: Unknown error - Internal subroutine call returned Error\r\n\r\nCould any one give me a clue what's going on and how to track this internal error? Many thanks!\r\n\r\nBest,\r\nYing\r\n\r\n\r\n-- \r\nYing Sun\r\nThe University of Texas at Austin\r\nGeol Science Dept\r\n1 University Station C1100\r\nAustin, TX 78712-0254\r\n",
+  "labels": [
+    "ESMF"
+  ],
+  "assigned_to": "peggyli",
+  "assigned_to_id": "5048c2deb9363c1e4f0e247b",
+  "private": false,
+  "summary": "ESMF running error",
+  "discussion_thread": {
+    "_id": "b4ec79dc",
+    "posts": [
+      {
+        "text": "- **assigned_to**: Silverio Vasquez --> Peggy Li\n",
+        "attachments": [],
+        "author": "svasquez",
+        "timestamp": "2013-11-21 23:21:36.394000",
+        "slug": "a1cd",
+        "subject": "#151 ESMF running error"
+      },
+      {
+        "text": "- **status**: No-First-Contact --> Open\n",
+        "attachments": [],
+        "author": "peggyli",
+        "timestamp": "2013-11-26 00:14:17.869000",
+        "slug": "614e",
+        "subject": "#151 ESMF running error"
+      },
+      {
+        "text": "The user was running on a single processor machine with a 3minx3min grid of 25 million grid points.  He ran out of memory and got the bad_alloc error.  He found a computer with 1TB memory and was able to run and generate the weight files he needed.  He then tried to run the ESMF_RegridWeightGen using the 1KM land-only grid file in UGRID.  He was using 5.2.0rp3 and it did not support UGRID or NetCDF4.  He is in the process of compiling 6.2.0 with the correct NetCDF library. (updated 11/25\r\n/2013)",
+        "attachments": [],
+        "author": "peggyli",
+        "timestamp": "2013-11-26 00:14:19.709000",
+        "slug": "254f",
+        "subject": "#151 ESMF running error"
+      }
+    ],
+    "discussion_id": "523a21193e5e833c358845a0",
+    "subject": ""
+  },
+  "mod_date": "2013-11-26 00:14:20.481000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "528e954781b24b43c9ca04e8",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/tickets-interim/_discuss/thread/b4ec79dc/",
+  "ticket_num": 151,
+  "custom_fields": {
+    "_area": "Not Defined",
+    "_estimated_weeks_to_completion": null,
+    "_original_closer": "",
+    "_who": "Ying Sun The University of Texas at Austin",
+    "_original_close_date": "",
+    "_original_creation_date": "",
+    "_category": "Help",
+    "_priority": "Desirable",
+    "_original_creator": "svasquez",
+    "_origin": "External",
+    "_old_ticket_number": null
+  },
+  "created_date": "2013-11-21 23:20:39.586000"
 }],
 "tracker_config":{
   "_id": "523a21193e5e833c3588459e",

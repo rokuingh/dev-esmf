@@ -155,7 +155,7 @@ def record_old_ticket_number(json):
                 if tixnum < 20000:
                     tixnumlist.append(tixnum)
             if tixnumlist:
-                oldtixnums = "old ticket number: "
+                oldtixnums = "Interim ticket number: "
                 for num in tixnumlist:
                     oldtixnums += str(num) + ", "
                 oldtixnums = oldtixnums.rstrip(', ')
@@ -169,6 +169,7 @@ def record_old_ticket_number(json):
             json_mod += line
             buff = ""
             runbuff = False
+            tixnumlist[:] = []
         elif runbuff:
             buff += line
         else:

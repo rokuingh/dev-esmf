@@ -1,0 +1,547 @@
+{"tickets": [{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO: POA&M\r\n\r\nDevelop and prototype within an application a strategy for implicit coupling.",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "LONG: Prototype implicit coupling strategy (4)",
+  "discussion_thread": {
+    "_id": "444666f4",
+    "posts": [
+      {
+        "text": "Extend the current explicit ATM-OCN prototype to handle implicitly coupled scenarios. This also must consider the use of an exchange grid on the interface layer.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-04 22:18:58",
+        "slug": "15a5",
+        "subject": "#1 LONG: Prototype implicit coupling strategy (4)"
+      },
+      {
+        "text": "- **assigned_to**: nobody --> theurich\n- **summary**: Prototype implicit coupling strategy --> LONG: Prototype implicit coupling strategy (4)",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-04 22:18:58",
+        "slug": "8c58",
+        "subject": "#1 LONG: Prototype implicit coupling strategy (4)"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-10-04 22:18:58",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25202718463761fabc74",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/444666f4/",
+  "ticket_num": 1,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 15:57:30"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO:  POA&M\r\n\r\nPrototype coupling strategy for nested grids in the context of the atmosphere-ocean activity.",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Prototype coupling strategy for nested grids",
+  "discussion_thread": {
+    "_id": "4f86fe1c",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-06-07 16:01:11",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25212718463761fabc85",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/4f86fe1c/",
+  "ticket_num": 2,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:01:11"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO:  Proposed by the CMA\r\n\r\nThis task would assess how the NUOPC Layer applies to the single column model activity.",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Assess application of NUOPC Layer to single column model",
+  "discussion_thread": {
+    "_id": "d0751519",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-06-07 16:03:23",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25222718463761fabc8c",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/d0751519/",
+  "ticket_num": 3,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:03:23"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO:  NUOPC CMA document\r\n\r\nThis refers to the output of the model description and other model metadata as outlined in the CMA report and metadata document. ",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Support output of model description from NUOPC Layer",
+  "discussion_thread": {
+    "_id": "6d7d1ff4",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-06-07 16:05:31",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25222718463761fabc93",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/6d7d1ff4/",
+  "ticket_num": 4,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:05:31"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO: CMA report\r\n\r\nImplement a means for sharing constants across applications.",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Implement a shared constants capability",
+  "discussion_thread": {
+    "_id": "c67b43c4",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-06-07 16:08:08",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25232718463761fabc9a",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/c67b43c4/",
+  "ticket_num": 5,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:08:08"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO:  CSC committee conclusion\r\n\r\nDefine a set of known coupling fields that the NUOPC community will use.",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Implement a field library",
+  "discussion_thread": {
+    "_id": "ec3a294e",
+    "posts": [
+      {
+        "text": "- **assigned_to**: nobody --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-13 18:10:42",
+        "slug": "8a09",
+        "subject": "#6 Implement a field library"
+      },
+      {
+        "text": "The NUOPC Field Dictionary was further discussed during the CSC call on 09/20/11:\r\n\r\n1\\) There was agreement that the NUOPC Field Dictionary should be based 100% on the CF definitions published by CF as XML file.\r\n\r\n2\\) We did not reach agreement as to how the information contained in the CF XML file will enter and become available in form of the NUOPC Field Dictionary. Options are:\r\na\\) XML processing into a standard piece of Fortran code that becomes part of the standard ESMF/NUOPC source distribution.\r\nb\\) Processing of the XML file into Fortran code during ESMF build time, allowing the XML to be swapped, not strictly connecting an ESMF/NUOPC release with a fixed version of the CF conventions.\r\nc\\) Reading the XML file during startup of an ESMF/NUOPC application, allowing CF conventions to be swapped without rebuilding ESMF.\r\n\r\n3\\) There was agreement that the NUOPC table will thus specify canonical units for each entry, just like CF.\r\n\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-23 22:02:25",
+        "slug": "7708",
+        "subject": "#6 Implement a field library"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-09-13 18:10:42",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25232718463761fabca1",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/ec3a294e/",
+  "ticket_num": 6,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:10:30"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO: CSC committee conclusion\r\n\r\nImplement a capability for converting units, possibly using udunits from Unidata.",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Implement unit conversions",
+  "discussion_thread": {
+    "_id": "13af3a00",
+    "posts": [
+      {
+        "text": "We discussed unit conversion issues during CSC call on 09/02/2011:\r\n\r\n1\\) There was agreement to check into the C-API of UDUNITS-2 from UNIDATA.\r\n\r\n2\\) We need to evaluate the dependency issues of bringing in such a 3rd part library to do the conversion for us.\r\n\r\n3\\) We need to also further understand if  UDUNITS-2 really does what we need, i.e. you can specify two units of the same physical dimension, and there is a call that will give you the conversion factor \\(and maybe offset\\). \r\n\r\n4\\) If the above can be figured out the it would be nice to use such a capability during FieldAdvertise\\(\\) to make sure the specified Units are indeed consistent with the canonical units for the same quantity in the NUOPC Field Dictionary. Further the conversion factor \\(offset\\) should be utilized by the generic NUOPC\\_Connector component.\r\n\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-23 22:07:19",
+        "slug": "18ca",
+        "subject": "#7 Implement unit conversions"
+      },
+      {
+        "text": "- **assigned_to**: nobody --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-23 22:07:19",
+        "slug": "c0c6",
+        "subject": "#7 Implement unit conversions"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-09-23 22:07:19",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25242718463761fabcb2",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/13af3a00/",
+  "ticket_num": 7,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:14:03"
+},{
+  "status": "open",
+  "reported_by_id": "4f568833b9363c6a5a000769",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "cdeluca",
+  "description": "WHO: Proposed CMA activity\r\n\r\nExplore how the current NUOPC Layer will interact and may be leveraged by ensembles.",
+  "labels": [],
+  "assigned_to": null,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Assess interaction of NUOPC Layer with ensemble capability",
+  "discussion_thread": {
+    "_id": "74252869",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-06-07 16:20:50",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25252718463761fabcc3",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/74252869/",
+  "ticket_num": 8,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-07 16:20:50"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "Currently the explicit coupling ATM-OCN prototype does not support concurrent execution of the model components. In principle the prototype should be able to handle this case, just that the petLists must be set somewhere during specialization \\(not a big deal\\). However, extending the prototype this direction could potentially push current limitations of StateReconcile\\(\\) \\(wrt re-reconciling\\) and AttributeUpdate\\(\\).\r\n\r\nAn example ATM-OCN code would be added that demonstrates the concurrent case.\r\n\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "LONG: Concurrent (petList'ed) Components in NUOPC proto (2)",
+  "discussion_thread": {
+    "_id": "e02f8e22",
+    "posts": [
+      {
+        "text": "Implemented a work-around in ESMF\\_StateReconcile\\(\\) that allows re-reconciling of States. Also implemented a very simplistic attribute update method in NUOPC that deals with updating the NUOPC timestamp attribute on a FIeld across all pets \\(simple broadcast from rootPet\\). With those work-arounds in place the NUOPC\\_DriverExplicit was extended to define petLists for the model components. \r\n\r\nOne critical piece is still missing: right now the connector components the driver creates are created without petList argument. This works for all cases because that way the connector always covers at least the union of its two models it connects. However, in more complex cases the connector should be on the exact union of its two models. This still needs to be implemented. I would think it should be the default, unless the user provides a specific petList for a connector.\r\n\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-02-14 18:45:06",
+        "slug": "e721",
+        "subject": "#9 LONG: Concurrent (petList'ed) Components in NUOPC proto (2)"
+      },
+      {
+        "text": "This task was completed for ESMF 5.3.0.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-17 23:03:53",
+        "slug": "978a",
+        "subject": "#9 LONG: Concurrent (petList'ed) Components in NUOPC proto (2)"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-17 23:03:53",
+        "slug": "470d",
+        "subject": "#9 LONG: Concurrent (petList'ed) Components in NUOPC proto (2)"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2012-10-17 23:03:53",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25252718463761fabcca",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/e02f8e22/",
+  "ticket_num": 9,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-10-04 21:51:34"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "Currently the NUOPC\\_Connector prototype assumes that each Component holds on to its own memory allocation for each Field in the import and export State. This is not always the most desirable case. With ESMF 5.2.0r Field creation can be done in a multi-step process, allowing the memory allocation to be delayed, and potentially shared between Components. Need to prototype required metadata that would be used to control sharing of data allocations, and implement the feature in the generic NUOPC\\_Connector code.\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "LONG: Connector to support sharing of Fields (2)",
+  "discussion_thread": {
+    "_id": "24a0370f",
+    "posts": [],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-10-04 22:24:16",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25272718463761fabce0",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/24a0370f/",
+  "ticket_num": 10,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-10-04 22:24:16"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: POA&M milestone\r\n\r\nThe NUOPC implementation of NEMS currently drives the ATM alone. There are several steps needed to finish demonstration of coupling with a dummy OCN component:\r\na\\) First need to merge in latest NEMS trunk changes into NUOPC branch \\(b/c regression testing has changed again on trunk\\!\\).\r\nb\\) Verify new regression test results \\(changed b/c of TRUNK changes\\).\r\nc\\) Verify that difference in regression test results with 520r is due to Field order in FieldBundle \\(b/c of ESMF 520r\\) -&gt; new regression test results.\r\nd\\) Support ATM \\(GFS\\) to run multiple intervals - this needs help from NEMS person familiar with GFS.\r\ne\\) Introduce a dummy OCN component and connect with ATM for a few Fields and drive for a few ATM-OCN coupling steps in explicit mode.\r\n\\*gjt\\*\r\n",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "LONG: Introduce a dummy OCN into NEMS/NUOPC prototype (3)",
+  "discussion_thread": {
+    "_id": "c7567d2f",
+    "posts": [
+      {
+        "text": "- **assigned_to**: nobody --> theurich",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-04 22:32:09",
+        "slug": "57ff",
+        "subject": "#11 LONG: Introduce a dummy OCN into NEMS/NUOPC prototype (3)"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2011-10-04 22:32:09",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25272718463761fabce7",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/c7567d2f/",
+  "ticket_num": 11,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-10-04 22:31:50"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nHi Gerhard,\r\n\r\nI notice that the NUOPC\\_Connector does not set the Connected attribute until initialize phase 1.  This means that model components realize their import & export fields prior to knowing the connection status.  What are your reasons for this design?\r\n\r\nIt seems to me that the Connector component should be setting the Connected attribute during initialize phase 0.  The model components can then use the connected status to determine which export fields to realize during initialize phase 1.  Also, ModelExplicit can check that all import fields are connected during initialize phase 1 report error if this is not so.  The Connector initialize phase 1 can perform further compatibility checks based on the realized fields and \\(as it already does\\) setup the routeHandle.\r\n\r\nWhat do you think about this?  If you are amenable to the above approach, then I can implement the changes and send you a patch.\r\n\r\nCheers,\r\nTim",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "When Connector sets Connected attribute",
+  "discussion_thread": {
+    "_id": "b8cf48ac",
+    "posts": [
+      {
+        "text": "On the CSC call 10/25/12 we decided that the long term solution may be a meta data based approach to the initialization steps. But for now, in order to allow COAMPS prototyping to move forward, we decided to quickly add an extra handshake phase into the initialization \"loop\".\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-26 15:39:29",
+        "slug": "1788",
+        "subject": "#12 When Connector sets Connected attribute"
+      },
+      {
+        "text": "- **labels**: 2253255 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-26 15:39:29",
+        "slug": "9d78",
+        "subject": "#12 When Connector sets Connected attribute"
+      },
+      {
+        "text": "Tim has moved to using IPDv01 in his COAMPS/NUOPC prototype. IPDv01 supports one additional initialize handshake, and the connected status is known before Fields must be realized. All seems to work as expected.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:36:51",
+        "slug": "515d",
+        "subject": "#12 When Connector sets Connected attribute"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:36:52",
+        "slug": "200f",
+        "subject": "#12 When Connector sets Connected attribute"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2012-11-05 22:36:52",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25282718463761fabcf3",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/b8cf48ac/",
+  "ticket_num": 12,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-02-13 23:42:48"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nHello Gerhard,\r\n\r\nI think it is important that we add a NUOPC\\_FieldDictionaryGetEntry =\r\nmethod.  This method will return the properties \\(canonicalUnits, =\r\nlongName, shortName\\) for a given standardName input.\r\n\r\nI want to use this method to get the shortName that can then be used in =\r\nthe ESMF\\_FieldCreate calls in phase 1 of the model initialize.  This =\r\nwill remove the need to have the field name explicitly coded in the =\r\nmodel.\r\n\r\n-Tim",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": " NUOPC_FieldDictionaryGetEntry",
+  "discussion_thread": {
+    "_id": "6849a4ca",
+    "posts": [
+      {
+        "text": "- **labels**: 2253255 --> ",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-22 23:48:37",
+        "slug": "57ff",
+        "subject": "#13  NUOPC_FieldDictionaryGetEntry"
+      },
+      {
+        "text": "Implemented, and Tim tested it.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-26 15:41:08",
+        "slug": "a018",
+        "subject": "#13  NUOPC_FieldDictionaryGetEntry"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-26 15:41:08",
+        "slug": "73e4",
+        "subject": "#13  NUOPC_FieldDictionaryGetEntry"
+      }
+    ],
+    "discussion_id": "519d25202718463761fabc65",
+    "subject": ""
+  },
+  "mod_date": "2012-10-26 15:41:08",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25292718463761fabd0e",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-feature-requests/_discuss/thread/6849a4ca/",
+  "ticket_num": 13,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-10-22 23:48:13"
+}],
+"tracker_config":{
+  "_id": "519d25202718463761fabc63",
+  "options": {
+    "ordinal": 9,
+    "import_id": "tracker/2189219",
+    "mount_point": "z-nuopc-feature-requests",
+    "TicketMonitoringType": "AllTicketChanges",
+    "TicketHelpNew": "",
+    "EnableVoting": false,
+    "TicketHelpSearch": "",
+    "TicketMonitoringEmail": "esmf-nuopc-support@lists.sourceforge.net",
+    "mount_label": "Z NUOPC Feature Requests"
+  }
+},
+"milestones":[],
+"custom_fields":[
+  {
+    "milestones": [],
+    "type": "milestone",
+    "name": "_milestone",
+    "label": "Group"
+  },
+  {
+    "label": "Priority",
+    "type": "select",
+    "options": "1 2 3 4 *5 6 7 8 9",
+    "name": "_priority"
+  }
+],
+"open_status_names":"open unread accepted pending",
+"closed_status_names":"wont-fix closed-fixed",
+"saved_bins":[
+  {
+    "sort": "",
+    "_id": "5230df2cb9363c0d52cd8857",
+    "terms": "*:*",
+    "summary": "All"
+  }
+]}

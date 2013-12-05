@@ -20,7 +20,10 @@ realized that the upgrade had compromised the ticket system.  This file is
 called esmf_export.xml and a copy of it lives in the data directory where this 
 file is located.
 
-A tickets-interim tracker was created to allow continuing support during the migration process.  This tracker was loaded manually during a ticket meeting with the current open and pending support requests.  It was also used to log all of the incoming bugs and feature requests.
+A tickets-interim tracker was created to allow continuing support during the 
+migration process.  This tracker was loaded manually during a ticket meeting 
+with the current open and pending support requests.  It was also used to log 
+all of the incoming bugs and feature requests.
 
 The original process for ticket migration used a REST API called the tracker 
 API. 
@@ -38,34 +41,78 @@ https://sourceforge.net/p/forge/documentation/Allura%20API/
 The tracker API proved to not be sufficient for ESMF ticket migration, so the
 allura team suggested that we use the new import API.  This new API 
 allows for the modification of some fields that were non-modifiable in the 
-tracker API, such as creation date and owners, and is accessed as a web based tool.  The import API works with .json formatted files, so the current ticket tracker was exported in .json format and the process of modifying it to work with the import API began.
+tracker API, such as creation date and owners, and is accessed as a web based 
+tool.  The import API works with JSON formatted files, so the current ticket 
+tracker was exported in JSON format and the process of modifying it to work 
+with the import API began.
 
-The creation of a .json file that can be used in the import API involved three major tasks:  the compromised tickets from the tracker created with the tracker API needed to be resolved, some fields were modified and deleted to create tickets according to new format, and the tickets existing in the tickets-interim tracker were merged.  The process of creating this file involved many iterations with the allura team to work through bugs in the backend software as well as the Python scripts used to create the file.  A new version of the tracker created with the tracker API had to be exported in .json format at one point, because the export functionality changed.  The two exported archives are in the data directory, they are called esmf-backup-<date>.zip
+The creation of a JSON file that can be used in the import API involved three 
+major tasks:  the compromised tickets from the tracker created with the tracker 
+API needed to be resolved, some fields were modified and deleted to create 
+tickets according to new format, and the tickets existing in the 
+tickets-interim tracker were merged.  The process of creating this file 
+involved many iterations with the allura team to work through bugs in the 
+backend software as well as the Python scripts used to create the file.  
 
-Please see the CODE section for a list of the scripts used in the ticket migration process.  Also please see the DATA section for a list of the data files and a short description of each.  The CURRENT_STATUS section gives an update on where the migration process currently stands.
+New versions of the exported JSON files were generated throughout this process.
+These files exit in folders in the data directory, they are called 
+esmf-backup-<date>.zip
+
+Please see the CODE section for a list of the scripts used in the ticket 
+migration process.  Also please see the DATA section for a list of the data 
+files and a short description of each.  The TRACKERS section gives a 
+summary of the different trackers that exist on the ESMF sourceforge 
+website and what they contain.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CURRENT STATUS:
+TRACKERS:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 
 At this time, there are two ticket trackers on the ESMF SourceForge site which 
 contain all of the ESMF tickets (we think).  One is called tickets and it
 contains everything but the open and pending support requests, which live in a tracker
-called tickets-interim.  There is a set of scripts to modify the exported JSON
-files from both of these trackers and combine them into one comprehensive file.
+called tickets-interim.  
+
+
+- tickets: All old tickets which were loaded using the tracker API from the 
+original xml file that was exported from the esmf tickets tracker after the
+sourceforge system upgrade.  There were about 120 duplicated tickets, and 
+10000 blank tickets at the beginning of the list that were modified with 
+the parseJSON2.py script.  (In addition to other modifications)
+- tickets-interim: All of the open and pending support requests that were
+manually migrated after the sourceforge system upgrade, all active tickets
+live in this tracker.
+- tix: uses tickets-interim.json from 12-05 and tickets.json from 11-14
+- tickets10: uses tickets-interim.json from 11-14 and tickets.json from 11-14
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ALLURA TICKETS:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 A number of bugs in both the export and import functions have been found in
 this process, these are the ones that have been recorded:
 
-https://sourceforge.net/p/allura/tickets/6788/
-https://sourceforge.net/p/allura/tickets/6815/
-https://sourceforge.net/p/allura/tickets/6817/
+https://sourceforge.net/p/allura/tickets/6788/ - import -> export -> import broken for Tracker
+https://sourceforge.net/p/allura/tickets/6815/ - Allura ticket import needs to use assigned_to field
+https://sourceforge.net/p/allura/tickets/6817/ - Import mime-type detection error (closed)
 
-** one bug resolved
-** one bug is with export and does not affect us greatly
-** last one is about authors not being imported, waiting for this to complete the import
+https://sourceforge.net/p/allura/tickets/4503/ - fields only viewable/editable by developers
+
+https://sourceforge.net/p/allura/tickets/6949/ - incomplete export of tickets tracker
+
+These were opened by Gerhard, they exist on the forge project, not allura:
+
+127 - turn off autosubscription to nosy list
+128 - restrict list of possible owners
+131 - customize subject line of emails generated by allura trackers
+136 - not opened by gerhard, but left a comment
+142 - customize tracker fields in body of email sent out (who info)
+143 - closed, variable width of the tracker display
+
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,7 +152,9 @@ esmf-backup-2013-09-18-180150.zip - first export of the esmf tickets tracker, wh
 
 esmf-backup-2013-10-16-193828.zip - export of the tickets-interim tracker
 
-esmf-backup-2013-10-16-193828.zip - export of tickets-interim and tickets trackers
+esmf-backup-2013-11-14-193828.zip - export of tickets-interim and tickets trackers
+
+esmf-backup-2013-12-05-193828.zip - export of admin, application-issues, bugs, feature-requests, operations, support-requests, tickets-interim, tickets, vendor-bugs, wiki, z-nuopc-feature-requests, and z-nuopc-support-requests trackers.  The tickets tracker was not complete, and a bug was filed with sourceforge about this, other trackers may not be complete as well..
 
 esmf-export.xml - exported XML file from the original tickets tracker
 

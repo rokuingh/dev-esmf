@@ -1,0 +1,1403 @@
+{"tickets": [{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James \\(Chaing Chen\\)\r\n\r\nOn 04/15/2011:\r\n\r\nHi Gerhard,\r\n\r\nI am back to do more simple testing of the prototype. Sorry for coming back a week later. I need to resolve other burning issues.\r\n\r\nThe experiment that I am doing is to disable coupling. I would like to see that atm and ocn can run independently. The following is the procedure that I am taking.\r\n\r\n1\\. In esm.F90, commenting out\r\n\r\n\\! SetServices for atm2ocm\r\n\\!    call ESMF\\_CplCompSetServices\\(is%wrap%atm2ocn, cplSS, userRc=localrc, rc=rc\\)\r\n\\!    if \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOG\\_ERRMSG, &\r\n\\!      line=\\_\\_LINE\\_\\_, &\r\n\\!      file=\\_\\_FILE\\_\\_\\)\\) &\r\n\\!      return  \\! bail out\r\n\\!    if \\(ESMF\\_LogFoundError\\(rcToCheck=localrc, msg=ESMF\\_LOG\\_ERRMSG, &\r\n\\!      line=\\_\\_LINE\\_\\_, &\r\n\\!      file=\\_\\_FILE\\_\\_, &\r\n\\!      rcToReturn=rc\\)\\) &\r\n\\!      return  \\! bail out\r\n\r\n\\! SetServices for ocn2atm\r\n\\!    call ESMF\\_CplCompSetServices\\(is%wrap%ocn2atm, cplSS, userRc=localrc, rc=rc\\)\r\n\\!    if \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOG\\_ERRMSG, &\r\n\\!      line=\\_\\_LINE\\_\\_, &\r\n\\!      file=\\_\\_FILE\\_\\_\\)\\) &\r\n\\!      return  \\! bail out\r\n\\!    if \\(ESMF\\_LogFoundError\\(rcToCheck=localrc, msg=ESMF\\_LOG\\_ERRMSG, &\r\n\\!      line=\\_\\_LINE\\_\\_, &\r\n\\!      file=\\_\\_FILE\\_\\_, &\r\n\\!      rcToReturn=rc\\)\\) &\r\n\\!      return  \\! bail out\r\n\r\n2\\. In atm.F90 and ocn.F90, add a 'return' statement in 'subroutine InitializeP1' immediately after the line 'rc = ESMF\\_SUCCESS'.\r\n\r\n3\\. Then, I compile and run. I got the following error message.\r\n\r\n20110415 211146.617856 ERROR    PET1 nuopc.F90:1318 Invalid argument - NUOPC INCOMPATIBILITY DETECTED: Import Fields not all connected\r\n20110415 211146.617906 ERROR    PET1 nuopc.F90:1883 Invalid argument - Phase 2 Initialize for modelComp 1: ATM did not return ESMF\\_SUCCESS\r\n\r\n4\\. Please advice how to avoid the checking of the incompatibility. Can you make the prototype more flexible, such that it can automatically detect that the testing does not require coupling?\r\n\r\nThanks.\r\n\r\nJames\r\n\r\n\\-----Original Message-----\r\nFrom: Gerhard Theurich \\[mailto:theurich@sourcespring.net\\]\r\nSent: Thu 4/7/2011 12:20 PM\r\nTo: Chen, Chaing\r\nSubject: Re: prototype\r\n\r\nJames,\r\nThat is what I expected you would get. It's basically telling you that the\r\nimport fields on both sides are not connected. In order to relax this\r\ncompatibility checking you would go into the ATM and OCN components and\r\noverwrite the Initialize phase 2 method. For this you could simply set the entry\r\npoint to a dummy routine that doesn't do anything but return ESMF\\_SUCCESS. This\r\nway you disable the compatibility checking that otherwise is done by default\r\nwhen using the NUOPC\\_ModelExplicit component.\r\n-Gerhard\r\n\r\nChen, Chaing wrote:\r\n&gt; Gerhard,\r\n&gt;\r\n&gt; I did a quick test by commenting out \"SetServices for atm2ocm\", and\r\n&gt; \"SetServices for ocn2atm\" in esm.F90. My intension is run atm and ocn\r\n&gt; independent to each other. I then do mpirun using 4 processors. The\r\n&gt; following is the message shown in PET file.\r\n&gt;\r\n&gt; Thanks.\r\n&gt;\r\n&gt; James\r\n&gt; =======================\r\n&gt;\r\n&gt; 20110407 184159.849116 INFO     PET1 Running with ESMF Version 5.2.0r\r\n&gt; beta snapshot\r\n&gt; 20110407 184159.854645 ERROR    PET1 nuopc.F90:1318 Invalid argument -\r\n&gt; NUOPC INCOMPATIBILITY DETECTED: Import Fields not all connected\r\n&gt; 20110407 184159.854694 ERROR    PET1 nuopc.F90:1883 Invalid argument -\r\n&gt; Phase 2 Initialize for modelComp 1: ATM did not return ESMF\\_SUCCESS\r\n&gt; 20110407 184159.854712 ERROR    PET1 esmApp.F90:48 Invalid argument -\r\n&gt; Passing error in return code\r\n&gt; 20110407 184324.593735 INFO     PET1 Running with ESMF Version 5.2.0r\r\n&gt; beta snapshot\r\n&gt; 20110407 184324.599390 ERROR    PET1 nuopc.F90:1318 Invalid argument -\r\n&gt; NUOPC INCOMPATIBILITY DETECTED: Import Fields not all connected\r\n&gt; 20110407 184324.599440 ERROR    PET1 nuopc.F90:1883 Invalid argument -\r\n&gt; Phase 2 Initialize for modelComp 1: ATM did not return ESMF\\_SUCCESS\r\n&gt; 20110407 184324.599457 ERROR    PET1 esmApp.F90:48 Invalid argument -\r\n&gt; Passing error in return code\r\n&gt; 20110407 185553.502642 INFO     PET1 Running with ESMF Version 5.2.0r\r\n&gt; beta snapshot\r\n&gt; 20110407 185553.510221 ERROR    PET1 nuopc.F90:1318 Invalid argument -\r\n&gt; NUOPC INCOMPATIBILITY DETECTED: Import Fields not all connected\r\n&gt; 20110407 185553.510270 ERROR    PET1 nuopc.F90:1883 Invalid argument -\r\n&gt; Phase 2 Initialize for modelComp 1: ATM did not return ESMF\\_SUCCESS\r\n&gt; 20110407 185553.510288 ERROR    PET1 esmApp.F90:48 Invalid argument -\r\n&gt; Passing error in return code\r\n&gt;\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "ATM and OCN to run independently",
+  "discussion_thread": {
+    "_id": "359f9633",
+    "posts": [
+      {
+        "text": "On 04/25/2011:\r\n\r\nHi Gerhard,\r\n\r\nGood news. I can use prototype to drive nogaps \\(single model run\\). It is a good milestone to build confidence. My next goal is to use it to drive hycom.\r\n\r\nJames",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-04-29 00:57:36",
+        "slug": "8543",
+        "subject": "#1 ATM and OCN to run independently"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-04-29 00:57:36",
+        "slug": "d419",
+        "subject": "#1 ATM and OCN to run independently"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-04-29 00:57:36",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25052718463761faba7e",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/359f9633/",
+  "ticket_num": 1,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-04-28 23:08:28"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James \\(Chen Chaing\\)\r\n\r\nOn: 04/25/2011\r\n\r\nHi Gerhard,\r\n&lt;snip&gt;\r\nI have a trival suggestion. Can you move the following print statement for the following lines into atm.F90 or ocn.F90? Thanks. The print statement for these lines is not visible in the prototype.\r\n&lt;snip&gt;\r\nJames\r\n\r\n\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Move prints from Generic Components to user code",
+  "discussion_thread": {
+    "_id": "7d5a0f6c",
+    "posts": [
+      {
+        "text": "This is diagnostic output that I think should stay in the NUOPC layer, however, it should be configurable whether it is generated or not. For now made sure that all of the NUOPC layer output goes through ESMF\\_LogWrite as INFO messages.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-11-11 22:47:18",
+        "slug": "8af9",
+        "subject": "#2 Move prints from Generic Components to user code"
+      },
+      {
+        "text": "Implemented \"Verbosity\" Attribute in the Component metadata to control whether NUOPC generic code write INFO messages to the default Log or not.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-30 15:57:09",
+        "slug": "2a78",
+        "subject": "#2 Move prints from Generic Components to user code"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-30 15:57:09",
+        "slug": "64ff",
+        "subject": "#2 Move prints from Generic Components to user code"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-10-30 15:57:09",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25062718463761faba8f",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/7d5a0f6c/",
+  "ticket_num": 2,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-04-29 01:08:33"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James \\(Chen Chaing\\)\r\n\r\nOn: 04/26/2011\r\n\r\nHi Gerhard,\r\n\r\nI encountered an issue. Hoping that you can help. Thanks.\r\n\r\nJames\r\n====================\r\n\r\nIn esmApp.F90 level, I have\r\n\r\nhycomConfig = ESMF\\_ConfigCreate\\(rc=rc\\)\r\nCALL ESMF\\_ConfigLoadFile\\(hycomConfig, HYCOM\\_CONFIG\\_FILE, rc=rc\\)\r\nhycomComp = ESMF\\_GridCompCreate\\(name=\"HYCOM\",  config=hycomConfig, rc=rc\\)\r\n\r\nIn ocn.F90 level, I would like to reference the config file, i.e.,\r\n\r\nCALL ESMF\\_GridCompGet\\(gcomp, config=config,vm=vm, rc=rc\\)\r\nCALL ESMF\\_ConfigGetAttribute\\(config, hycom\\_start\\_dtg, &\r\nlabel=TRIM\\(\"hycom\\_start\\_dtg=\"\\), rc=rc\\)\r\n\r\nIt appears that the config file can not be referenced, i.e.,\r\n\r\n20110426 151522.231345 INFO     PET9 Running with ESMF Version 5.2.0r beta snapshot\r\n20110426 151522.332678 INFO     PET9 HYCOM OCEAN initalize routine called\r\n20110426 151522.334536 ERROR    PET9 ESMF\\_Config.F90:1289ESMF\\_ConfigGetIntI4 Object being used before creation - Bad Object\r\n20110426 151522.334573 ERROR    PET9 HYCOM\\_OceanOnlyComp.F90:351 Object being used before creation - config get start\\_dtg failed\r\n20110426 151522.334601 ERROR    PET9 src/addon/NUOPC/NUOPC\\_DriverExplicit.F90:384 Object being used before creation - Phase 2 Initialize for modelComp 1: ATM did not return ESMF\\_SUCCESS\r\n20110426 151522.334626 ERROR    PET9 HYCOM\\_esmfDriver.F90:63 Object being used before creation - Failed in initialize hycomComp",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "ESMF_Config on Component deriving from Generic Components",
+  "discussion_thread": {
+    "_id": "a9508b49",
+    "posts": [
+      {
+        "text": "Hi Gerhard,\r\n\r\nWhat you said makes perfect sense. It works. Thanks.\r\n\r\nJames\r\n\r\n\r\n\r\n\\-----Original Message-----\r\nFrom: Gerhard Theurich \\[mailto:theurich@sourcespring.net\\]\r\nSent: Tue 4/26/2011 9:56 AM\r\nTo: Chen, Chaing\r\nSubject: Re: prototype-ESMF\\_Config\r\n\r\nHi James,\r\n\r\nI am not sure how you are passing down the hycomComp that you are creating in\r\nesmApp.F90. But that isn't really how it is supposed to be working. The OCN and\r\nthe ATM components are created automatically by the DriverExplicit generic\r\ncomponent, which is what esm.F90 derives from. So instead of modifying\r\nesmApp.F90 you want to modify esm.F90. So in routine SetModelServices\\(\\), right\r\nafter these lines:\r\n\r\n\\! SetServices for OCN\r\ncall ESMF\\_GridCompSetServices\\(is%wrap%ocn, ocnSS, userRc=localrc, rc=rc\\)\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOG\\_ERRMSG, &\r\nline=\\_\\_LINE\\_\\_, &\r\nfile=\\_\\_FILE\\_\\_\\)\\) &\r\nreturn  \\! bail out\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=localrc, msg=ESMF\\_LOG\\_ERRMSG, &\r\nline=\\_\\_LINE\\_\\_, &\r\nfile=\\_\\_FILE\\_\\_, &\r\nrcToReturn=rc\\)\\) &\r\nreturn  \\! bail out\r\n\r\nyou want to add:\r\n\r\nhycomConfig = ESMF\\_ConfigCreate\\(rc=rc\\)\r\nCALL ESMF\\_ConfigLoadFile\\(hycomConfig, HYCOM\\_CONFIG\\_FILE, rc=rc\\)\r\ncall ESMF\\_GridCompSet\\(is%wrap%ocn, name=\"HYCOM\", config=hycomConfig, rc=rc\\)\r\n\r\nThis will further specialize the OCN component to be your HYCOM component. Does\r\nthis make sense to you? Please let me know how this works out for you. Thanks,\r\n\r\n-Gerhard\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-04-29 01:48:24",
+        "slug": "37f6",
+        "subject": "#3 ESMF_Config on Component deriving from Generic Components"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-04-29 01:48:24",
+        "slug": "5a40",
+        "subject": "#3 ESMF_Config on Component deriving from Generic Components"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-04-29 01:48:24",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25072718463761fabaa5",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/a9508b49/",
+  "ticket_num": 3,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-04-29 01:16:25"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James \\(Chen Chaing\\)\r\n\r\nOn: 04/26/2011\r\n\r\nHi Gerhard,\r\n\r\nHYCOM can be driven by prototype now. Thanks for the help so far.\r\n\r\nMy next objective is to deal with coupling. There is an issue.\r\n\r\nI use ESMF\\_FieldBundleSMM for regridding. There are two reasons that I use this approach.\r\n1\\. ESMF\\_FieldBundleRegrid does not really work for me.\r\n2\\. ESMF\\_FieldBundleRegrid does not handle land/sea mismatch.\r\n\r\nFor doing the coupling, can you show me a path that I can use my own method?\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NOGAPS-HYCOM coupling using NUOPC layer prototype",
+  "discussion_thread": {
+    "_id": "a4257d96",
+    "posts": [
+      {
+        "text": "James reports success for using the NUOPC prototype to do the NOGAPS-HYCOM coupling:\r\n\r\nHi Gerhard,\r\n\r\nYes, it works.\r\n\r\nI am able to implement ESMF\\_FieldBundleSMMStore and ESMF\\_FieldBundleSMM in con.F90. Appears working. Moreover, I am able to export and import real model data between nogaps and hycom via SMM. It also appears working. Congratulations\\! I think prototype is a functional tool. Thanks.\r\n\r\nJames\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-05-02 21:11:05",
+        "slug": "3478",
+        "subject": "#4 NOGAPS-HYCOM coupling using NUOPC layer prototype"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-05-02 21:11:05",
+        "slug": "ce0e",
+        "subject": "#4 NOGAPS-HYCOM coupling using NUOPC layer prototype"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-05-02 21:11:05",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25082718463761fabab6",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/a4257d96/",
+  "ticket_num": 4,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-04-29 01:18:55"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nHi Gerhard,\r\n\r\nI am not sure that the system \\(XT5\\) I am using have totalview. I have to check.\r\n\r\nJames\r\n\r\n\\-----Original Message-----\r\nFrom: Gerhard Theurich \\[mailto:theurich@sourcespring.net\\]\r\nSent: Fri 5/20/2011 11:26 AM\r\nTo: Chen, Chaing\r\nSubject: Re: Updated NUOPC prototype with Field Dictionary\r\n\r\nJames,\r\nAre you able to run this under a debugger \\(like totalview\\) and see where it\r\ncomplains? This is really strange behavior.\r\n-Gerhard\r\n\r\nChen, Chaing wrote:\r\n&gt; Hi Gerhard,\r\n&gt;\r\n&gt; There is nothing in the PET\\* files \\(zero sizes\\).\r\n&gt;\r\n&gt; James\r\n&gt;\r\n&gt;\r\n&gt; -----Original Message-----\r\n&gt; From: Gerhard Theurich \\[mailto:theurich@sourcespring.net\\]\r\n&gt; Sent: Fri 5/20/2011 11:15 AM\r\n&gt; To: Chen, Chaing\r\n&gt; Subject: Re: Updated NUOPC prototype with Field Dictionary\r\n&gt;\r\n&gt; Hi James,\r\n&gt; That doesn't look good. Is there anything in the PET\\*.Log files after\r\n&gt; the run?\r\n&gt; -Gerhard\r\n&gt;\r\n&gt; Chen, Chaing wrote:\r\n&gt;  &gt; Hi Gerhard,\r\n&gt;  &gt;\r\n&gt;  &gt; I tried to run the new nuopc \\(\"as-is\"\\) using snapshot\\_09. I encountered\r\n&gt;  &gt; error messages which are attached for your info. Thanks.\r\n&gt;  &gt;\r\n&gt;  &gt; James\r\n&gt;  &gt;\r\n&gt;  &gt;\r\n&gt;  &gt; -----Original Message-----\r\n&gt;  &gt; From: Gerhard Theurich \\[mailto:theurich@sourcespring.net\\]\r\n&gt;  &gt; Sent: Thu 5/19/2011 9:13 AM\r\n&gt;  &gt; To: Chen, Chaing\r\n&gt;  &gt; Cc: Gerhard Theurich\r\n&gt;  &gt; Subject: Updated NUOPC prototype with Field Dictionary\r\n&gt;  &gt;\r\n&gt;  &gt; Hi James,\r\n&gt;  &gt;\r\n&gt;  &gt; Just wanted to touch base with you again and see how things are going.\r\n&gt;  &gt;\r\n&gt;  &gt; Also I want to let you know that I added a start for the NUOPC Field\r\n&gt;  &gt; Dictionary\r\n&gt;  &gt; implementation. Right now it is pretty much identical to what I found\r\n&gt; in the\r\n&gt;  &gt; COAMPS code. A table of the NUOPC Field Dictionary now shows up in the\r\n&gt;  &gt; NUOPC ref\r\n&gt;  &gt; doc. The latest version of this doc in PDF \\(NUOPC Layer Reference \\(v.\r\n&gt;  &gt; 05/18/2011\\)\\) is available at:\r\n&gt;  &gt;\r\n&gt;  &gt; http://www.earthsystemmodeling.org/plans/nuopc.shtml\r\n&gt;  &gt;\r\n&gt;  &gt; The \"Links\" section on the above page have also been updated to point\r\n&gt; to the\r\n&gt;  &gt; latest ESMF snapshot with the updated prototype. The updated examples,\r\n&gt;  &gt; available\r\n&gt;  &gt; through SVN, are now using the Field dictionary to simplify some calls,\r\n&gt;  &gt; and to\r\n&gt;  &gt; check against the controlled vocabulary for the StandardName.\r\n&gt;  &gt;\r\n&gt;  &gt; Please let me know if you have any questions or concerns. Hope to have\r\n&gt;  &gt; some time\r\n&gt;  &gt; talking about the changes during the next CSC call.\r\n&gt;  &gt;\r\n&gt;  &gt; -Gerhard\r\n&gt;  &gt;\r\n&gt;  &gt;\r\n&gt;\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Crashes with ESMF520rbs09 and NUOPC proto on Cray XT5",
+  "discussion_thread": {
+    "_id": "02241ab9",
+    "posts": [
+      {
+        "text": "This turned out to be an issue within ESMF. It was fixed in ESMF520rbs10. James confirms the fix.\r\n\\*gjt\\*\r\n\r\nHi Gerhard,\r\n\r\nI am able to get to the testing. The ss10 works fine. I have a successful run of AtmOcnConProto.\r\n\r\nJames\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-06-09 03:46:36",
+        "slug": "1151",
+        "subject": "#5 Crashes with ESMF520rbs09 and NUOPC proto on Cray XT5"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-06-09 03:46:36",
+        "slug": "0465",
+        "subject": "#5 Crashes with ESMF520rbs09 and NUOPC proto on Cray XT5"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-06-09 03:46:36",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25082718463761fabac7",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/02241ab9/",
+  "ticket_num": 5,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-05-23 15:49:04"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nHi Gerhard,\r\n\r\nI got a new issue. The XT5 that I am running demotes pgi-10.9.0. The new pgi is 11.4.0. I don't have problem to rebuild ESMF. However, I encountered an issue to compile nuopc-ss10. The following is the error message for your reference. Would you please take a look of the issue? Thanks.\r\n\r\nJames\r\n======\r\nftn  -L/scr/chenchai/apps/esmf/pgi/mpi/5.2.0r\\_beta\\_snapshot\\_10/lib/libg/Unicos.pgi.64.mpi.default  -L/opt/pgi/11.4.0                                    /linux86-64/11.4/lib  -o esmApp esmApp.o esm.o atm.o ocn.o con.o -lesmf   -pgcpplibs\r\n/opt/pgi/11.4.0/linux86-64/11.4/lib/libCmpz.a\\(eh\\_util.o\\): In function \\`std::uncaught\\_exception\\(void\\)':\r\neh\\_util.c:\\(.text+0x317\\): undefined reference to \\`\\_\\_zceh\\_uncaught\\_exception'\r\ngmake: \\*\\*\\* \\[esmApp\\] Error 2",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Link problems on Cray XT5 w/ PGI 11.4.0",
+  "discussion_thread": {
+    "_id": "aba12932",
+    "posts": [
+      {
+        "text": "James reports that this is not an issue anymore.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:43:27",
+        "slug": "1c93",
+        "subject": "#6 Link problems on Cray XT5 w/ PGI 11.4.0"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:43:27",
+        "slug": "02a7",
+        "subject": "#6 Link problems on Cray XT5 w/ PGI 11.4.0"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-11-05 22:43:27",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25092718463761fabad8",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/aba12932/",
+  "ticket_num": 6,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-06-08 23:19:20"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nGerhard,\r\n\r\nI am coming back to retest the ss10 nuopc prototype. I have some thought about using nuopc for standalone atm or ocn runs.\r\n\r\nAs you have shown me before, the procedure to run standalone runs is:\r\n\r\n1\\. To comment out \"call ESMF\\_CplCompSetServices\" for \"atm2ocn\" and \"ocn2atm\" in esm.F90.\r\n2\\. To comment out \"call NUOPC\\_StateAdvertiseField\", \"ESMF\\_FieldCreate\", and \"call NUOPC\\_StateRealizeField\" for \"importState\" in atm.F90 and ocn.F90.\r\n\r\nThe about procedure works. I am able to run standalone atm or ocn.\r\n\r\nI noticed that in procedure \\#2 we only comment out \"call NUOPC\\_StateAdvertiseField\", \"ESMF\\_FieldCreate\", and \"call NUOPC\\_StateRealizeField\" for \"importState\". If we also comment out these for \"exportState\", the standalone run will not work. In my nogaps-hycom nuopc implementation, I do not allow the code to create any import or export fields for a standalone run, just for the consistent sake. I am hoping that you can show me how to make the prototype works when I comment out the \"exportstate\". Thanks.\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Running models stand-alone under NUOPC",
+  "discussion_thread": {
+    "_id": "29bd274d",
+    "posts": [
+      {
+        "text": "Problem solved...\r\n\r\nHi Gerhard,\r\n\r\nThanks for taking a look of this issue. After carefully reading your email, I realize that I have overlooked something. I did not comment out the \"NUOPC\\_StateAdvertiseField\" for the export fields. Now the prototype code can work the way that I would like to. Thanks for the help.\r\n\r\nJames\r\n",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-07-12 16:22:41",
+        "slug": "6cf0",
+        "subject": "#7 Running models stand-alone under NUOPC"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-07-12 16:22:41",
+        "slug": "844b",
+        "subject": "#7 Running models stand-alone under NUOPC"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-07-12 16:22:41",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d250a2718463761fabae9",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/29bd274d/",
+  "ticket_num": 7,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-07-11 17:35:44"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen\\(James\\)\r\n\r\nHi Gerhard,\r\n\r\nDo you have a prototype which can be run under 5.2.0r? I encountered an issue when I tried to compile ss10 prototype under 5.2.0r.  The following is a snippet of the error message.\r\n\r\n=====================\r\neslogin3 proto-5.2.0r/AtmOcnConProto&gt; gmake\r\nftn -c -g  -I/scr/chenchai/apps/esmf/pgi/mpi/5.2.0r/mod/modg/Unicos.pgi.64.mpi.default -I/scr/chenchai/apps/esmf/pgi/mpi/5.2.0r/src/include   -DESMF\\_NO\\_INTEGER\\_1\\_BYTE -DESMF\\_NO\\_INTEGER\\_2\\_BYTE -DESMF\\_MPIIO -DESMF\\_NO\\_PTHREADS -DESMF\\_NO\\_OPENMP -DS64=1 -DESMF\\_OS\\_Unicos=1 -DESMF\\_PGIVERSION\\_MAJOR=11 -DESMF\\_PGIVERSION\\_MINOR=4 -DESMF\\_PGIVERSION\\_PATCH=0 atm.F90\r\nPGF90-F-0004-Unable to open MODULE file esmf\\_mod.mod \\(atm.F90: 7\\)\r\nPGF90/x86-64 Linux 11.4-0: compilation aborted\r\ngmake: \\*\\*\\* \\[atm.o\\] Error 2\r\n=====================\r\n\r\nI am surprised to find that I don't have esmf\\_mod.mod under then new 5.2.0r build\r\n\\(/scr/chenchai/apps/esmf/pgi/mpi/5.2.0r/mod/modg/Unicos.pgi.64.mpi.default\\). Does this mean that ESMF does not support ESMF\\_Mod?\r\n\r\nThanks.\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "proto for 5.2.0r",
+  "discussion_thread": {
+    "_id": "3318f7d1",
+    "posts": [
+      {
+        "text": "There was an important change post 5.2.0r to make NUOPC work. This ticket can be closed once 520rp1 is released.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-13 18:01:13",
+        "slug": "ddb1",
+        "subject": "#8 proto for 5.2.0r"
+      },
+      {
+        "text": "James confirmed correct prototype based on ESMF\\_5\\_2\\_0rp1\\_beta\\_snapshot\\_01.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 17:24:39",
+        "slug": "c6b0",
+        "subject": "#8 proto for 5.2.0r"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 17:24:39",
+        "slug": "da33",
+        "subject": "#8 proto for 5.2.0r"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-10-03 17:24:39",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d250b2718463761fabafa",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/3318f7d1/",
+  "ticket_num": 8,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-07-27 13:58:29"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nHi Gerhard,\r\n\r\nI am migrating to ESMF\\_5.2.0rp1-ss01. My nogaps-hycom-nuopc code compiles and builds fine. However, I encountered issue during the runtime. I have some new fields which are not covered by NUOPC\\_FieldDictionary. My solution is to add these fields by modifying NUOPC\\_FieldDictionaryDef.F90. This stragegy worked fine in the previous ss10 version. It did not work this time. The following is the code that I use for adding the additional fields to the dictionary. I may overlook something. I appreciate that you can advice. Thanks.\r\n\r\nJames\r\n\r\n============\r\n\\!BOTL\r\ncall NUOPC\\_FieldDictionaryAddEntry\\(fieldDictionary, &\r\nstandardName      = \"10m\\_wind\\_speed\", &\r\nunitOptions       = \\(/\"m s-1\"/\\), &\r\ndefaultLongName   = \"10m Wind Speed\", &\r\ndefaultShortName  = \"wndspd\", &\r\nrc=rc\\)\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOGERR\\_PASSTHRU, &\r\nline=\\_\\_LINE\\_\\_, file=FILENAME\\)\\) return  \\! bail out\r\n\\!EOTL\r\n\\!BOTL\r\ncall NUOPC\\_FieldDictionaryAddEntry\\(fieldDictionary, &\r\nstandardName      = \"friction\\_wind\\_speed\", &\r\nunitOptions       = \\(/\"m s-1\"/\\), &\r\ndefaultLongName   = \"Friction Wind Speed\", &\r\ndefaultShortName  = \"ustr\", &\r\nrc=rc\\)\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOGERR\\_PASSTHRU, &\r\nline=\\_\\_LINE\\_\\_, file=FILENAME\\)\\) return  \\! bail out\r\n\\!EOTL\r\n\\!BOTL\r\ncall NUOPC\\_FieldDictionaryAddEntry\\(fieldDictionary, &\r\nstandardName      = \"air\\_temperature\\_at\\_sea\\_level\", &\r\nunitOptions       = \\(/\"K\"/\\), &\r\ndefaultLongName   = \"Air Temperature at Sea Level\", &\r\ndefaultShortName  = \"airtmp\", &\r\nrc=rc\\)\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOGERR\\_PASSTHRU, &\r\nline=\\_\\_LINE\\_\\_, file=FILENAME\\)\\) return  \\! bail out\r\n\\!EOTL\r\n\\!BOTL\r\ncall NUOPC\\_FieldDictionaryAddEntry\\(fieldDictionary, &\r\nstandardName      = \"humidity\\_at\\_sea\\_level\", &\r\nunitOptions       = \\(/\"kg kg-1\"/\\), &\r\ndefaultLongName   = \"Humidity at Sea Level\", &\r\ndefaultShortName  = \"airhum\", &\r\nrc=rc\\)\r\nif \\(ESMF\\_LogFoundError\\(rcToCheck=rc, msg=ESMF\\_LOGERR\\_PASSTHRU, &\r\nline=\\_\\_LINE\\_\\_, file=FILENAME\\)\\) return  \\! bail out\r\n\\!EOTL\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "add more fields in NUOPC_FieldDictionaryDef.F90",
+  "discussion_thread": {
+    "_id": "44961b4e",
+    "posts": [
+      {
+        "text": "The long term fix will be to provide public NUOPC\\_ API calls that allow the user to add items to the NUOPC field dictionary. Eventually these items should be reviewed through some committee process and end up in the default dictionary as appropriate.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-13 18:10:08",
+        "slug": "7292",
+        "subject": "#9 add more fields in NUOPC_FieldDictionaryDef.F90"
+      },
+      {
+        "text": "Added new method NUOPC\\_FieldDictionaryAddEntry\\(\\) that allows user to add entries to the NUOPC/FD. James has verified that it works for him.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 17:11:19",
+        "slug": "c5ed",
+        "subject": "#9 add more fields in NUOPC_FieldDictionaryDef.F90"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 17:11:19",
+        "slug": "9ae8",
+        "subject": "#9 add more fields in NUOPC_FieldDictionaryDef.F90"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-10-03 17:11:19",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d250d2718463761fabb10",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/44961b4e/",
+  "ticket_num": 9,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-09-13 16:17:02"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nHi Gerhard,\r\n\r\nI migrated \"nogaps-hycom-nuopc\" to a \"intel\\_openmpi\" system. I encountered an issue. The message in PET\\* file said\r\n\r\n20110908 205445.477874 ERROR    PET11 src/addon/NUOPC/NUOPC.F90:984 Argument sizes do not match - stdAttrNameList too small\r\n\r\nCould you give me advice regarding the nature of the issue? I have double checked the import and export \"Advertise\" and \"Realize\" fields. They are matched between nogaps and hycom. I do not have this issue on cray xt5.\r\n\r\nThanks.\r\n\r\nJames\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NUOPC strange behavior",
+  "discussion_thread": {
+    "_id": "e1c1a80e",
+    "posts": [
+      {
+        "text": "Turned out to be caused by not nullified pointers in the NUOPC\\_Connector implementation. Fixed, snapshot, James verified.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-19 17:01:59",
+        "slug": "7f08",
+        "subject": "#10 NUOPC strange behavior"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-09-19 17:01:59",
+        "slug": "8f72",
+        "subject": "#10 NUOPC strange behavior"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-09-19 17:01:59",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d250e2718463761fabb26",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/e1c1a80e/",
+  "ticket_num": 10,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-09-13 16:18:53"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "It would be good if any errors that go through the NUOPC layer \\(either originating there, or just passing through during back trace\\) would always include the name of the actual Component. E.g. if \"myATM\" derives from NUOPC\\_ModelExplicit it would be nice to always see myATM prepended to all errors. This way it was clear for which actual component the generic code has been specialized.\r\n\\*gjt\\*",
+  "labels": [],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "NUOPC errors with more context.",
+  "discussion_thread": {
+    "_id": "9b9007c4",
+    "posts": [
+      {
+        "text": "I added the component name prefix to all Log messages coming out of NUOPC generic component code. This change went into ESMF\\_6\\_2\\_0\\_beta\\_snapshot\\_08.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-25 16:06:59",
+        "slug": "33bb",
+        "subject": "#11 NUOPC errors with more context."
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-25 16:06:59",
+        "slug": "1683",
+        "subject": "#11 NUOPC errors with more context."
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-01-25 16:06:59",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d250f2718463761fabb37",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/9b9007c4/",
+  "ticket_num": 11,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-09-23 22:29:41"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell from NRL\r\n\r\nI'm curious... Why the Connected attribute in the NUOPC\\_FieldAttributeAdd is a character string instead of a logical?\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "type of Connected attribute",
+  "discussion_thread": {
+    "_id": "41563332",
+    "posts": [],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-09-30 22:57:06",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25102718463761fabb48",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/41563332/",
+  "ticket_num": 12,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-09-30 22:57:06"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell from NRL\r\n\r\nIn a component I want to query whether or not an advertised export field is connected.  If the export field is not connected, then the component will remove the field from the state.\r\n\r\nIt looks like the method for doing this currently is to use NUOPC\\_FieldAttributeGet to get the Connected attribute.  Since the Connected attribute is a character string, it must then be compared with 'true' or 'false' to determine the connected status.\r\n\r\nWhat do you think about creating a function NUOPC\\_FieldIsConnected that returns a logical?\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "logical function to test connected status of a Field",
+  "discussion_thread": {
+    "_id": "8a9b3a88",
+    "posts": [
+      {
+        "text": "Introduced NUOPC\\_StateIsFieldConnected\\(\\) in ESMF\\_5\\_2\\_0rbranch\\_NUOPC\\_beta\\_snapshot\\_02.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 20:18:42",
+        "slug": "bf24",
+        "subject": "#13 logical function to test connected status of a Field"
+      },
+      {
+        "text": "- **status**: open --> pending-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2011-10-03 20:18:42",
+        "slug": "85e1",
+        "subject": "#13 logical function to test connected status of a Field"
+      },
+      {
+        "text": "Use of this function is now demonstrated in AtmOcnConIPD01Proto.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-30 15:49:54",
+        "slug": "ff5e",
+        "subject": "#13 logical function to test connected status of a Field"
+      },
+      {
+        "text": "- **status**: pending-fixed --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-30 15:49:54",
+        "slug": "c13e",
+        "subject": "#13 logical function to test connected status of a Field"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-10-30 15:49:54",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25102718463761fabb4f",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/8a9b3a88/",
+  "ticket_num": 13,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-09-30 23:01:15"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell from NRL\r\n\r\nI'm confused about the usage of NUOPC\\_GridCompSetClock\\(\\) in the prototypes.  The clock argument for NUOPC\\_GridCompSetClock\\(\\) is supposed to be the external clock.  However, in AtmOcnProto/ocn.F90:SetClock it is the clock associated with the grid comp that is passed in.\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Usage of NUOPC_GridCompSetClock()",
+  "discussion_thread": {
+    "_id": "f5f6f456",
+    "posts": [],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2011-10-03 20:30:39",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25112718463761fabb6a",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/f5f6f456/",
+  "ticket_num": 14,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-10-03 20:30:39"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nGerhard,\r\n\r\nIs it correct that the current nuopc supports only concurrent cpl mode. That is\r\n\r\nExecuteRH atm2ocn\r\nExecuteRH ocn2atm\r\nRun atm\r\nrun ocn\r\nExecuteRH atm2ocn\r\nExecuteRH ocn2atm\r\nRun atm\r\n....\r\n\r\nCan we have an option to run sequential cpl mode? That is\r\n\r\nExecuteRH ocn2atm\r\nRun atm\r\nExecuteRH atm2ocn\r\nRun ocn\r\nExecuteRH ocn2atm\r\nRun atm\r\n...\r\n\r\nThanks\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "concurrent vs. sequential model component execution",
+  "discussion_thread": {
+    "_id": "e3d2e91f",
+    "posts": [
+      {
+        "text": "Discussion between James, Tim and Gerhard in email traffic. Ideas are implemented in the NUOPC Layer.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-25 17:04:27",
+        "slug": "9bba",
+        "subject": "#15 concurrent vs. sequential model component execution"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-25 17:04:27",
+        "slug": "23d3",
+        "subject": "#15 concurrent vs. sequential model component execution"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-01-25 17:04:27",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25122718463761fabb71",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/e3d2e91f/",
+  "ticket_num": 15,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2011-10-11 00:29:56"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NOGAPS\r\n\r\nHi Gerhard,\r\n\r\nCurrently the way that I run atm and ocn with NUOPC is to request the same number of processors for both models. However, I am encountering a situation. For instance, ocn requires to have 600 processors for a better performance, but atm can only run when the number of processors is less than 200. I can deal with this situation by requesting 199 processors for both atm and ocn. As expected, the ocn runs very slowly.\r\n\r\nI am not sure what is the best way to run a coupled system using 199 processors for atm and 600 processors for ocn? I appreciate that you can advice. Thanks.\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "model components on different petLists",
+  "discussion_thread": {
+    "_id": "38cf5f5d",
+    "posts": [
+      {
+        "text": "Full petList support was implemented in NUOPC. When James tested it, it first hung in NOGAPS. Further investigation \\(see email traffic\\) pointed to use of MPI\\_COMM\\_WORLD in a few NOGAPS routines. Once corrected James reported successful coupled NOGAPS-HYCOM runs with petLists.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-02-27 20:18:02",
+        "slug": "6bf5",
+        "subject": "#16 model components on different petLists"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-02-27 20:18:02",
+        "slug": "e4e3",
+        "subject": "#16 model components on different petLists"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-02-27 20:18:02",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25132718463761fabb82",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/38cf5f5d/",
+  "ticket_num": 16,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-02-03 22:43:49"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nHi Gerhard,\r\n\r\nIn the COAMPS model components there is usually some computations and data copies involved in getting data from the import fields and setting data in the export fields.  For example, merging data from internal nested grids onto the single model export grid.  Or, for example, calculating a 2D significant wave height from the 4D wave spectra.\r\n\r\nThe run sequence of ModelExplicitBase assumes that any data manipulation of the model import and/or export data is handled within the model's Advance method.  If one constructs the model Advance method to only advance one time step, then the model will invoke the required import and export data computations with each invocation.  This can be wasteful because with the ModelExplicitBase time stepping loop the model import state.  Also, the model export state is not available to the outside until after the time stepping loop completes.\r\n\r\nI see two alternatives for addressing this issue.\r\n\r\n\\(1\\) Solve the problem within COAMPS.  Each model component clock will simply be the default \\(i.e., internal time step = external time step\\).  Each model Advance method will manage the time stepping internally to advance to the stop time of the internal clock.  Import data calculations are performed before the time stepping.  Export data calculations are performed after the time stepping.\r\n\r\n\\(2\\) Solve the problem within NUOPC.  Add GetImport and SetExport specializing methods to the ModelExplicitBase Run sequence.  The GetImport method is invoked \\(if provided\\) after the CheckImport and prior to entering the time stepping loop.  The SetExport is invoked \\(if provided\\) after the time stepping loop and prior to the TimestampExport.\r\n\r\nMy preference is approach \\(2\\).  Attached is a patch file that implements approach \\(2\\) into 5.3.0 beta snapshot 32.  You can apply the patch within the src/addon/NUOPC directory using \"patch -p1 &lt; patch-file.\"  I submit this for discussion and possible incorporation into the NUOPC Layer.\r\n\r\nCheers,\r\nTim\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Pre- and post- processing of model import/export data",
+  "discussion_thread": {
+    "_id": "64099b20",
+    "posts": [
+      {
+        "text": "- **summary**: Pre- and post- processing of import/export data --> Pre- and post- processing of model import/export data",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-02-13 22:52:13",
+        "slug": "56c7",
+        "subject": "#17 Pre- and post- processing of model import/export data"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-02-13 22:52:13",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25142718463761fabb93",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/64099b20/",
+  "ticket_num": 17,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-02-13 22:51:28"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nHi Gerhard,\r\n\r\nI forget whether we have discussed this before...\r\n\r\nCurrently we are using attributes to add a \"time stamp\" to a field in the NUOPC Layer.  This time stamp is merely a character string.  A more general approach is to have the ESMF\\_Field class include time and timeInterval objects.  The time object will \\(optionally\\) hold the current time \\(stamp\\) of the field.  The timeInterval will \\(optionally\\) hold the timeInterval over which the field is time averaged or integrated.  An instantaneous field will have a timeInterval of zero.\r\n\r\nWhat are your thoughts?\r\n\r\n-Tim",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "approach for associating time info with fields",
+  "discussion_thread": {
+    "_id": "d3785ed7",
+    "posts": [],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-02-16 22:21:39",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25152718463761fabb9f",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/d3785ed7/",
+  "ticket_num": 18,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-02-16 22:21:39"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing Chen \\(James\\), NRL/NOGAPS-HYCOM\r\n\r\nGerhard,\r\n\r\nAlthough I haven't completely finished the testing for the petLists, I am thinking about the next issue. The following is a sketch of code that I intend to have in con.F90 in computeRH\\(\\) and executeRH\\(\\). Could you advice what is the best way to deal with the situation? Thanks.\r\n\r\nJames\r\n================\r\n\r\nIn computeRH\\(\\):\r\n\r\nsrcFB2D=is%wrap%srcFields\r\ndstFB2D=is%wrap%dstFields\r\ndsttmpFB2D=is%wrap%dsttmpFields\r\n\r\ncall ESMF\\_FieldBundleRegridStore\\(srcFieldBundle=srcFB2D, srcMaskValues=\\(/0/\\), &\r\ndstFieldBundle=dsttmpFB2D, dstMaskValues=\\(/0/\\), &\r\nunmappedAction=ESMF\\_UNMAPPEDACTION\\_IGNORE, &\r\nrouteHandle=routeHandle, &\r\nrc=rc\\)\r\n...\r\n\\!  for filling land/sea mismatched holes\r\nfactorList=...\r\nfactorIndexList=...\r\n...\r\n\r\ncall ESMF\\_FieldBundleSMMStore\\(dsttmpFB2D, dstFB2D, routehandle=routeHandleFill, &\r\nfactorList=factorList, factorIndexList=factorIndexList, rc=rc\\)\r\n\r\nIn executeRH\\(\\):\r\n\r\nsrcFB2D=is%wrap%srcFields\r\ndstFB2D=is%wrap%dstFields\r\ndsttmpFB2D=is%wrap%dsttmpFields\r\n\r\n\r\ncall ESMF\\_FieldBundleRegrid\\(srcFB2D, dsttmpFB2D, routeHandle, rc=rc\\)\r\ncall ESMF\\_FieldBundleSMM\\(dsttmpFB2D, dstFB2D, routehandle=routeHandleFill, &\r\nzeroregion=ESMF\\_REGION\\_TOTAL, rc=rc\\)\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "multiple RouteHandles in Connector",
+  "discussion_thread": {
+    "_id": "1489331e",
+    "posts": [
+      {
+        "text": "This has been worked out. An ESMF\\_State variable was introduced into the NUOPC\\_Connector internal state type. James has used this to implement the customization he was thinking of.\r\n\r\nAs a follow-on ticket I opened \\#3499016, where James, Tim and I are going to discuss more details of the \"creep fill\" implementation, and how it can be hoooked into the NUOPC\\_Connector.\r\n\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-03-07 22:40:11",
+        "slug": "8fc8",
+        "subject": "#19 multiple RouteHandles in Connector"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-03-07 22:40:11",
+        "slug": "d646",
+        "subject": "#19 multiple RouteHandles in Connector"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-03-07 22:40:11",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25152718463761fabba6",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/1489331e/",
+  "ticket_num": 19,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-02-23 18:27:32"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James  Chen, NRL and Tim Campbell, NRL\r\n\r\nBoth James and Tim are working on implementing a \"creep fill\" method under NUOPC. Tim has provided some code and wants to investigate how this could best be used to customize a generic NUOPC\\_Connector component. There has been some discussion between Tim and James already:\r\n\r\nHi Gerhard,\r\n\r\nYour welcome.  Maybe it would be useful to capture the \"creep fill\" discussion within NUOPC support.  James and I exchanged a few more emails this afternoon on this topic.  I include the exchange below.\r\n\r\nYour insight on creating a routeHandle \\(i.e., sparse matrix\\) to represent the \"creep fill\" would be very useful.\r\n\r\n-Tim\r\n\r\n\r\n&gt;&gt; Tim,\r\n&gt;&gt; \r\n&gt;&gt; Yes. The desire you described is what I have in mind. I'll go head to develop such a routine.\r\n&gt;&gt; \r\n&gt;&gt; James\r\n&gt;&gt; \r\n&gt;&gt; \r\n&gt;&gt; -----Original Message-----\r\n&gt;&gt; From: Tim Campbell \\[mailto:tim.campbell@nrlssc.navy.mil\\]\r\n&gt;&gt; Sent: Wed 3/7/2012 12:12 PM\r\n&gt;&gt; To: Chen, Chaing\r\n&gt;&gt; Subject: Re: FieldExtend\r\n&gt;&gt; \r\n&gt;&gt; James,\r\n&gt;&gt; \r\n&gt;&gt; Your welcome.  I'm happy this is useful for you.  My desire is to create a FieldExtendStore routine \\(similar to FieldExtend\\) that will generate a sparse matrix that represents the FieldExtend operation.  FieldExtendStore will return a routeHandle \\(created by FieldBundleSMMStore\\) that represents the sparse matrix.  Doing this will allow the FieldExtend to be computed as part of computeRH.  The routeHandle can then be used as part of the regridding in executeRH.\r\n&gt;&gt; \r\n&gt;&gt; -Tim\r\n&gt;&gt; \r\n&gt;&gt; On Mar 7, 2012, at 1:58 PM, Chen, Chaing wrote:\r\n&gt;&gt; \r\n&gt;\r\n&gt;&gt;&gt; &gt; Tim,\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; Thank you for the explanation. I have no intention to use 0&lt;cmsk&lt;1 at this time. I can start to convert FieldExtend to a code using factorList, factorIndexList, and ESMF\\_FieldBundleSMM. I am glad that you show me this code. This is a good option to deal with land/sea mismatch issue. Thanks.\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; James\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; -----Original Message-----\r\n&gt;&gt;&gt; &gt; From: Tim Campbell \\[mailto:tim.campbell@nrlssc.navy.mil\\]\r\n&gt;&gt;&gt; &gt; Sent: Wed 3/7/2012 11:55 AM\r\n&gt;&gt;&gt; &gt; To: Chen, Chaing\r\n&gt;&gt;&gt; &gt; Subject: Re: FieldExtend\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; James,\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; You are correct.  The description, however, is in terms of \"data\" and \"no data\".  Based on the input mask values and the mask defined on the grid associated with the field, the routine defines an internal mask \\(cmsk\\) where 0 = \"no data\" and 1 = \"data\".  Each iteration sets the field value at a \"no data\" point equal to the average of the nearest neighbor \"data\" points.\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; The code is designed for cmsk = 0 or 1.  Really, cmsk could be integer, but some of the coding is easier with cmsk being real.  The code could be modified for 0&lt;cmsk&lt;1.  Are you looking use 0&lt;cmsk&lt;1 for a mask weighted average?\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; -Tim\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt; On Mar 7, 2012, at 1:38 PM, Chen, Chaing wrote:\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;\r\n&gt;&gt;&gt;&gt; &gt; &gt; Tim,\r\n&gt;&gt;&gt;&gt; &gt; &gt;\r\n&gt;&gt;&gt;&gt; &gt; &gt; I think I know what FieldExtend\\(\\) is doing. Basically, FieldExtend\\(\\) looks for a 'hole'. Then the 'hole' is filled by the averaging of the surrounding 'data' points. The iterative loop is used to disperse the filled value to a 'hole' point which is adjacent to the original 'hole' point. Is this a fair description of the scheme?\r\n&gt;&gt;&gt;&gt; &gt; &gt;\r\n&gt;&gt;&gt;&gt; &gt; &gt; BTW, the value of 'cmsk' should be either 0 or 1. There is no chance that the value of cmsk is 0&lt;cmsk&lt;1, correct?\r\n&gt;&gt;&gt;&gt; &gt; &gt;\r\n&gt;&gt;&gt;&gt; &gt; &gt; James\r\n&gt;&gt;&gt;&gt; &gt; &gt;\r\n&gt;&gt;\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt;\r\n&gt;&gt;&gt; &gt;\r\n&gt;\r\n&gt;&gt; \r\n\r\n\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "\"creep fill\" implementation for connector",
+  "discussion_thread": {
+    "_id": "8199150f",
+    "posts": [],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-03-07 22:36:39",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25162718463761fabbb7",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/8199150f/",
+  "ticket_num": 20,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-03-07 22:36:39"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James  Chen, NRL\r\n\r\nHi Gerhard,\r\n\r\nHope that you are back from the extended leave. Haven't heard from you for a quite while. Trust that everything is fine.\r\n\r\nWe have a need to couple NOGAPS, HYCOM with a third model. I would like to check with you to see whether NUOPC has the ability to couple three models and provide connections among them. Appreciate that you could advice. Thanks.\r\n\r\nJames\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "couple with a third model",
+  "discussion_thread": {
+    "_id": "cb109806",
+    "posts": [
+      {
+        "text": "Wrote two different 3 model proto apps and put them under SVN -&gt; James good to go with his ATM-OCN-ICE project.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-07-18 23:07:34",
+        "slug": "b740",
+        "subject": "#21 couple with a third model"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-07-18 23:07:35",
+        "slug": "f8fb",
+        "subject": "#21 couple with a third model"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-07-18 23:07:35",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25172718463761fabbbe",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/cb109806/",
+  "ticket_num": 21,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-07-13 20:46:21"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: James  Chen, NRL\r\n\r\nHi Gerhard,\r\n\r\nI would like to try NUOPC's mediator. In 'esm.F90' of 'AtmOcnMedPetListProto', there are lines to assign petLists for atm, ocn and mediator, i.e.,\r\n\r\n\\! set petList for ATM -&gt; first half of PETs minus one\r\nallocate\\(is%wrap%atmPetList\\(petCount/2-1\\)\\)\r\ndo i=1, petCount/2-1\r\nis%wrap%atmPetList\\(i\\) = i-1 \\! PET labeling goes from 0 to petCount-1\r\nenddo\r\n\r\n\\! set petList for OCN -&gt; second half of PETs minus one\r\nallocate\\(is%wrap%ocnPetList\\(petCount/2-1\\)\\)\r\ndo i=1, petCount/2-1\r\nis%wrap%ocnPetList\\(i\\) = petCount/2 + i-1 \\! PET labeling goes from 0 to petCount-1\r\nenddo\r\n\r\nallocate\\(is%wrap%medPetList\\(4\\)\\) \\! makes 4 total PETs in the petList\r\nis%wrap%medPetList\\(1\\) = is%wrap%atmPetList\\(1\\)\r\nis%wrap%medPetList\\(2\\) = is%wrap%ocnPetList\\(1\\)\r\nis%wrap%medPetList\\(3\\) = petCount/2 - 1\r\nis%wrap%medPetList\\(4\\) = petCount - 1\r\n\r\nFor the last two lines, can they be generalized as the following?\r\n\r\nis%wrap%medPetList\\(3\\) = is%wrap%atmPetList\\(petCount/2 - 1\\)+1\r\nis%wrap%medPetList\\(4\\) = is%wrap%ocnPetList\\(petCount - 1\\)+1\r\n\r\nIt appears that two pets are reserved for the mediator. Can these two pets be the last two pets in the total PETS? Or do they have to be at the end of the atm pets and ocn pets? Thanks.\r\n\r\nJames\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Working with NUOPC_Mediator",
+  "discussion_thread": {
+    "_id": "412a9983",
+    "posts": [
+      {
+        "text": "Good conversation between James, Tim, and I. Everybody seems clear now wrt petList issues.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:46:40",
+        "slug": "676d",
+        "subject": "#22 Working with NUOPC_Mediator"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-05 22:46:40",
+        "slug": "2bde",
+        "subject": "#22 Working with NUOPC_Mediator"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-11-05 22:46:40",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25182718463761fabbcf",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/412a9983/",
+  "ticket_num": 22,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-08-27 20:18:27"
+},{
+  "status": "open",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing \\(James\\) Chen, NRL\r\n\r\nHi Gerhard\r\n\r\nI am trying to implement MED to the full scale model. I realize that I need to use OCN grid as the MED grid. How do I transfer OCN grid info from ocn.F90 to med.F90? Appreciate that you can advice. Thanks.\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "get ocn grid info in med (AtmOcnMedPetListProto)",
+  "discussion_thread": {
+    "_id": "b5d6b7b8",
+    "posts": [],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-09-17 20:57:03",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d25192718463761fabbe0",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/b5d6b7b8/",
+  "ticket_num": 23,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-09-17 20:57:03"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nHi Gerhard,\r\n\r\nI uploaded a prototype for COAMPS to esmfcontrib/NUOPC/team/tjcnrl/COAMPS\\_Proto.  This is a coupled ATM/OCN/WAV application with the coupling via a mediator \\(MED\\).  At this point the mediator doe not perform any operations on the import/export fields.\r\n\r\nI find that the prototype fails, under certain PET layouts, due to the TimeStamp attribute of some fields not being set \\(or reconciled\\) correctly.  In esm.F90:SetModelPetLists you will find a select block for different PET layouts \\(petLayout\\).  Each is noted with a \"works\" or \"fails\" comment to indicate which layouts work \\(or don't work\\).  The README describes the prototype, compiling and running.\r\n\r\nWhen you run \\(make run\\) one of the \"fails\" cases you should find in one of the PET\\#.ESMF\\_LogFile's an error report about ESMF\\_TimeSet failing.\r\n\r\n-Tim",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Problems with time stamping of Fields",
+  "discussion_thread": {
+    "_id": "24af3af2",
+    "posts": [
+      {
+        "text": "This issue was resolved in ESMF610bs02, which includes a change to the ESMF\\_StateReconcile\\(\\) method that supports persistent proxies.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-17 22:38:33",
+        "slug": "bdc6",
+        "subject": "#24 Problems with time stamping of Fields"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-10-17 22:38:33",
+        "slug": "8717",
+        "subject": "#24 Problems with time stamping of Fields"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-10-17 22:38:33",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251a2718463761fabbe7",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/24af3af2/",
+  "ticket_num": 24,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-10-11 21:22:41"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell, NRL\r\n\r\nI just noticed that the NUOPC\\_Mediator does not make public the following entities from NUOPC\\_ModelBase.\r\n\r\ntype\\_InternalState\r\ntype\\_InternalStateStruct\r\nlabel\\_InternalState\r\n\r\nSeems to me these should be made public in NUOPC\\_Mediator so they can be accessed from the derived class.\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Mediator internal state",
+  "discussion_thread": {
+    "_id": "685e342d",
+    "posts": [
+      {
+        "text": "The provision to access the NUOPC\\_Mediator internal state has been in the code since Oct. 2012, and Tim was notified. Tim okay with closing the ticket.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-23 22:01:57",
+        "slug": "b565",
+        "subject": "#25 Mediator internal state"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-23 22:01:57",
+        "slug": "6a08",
+        "subject": "#25 Mediator internal state"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-01-23 22:01:57",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251b2718463761fabbf8",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/685e342d/",
+  "ticket_num": 25,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-10-30 20:42:00"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing \\(James\\) Chen, NRL\r\n\r\n\\-----Original Message-----\r\nFrom: Chen, Chaing\r\nSent: Mon 11/5/2012 10:04 AM\r\nTo: NUOPC Support\r\nSubject: slow in ComputeRH \\(ESMF\\_FieldBundleRegridStore\\) for the Mediator\r\n\r\nGerhard,\r\n\r\nIt appears that the 'ESMF\\_FieldBundleRegridStore' becomes very slow both for atm2med and med2atm in the full nogaps-med-hycom implementation. In contrast, in the nogaps-con-hycom implementation, the 'ESMF\\_FieldBundleRegridStore' is much faster. I have 120 processors for nogaps,  243 processors for hycom, and 4 processors for the mediator. Does the number of processors for the mediator affect the speed of the 'ESMF\\_FieldBundleRegridStore'?\r\n\r\nThanks,\r\n\r\nJames",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "slow in ComputeRH (ESMF_FieldBundleRegridStore) for the Medi",
+  "discussion_thread": {
+    "_id": "c7508cf5",
+    "posts": [
+      {
+        "text": "James changed his MED petList to perfectly overlap with ATM and OCN. This makes more sense anyway for this app, and that removes the imbalance that caused the performance issues in RegridStore\\(\\) that he was reporting here. Still, the imbalance impact on performance is an interesting question, and I opened an internal ESMF bug to track this under \\#3586403. But James is good to go.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-12 18:40:05",
+        "slug": "95d7",
+        "subject": "#26 slow in ComputeRH (ESMF_FieldBundleRegridStore) for the Medi"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-12 18:40:05",
+        "slug": "0e25",
+        "subject": "#26 slow in ComputeRH (ESMF_FieldBundleRegridStore) for the Medi"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-11-12 18:40:05",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251c2718463761fabc09",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/c7508cf5/",
+  "ticket_num": 26,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-11-05 22:20:33"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell \\(NRL\\)\r\n\r\nI just bumped to 6.1.0bs07 \\(to test the ConfigFindLabel fix\\).  The team/tjcnrl/COAMPS\\_Proto dies with the following error.\r\n\r\nESMF\\_Attribute.F90:8863 ESMF\\_AttAddPackStd Wrong argument specified\r\nNUOPC\\_Base.F90:1048 Wrong argument specified\r\nNUOPC\\_Driver.F90:294 Wrong argument specified\r\n\r\nStrange.  Do you know what is going on?\r\n\r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "Problems with 6.1.0bs07",
+  "discussion_thread": {
+    "_id": "ae19aaf7",
+    "posts": [
+      {
+        "text": "There was an issue in the NUOPC Layer wrt the version specific conditional around the Attribute Package changes. I fixed this and 610bs08 is working now for Tim.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-16 18:08:58",
+        "slug": "fcf8",
+        "subject": "#27 Problems with 6.1.0bs07"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2012-11-16 18:08:58",
+        "slug": "971c",
+        "subject": "#27 Problems with 6.1.0bs07"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2012-11-16 18:08:58",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251c2718463761fabc1a",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/ae19aaf7/",
+  "ticket_num": 27,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-11-15 21:22:00"
+},{
+  "status": "closed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Chaing \\(James\\) Chen, NRL\r\n\r\nOn 12/21/2012 08:22 AM, Chen, Chaing wrote:&gt; Gerhard,\r\n&gt; \r\n&gt; I noticed a possible issue about the mediator.\r\n&gt; \r\n&gt; I am testing med-nogaps-hycom. The testing runs fine until the end of \r\n&gt; the job. I noticed that the med\\_Final called before the end of the \r\n&gt; hycom\\_Advance. This caused the drop of hycom run abruptly at the end of \r\n&gt; the run cycle. BTW, I also noticed that during the ModelAdvance cycle, \r\n&gt; the med\\_Advance always waited until nogaps and hycom finished their \r\n&gt; advancing cycle.\r\n&gt; \r\n&gt; I appreciate that you could give a thought of this issue.\r\n&gt; \r\n&gt; Thanks,\r\n&gt; \r\n&gt; James\r\n&gt; \r\n",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "a possible issue about the mediator",
+  "discussion_thread": {
+    "_id": "9776e5de",
+    "posts": [
+      {
+        "text": "Turns out in the end that what James saw was probably caused by the garbage collection issues I fixed on the HEAD on 11.01.2013 ... for this James transitioned over to ESMF 620bs06, using GIT to access the snapshot. Since he previously was on 610bs02, he had to also make modifications in his code that dealt with NUOPC Layer changes since then. When he was on the official v611 he still saw the SEGV sometimes, but after moving to 620bs06 \\(with my fix\\) It is all working for cleanly for him now\\!\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-18 18:22:47",
+        "slug": "94e9",
+        "subject": "#28 a possible issue about the mediator"
+      },
+      {
+        "text": "- **status**: open --> closed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-18 18:22:47",
+        "slug": "0068",
+        "subject": "#28 a possible issue about the mediator"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-01-18 18:22:47",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251d2718463761fabc2b",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/9776e5de/",
+  "ticket_num": 28,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2013-01-15 18:26:37"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "On 11/30/2012 09:55 AM, Tim Campbell wrote:&gt; Hi Gerhard,\r\n&gt; \r\n&gt; I just stumbled on a bug in NUOPC\\_GridCreateSimpleXY.  The origin for the grid coordinates is not being set according the user \\(x\\_min,y\\_min\\) input.  This causes all the grid coordinates to go from \\(0,0\\) to \\(x\\_max-xmin,y\\_max-y\\_min\\).\r\n&gt; \r\n&gt; The following change in NUOPC\\_Base.F90:NUOPC\\_GridCreateSimpleXY is required.\r\n&gt; \r\n&gt; diff --git a/NUOPC\\_Base.F90 b/NUOPC\\_Base.F90\r\n&gt; index a244a25..313ad5a 100644\r\n&gt; --- a/NUOPC\\_Base.F90\r\n&gt; +++ b/NUOPC\\_Base.F90\r\n&gt; @@ -1344,11 +1344,11 @@ endif\r\n&gt;       jmin\\_t = lbound\\(CoordY,1\\)\r\n&gt;       jmax\\_t = ubound\\(CoordY,1\\)\r\n&gt;         \r\n&gt; -    coordX\\(imin\\_t\\) = \\(imin\\_t-1\\)\\*dx + 0.5\\*dx\r\n&gt; +    coordX\\(imin\\_t\\) = x\\_min + \\(imin\\_t-1\\)\\*dx + 0.5\\*dx\r\n&gt;       do i = imin\\_t+1, imax\\_t\r\n&gt;         coordX\\(i\\) = coordX\\(i-1\\) + dx\r\n&gt;       enddo\r\n&gt; -    coordY\\(jmin\\_t\\) = \\(jmin\\_t-1\\)\\*dy + 0.5\\*dy\r\n&gt; +    coordY\\(jmin\\_t\\) = y\\_min + \\(jmin\\_t-1\\)\\*dy + 0.5\\*dy\r\n&gt;       do j = jmin\\_t+1, jmax\\_t\r\n&gt;         coordY\\(j\\) = coordY\\(j-1\\) + dy\r\n&gt;       enddo\r\n&gt; \r\n&gt; Cheers,\r\n&gt; Tim\r\n",
+  "labels": [
+    "Bug in NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "GridCreateSimpleXY",
+  "discussion_thread": {
+    "_id": "6bb6ae5a",
+    "posts": [
+      {
+        "text": "Fixed on the HEAD, but still waiting for snapshot to hand it back to Tim.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-18 18:23:16",
+        "slug": "2235",
+        "subject": "#29 GridCreateSimpleXY"
+      },
+      {
+        "text": "Tim confirmed fix in 620bs07.\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-23 21:48:22",
+        "slug": "ca31",
+        "subject": "#29 GridCreateSimpleXY"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-01-23 21:48:22",
+        "slug": "5b42",
+        "subject": "#29 GridCreateSimpleXY"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-01-23 21:48:22",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251e2718463761fabc3c",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/6bb6ae5a/",
+  "ticket_num": 29,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2013-01-15 21:24:44"
+},{
+  "status": "closed-fixed",
+  "reported_by_id": "4d6d7e37b9363c1634000734",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "theurich",
+  "description": "WHO: Tim Campbell \\(NRL\\)\r\n\r\nHi Gerhard,\r\n\r\nPorting COAMPS to NUOPC has introduced the need for an additional Connector initialize phase that will execute the RouteHandle.  This is needed prior to one or more of the Models initialize phase that invokes DataInitialize.\r\n\r\nDuring a \"cold start\" initialization of COAMPS \\(a regional system\\) the ATM and OCN models derive their initial states from the global ATM and OCN model output or from climatology.  Currently, however, the WAV model does not have a global WAV model from with to derive its initial state.  The WAV model must compute its initial state using import forcing from the ATM model \\(i.e., no winds, no waves :^\\) \\).  It may be useful to have the WAV model also use import forcing from the OCN model when computing its initial state.\r\n\r\nSo, here the initialization steps needed:\r\n\r\n\\(1\\) Models complete initialize phases 0-3 and Connectors complete initialize phases 0-3.\r\n\\(2\\) ATM and OCN complete initialize phase 4\r\n\\(3\\) ATM-&gt;WAV Connector completes \\(new\\) initialize phase 4 in which RouteHandle is executed.\r\n\\(4\\) WAV completes initialize phase 4.\r\n\r\nWhat are your thoughts on how this may be accomplished?\r\n\r\n-Tim",
+  "labels": [
+    "Applying NUOPC layer"
+  ],
+  "assigned_to": "theurich",
+  "assigned_to_id": "4d6d7e37b9363c1634000734",
+  "private": false,
+  "summary": "New IPD version needed",
+  "discussion_thread": {
+    "_id": "e723f30a",
+    "posts": [
+      {
+        "text": "A solution to deal with data-dependencies during initialize was implemented as IPDv02. Tim has since based COAMPS on this IPD version to successfully resolve the data dependencies between ATM/OCN/WAV. \r\n\r\nI also changed the documentation to correctly document IPDv02, and to better point out which supplied initialize phases are suitable for which IPDv02 phase.\r\n\r\n\\*gjt\\*",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-03-07 06:39:28",
+        "slug": "e2ce",
+        "subject": "#30 New IPD version needed"
+      },
+      {
+        "text": "- **status**: open --> closed-fixed",
+        "attachments": [],
+        "author": "theurich",
+        "timestamp": "2013-03-07 06:39:28",
+        "slug": "4e3f",
+        "subject": "#30 New IPD version needed"
+      }
+    ],
+    "discussion_id": "519d25042718463761faba6f",
+    "subject": ""
+  },
+  "mod_date": "2013-03-07 06:39:28",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "519d251f2718463761fabc52",
+  "discussion_thread_url": "http://sourceforge.net/rest/p/esmf/z-nuopc-support-requests/_discuss/thread/e723f30a/",
+  "ticket_num": 30,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2013-01-31 17:10:15"
+}],
+"tracker_config":{
+  "_id": "519d25042718463761faba6d",
+  "options": {
+    "ordinal": 8,
+    "import_id": "tracker/2190385",
+    "mount_point": "z-nuopc-support-requests",
+    "TicketMonitoringType": "AllTicketChanges",
+    "TicketHelpNew": "",
+    "EnableVoting": false,
+    "TicketHelpSearch": "",
+    "TicketMonitoringEmail": "esmf-nuopc-support@lists.sourceforge.net",
+    "mount_label": "Z NUOPC Support Requests"
+  }
+},
+"milestones":[],
+"custom_fields":[
+  {
+    "milestones": [],
+    "type": "milestone",
+    "name": "_milestone",
+    "label": "Group"
+  },
+  {
+    "label": "Priority",
+    "type": "select",
+    "options": "1 2 3 4 *5 6 7 8 9",
+    "name": "_priority"
+  }
+],
+"open_status_names":"open unread accepted pending",
+"closed_status_names":"closed wont-fix closed-fixed",
+"saved_bins":[
+  {
+    "sort": "",
+    "_id": "5230de950594ca2d89572480",
+    "terms": "*:*",
+    "summary": "All"
+  }
+]}

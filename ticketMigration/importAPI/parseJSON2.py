@@ -317,7 +317,8 @@ if __name__ == '__main__':
 
     json = remove_field(json, '"reported_by_id":')
 
-    json = record_old_ticket_number(json)
+    # removed at the request of GJT
+    #json = record_old_ticket_number(json)
 
     json = remove_field(json, '"_original_close_date":')
 
