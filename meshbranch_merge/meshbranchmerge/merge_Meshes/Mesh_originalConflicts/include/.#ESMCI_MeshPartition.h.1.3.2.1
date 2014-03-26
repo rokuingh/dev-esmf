@@ -1,0 +1,23 @@
+#ifndef ESMCI_MeshPartition_h
+#define ESMCI_MeshPartition_h
+
+#include <Mesh/include/ESMCI_Mesh.h>
+#include <Mesh/include/ESMCI_MeshTypes.h>
+#include <Mesh/include/ESMCI_MeshField.h>
+
+// Partitions a mesh and saves the output as a nemesis file
+namespace ESMCI {
+
+// Partition using metis and save the results.
+// ep = element partition field, np = nodal partition field
+void MeshMetisPartition(const Mesh &mesh, UInt npart, const MEField<> &ep, const MEField<> &np);
+
+// Save a partition gotten from wherever
+void SavePartition(const Mesh &mesh, UInt npart, const MEField<> &ep, const MEField<> &np);
+
+// Concat the given meshes
+void MeshConcat(Mesh &mesh, std::vector<Mesh*> &srcmesh);
+
+} //namespace
+
+#endif

@@ -1,0 +1,28 @@
+% $Id: Attribute_obj.tex,v 1.8 2009/01/21 21:37:58 cdeluca Exp $
+%
+% Earth System Modeling Framework
+% Copyright 2002-2009, University Corporation for Atmospheric Research,
+% Massachusetts Institute of Technology, Geophysical Fluid Dynamics
+% Laboratory, University of Michigan, National Centers for Environmental
+% Prediction, Los Alamos National Laboratory, Argonne National Laboratory,
+% NASA Goddard Space Flight Center.
+% Licensed under the University of Illinois-NCSA License.
+
+Each Attribute contains a name value pair in which the value can be any of several numeric, character, and logical types.  The allowable ESMF Attribute value types include:
+
+\begin{itemize}
+\item {\tt ESMF\_TYPEKIND\_I4}
+\item {\tt ESMF\_TYPEKIND\_I4} list
+\item {\tt ESMF\_TYPEKIND\_I8}
+\item {\tt ESMF\_TYPEKIND\_I8} list
+\item {\tt ESMF\_TYPEKIND\_R4}
+\item {\tt ESMF\_TYPEKIND\_R4} list
+\item {\tt ESMF\_TYPEKIND\_R8}
+\item {\tt ESMF\_TYPEKIND\_R8} list
+\item {\tt ESMF\_TYPEKIND\_Logical}
+\item {\tt ESMF\_TYPEKIND\_Logical} list
+\item {\tt EMSF\_TYPEKIND\_Character}
+\item {\tt EMSF\_TYPEKIND\_Character} list
+\end{itemize}
+
+All Attributes also contain character strings specifying the convention, type, and object of the Attribute for the purpose of keeping track of Attribute packages.  All Attributes contain a list of pointers to other Attributes, which is empty until specified otherwise.  This list of Attribute pointers is what allows Attribute hierarchies to be built.  Using this feature an Attribute for one ESMF class can be linked to an Attribute in another ESMF class.

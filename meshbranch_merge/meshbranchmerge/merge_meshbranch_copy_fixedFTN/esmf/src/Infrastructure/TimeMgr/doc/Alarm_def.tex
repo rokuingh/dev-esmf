@@ -1,0 +1,15 @@
+% $Id$
+\begin{verbatim}
+      type ESMF_Alarm
+      sequence
+      private
+        type(ESMF_TimeInterval) :: RingInterval
+        type(ESMF_Time)  :: RingTime
+        type(ESMF_Time)  :: PrevRingTime
+        type(ESMF_Time)  :: StopTime
+        logical :: Ringing
+        logical :: Enabled
+        integer :: ID
+        integer :: AlarmMutex
+      end type
+\end{verbatim}

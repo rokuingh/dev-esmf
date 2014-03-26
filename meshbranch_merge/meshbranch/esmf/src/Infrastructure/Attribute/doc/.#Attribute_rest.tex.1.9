@@ -1,0 +1,34 @@
+% $Id: Attribute_rest.tex,v 1.9 2009/01/21 21:37:58 cdeluca Exp $
+%
+% Earth System Modeling Framework
+% Copyright 2002-2009, University Corporation for Atmospheric Research,
+% Massachusetts Institute of Technology, Geophysical Fluid Dynamics
+% Laboratory, University of Michigan, National Centers for Environmental
+% Prediction, Los Alamos National Laboratory, Argonne National Laboratory,
+% NASA Goddard Space Flight Center.
+% Licensed under the University of Illinois-NCSA License.
+
+The ability to update an Attribute hierarchy, including Attribute packages, is an area of active design and development.
+
+Additional capabilities of the Attribute class which are still in the developmental stage are listed by category.
+ 
+\subsubsection{Attributes}
+
+\begin{itemize}
+\item Ability to read in metadata automatically from an XML file.
+\item Ability to output Attribute data in various formats
+\end{itemize}
+
+\subsubsection{Attribute Hierarchies}
+
+\begin{itemize}
+\item The option of "deep" copies of an Attribute hierarchy
+\end{itemize}
+
+\subsubsection{Attribute Packages}
+
+\begin{itemize}
+\item Automatically create object Attribute packages upon object creation.
+\item Enforcement of metadata standards
+\item allow {\tt ESMF\_AttributeWrite()} to write from all Attribute packages nested inside the Attribute package with the specified convention and purpose.
+\end{itemize}

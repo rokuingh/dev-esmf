@@ -1,0 +1,236 @@
+
+;; Function hello (MAIN__)
+
+Partition 0: size 276 align 4
+	dt_parm.1, offset 0
+
+;; Generating RTL for tree basic block 2
+
+;; _gfortran_set_options (7, &options.0)
+(insn 5 4 6 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 4 [0x4])) [0 S4 A32])
+        (symbol_ref:SI ("options.0.541") [flags 0x2] <var_decl 0x402b3000 options.0>)) -1 (nil))
+
+(insn 6 5 7 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (set (mem:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (const_int 7 [0x7])) -1 (nil))
+
+(call_insn 7 6 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (call (mem:QI (symbol_ref:SI ("_gfortran_set_options") [flags 0x41] <function_decl 0x402a4380 _gfortran_set_options>) [0 S1 A8])
+        (const_int 8 [0x8])) -1 (nil)
+    (nil))
+
+;; dt_parm.1.common.filename = &"/home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90"[1]{lb: 1 sz: 1}
+(insn 8 7 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/f/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -268 [0xfffffffffffffef4])) [0 dt_parm.1.common.filename+0 S4 A32])
+        (symbol_ref/f:SI ("*.LC0") [flags 0x2] <string_cst 0x402b31cc>)) -1 (nil))
+
+;; dt_parm.1.common.line = 2
+(insn 9 8 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -264 [0xfffffffffffffef8])) [0 dt_parm.1.common.line+0 S4 A32])
+        (const_int 2 [0x2])) -1 (nil))
+
+;; dt_parm.1.common.flags = 128
+(insn 10 9 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -276 [0xfffffffffffffeec])) [0 dt_parm.1.common.flags+0 S4 A32])
+        (const_int 128 [0x80])) -1 (nil))
+
+;; dt_parm.1.common.unit = 6
+(insn 11 10 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -272 [0xfffffffffffffef0])) [0 dt_parm.1.common.unit+0 S4 A32])
+        (const_int 6 [0x6])) -1 (nil))
+
+;; _gfortran_st_write (&dt_parm.1)
+(insn 12 11 13 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 58)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 13 12 14 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 58)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 14 13 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (call (mem:QI (symbol_ref:SI ("_gfortran_st_write") [flags 0x41] <function_decl 0x402b0000 _gfortran_st_write>) [0 S1 A8])
+        (const_int 4 [0x4])) -1 (nil)
+    (nil))
+
+;; _gfortran_transfer_character (&dt_parm.1, &"hello"[1]{lb: 1 sz: 1}, 5)
+(insn 15 14 16 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 8 [0x8])) [0 S4 A32])
+        (const_int 5 [0x5])) -1 (nil))
+
+(insn 16 15 17 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 4 [0x4])) [0 S4 A32])
+        (symbol_ref/f:SI ("*.LC1") [flags 0x2] <string_cst 0x402b12e0>)) -1 (nil))
+
+(insn 17 16 18 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 59)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 18 17 19 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 59)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 19 18 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (call (mem:QI (symbol_ref:SI ("_gfortran_transfer_character") [flags 0x41] <function_decl 0x402a8d80 _gfortran_transfer_character>) [0 S1 A8])
+        (const_int 12 [0xc])) -1 (nil)
+    (nil))
+
+;; _gfortran_st_write_done (&dt_parm.1)
+(insn 20 19 21 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 60)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 21 20 22 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 60)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 22 21 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:SI ("_gfortran_st_write_done") [flags 0x41] <function_decl 0x402b0500 _gfortran_st_write_done>) [0 S1 A8])
+            (const_int 4 [0x4]))) -1 (nil)
+    (nil))
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 3 NOTE_INSN_DELETED)
+
+;; Start of basic block ( 0) -> 2
+;; Pred edge  ENTRY (fallthru)
+(note 3 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+
+(note 2 3 4 2 NOTE_INSN_FUNCTION_BEG)
+;; End of basic block 2 -> ( 3)
+
+;; Succ edge  3 [100.0%]  (fallthru)
+
+;; Start of basic block ( 2) -> 3
+;; Pred edge  2 [100.0%]  (fallthru)
+(note 4 2 5 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+
+(insn 5 4 6 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 4 [0x4])) [0 S4 A32])
+        (symbol_ref:SI ("options.0.541") [flags 0x2] <var_decl 0x402b3000 options.0>)) -1 (nil))
+
+(insn 6 5 7 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (set (mem:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (const_int 7 [0x7])) -1 (nil))
+
+(call_insn 7 6 8 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:1 (call (mem:QI (symbol_ref:SI ("_gfortran_set_options") [flags 0x41] <function_decl 0x402a4380 _gfortran_set_options>) [0 S1 A8])
+        (const_int 8 [0x8])) -1 (nil)
+    (nil))
+
+(insn 8 7 9 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/f/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -268 [0xfffffffffffffef4])) [0 dt_parm.1.common.filename+0 S4 A32])
+        (symbol_ref/f:SI ("*.LC0") [flags 0x2] <string_cst 0x402b31cc>)) -1 (nil))
+
+(insn 9 8 10 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -264 [0xfffffffffffffef8])) [0 dt_parm.1.common.line+0 S4 A32])
+        (const_int 2 [0x2])) -1 (nil))
+
+(insn 10 9 11 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -276 [0xfffffffffffffeec])) [0 dt_parm.1.common.flags+0 S4 A32])
+        (const_int 128 [0x80])) -1 (nil))
+
+(insn 11 10 12 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/s/j/c:SI (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                (const_int -272 [0xfffffffffffffef0])) [0 dt_parm.1.common.unit+0 S4 A32])
+        (const_int 6 [0x6])) -1 (nil))
+
+(insn 12 11 13 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 58)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 13 12 14 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 58)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 14 13 15 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (call (mem:QI (symbol_ref:SI ("_gfortran_st_write") [flags 0x41] <function_decl 0x402b0000 _gfortran_st_write>) [0 S1 A8])
+        (const_int 4 [0x4])) -1 (nil)
+    (nil))
+
+(insn 15 14 16 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 8 [0x8])) [0 S4 A32])
+        (const_int 5 [0x5])) -1 (nil))
+
+(insn 16 15 17 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem:SI (plus:SI (reg/f:SI 56 virtual-outgoing-args)
+                (const_int 4 [0x4])) [0 S4 A32])
+        (symbol_ref/f:SI ("*.LC1") [flags 0x2] <string_cst 0x402b12e0>)) -1 (nil))
+
+(insn 17 16 18 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 59)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 18 17 19 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 59)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 19 18 20 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (call (mem:QI (symbol_ref:SI ("_gfortran_transfer_character") [flags 0x41] <function_decl 0x402a8d80 _gfortran_transfer_character>) [0 S1 A8])
+        (const_int 12 [0xc])) -1 (nil)
+    (nil))
+
+(insn 20 19 21 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (parallel [
+            (set (reg:SI 60)
+                (plus:SI (reg/f:SI 54 virtual-stack-vars)
+                    (const_int -276 [0xfffffffffffffeec])))
+            (clobber (reg:CC 17 flags))
+        ]) -1 (nil))
+
+(insn 21 20 22 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (mem/f/i:SI (reg/f:SI 56 virtual-outgoing-args) [0 S4 A32])
+        (reg:SI 60)) -1 (expr_list:REG_EQUAL (plus:SI (reg/f:SI 54 virtual-stack-vars)
+            (const_int -276 [0xfffffffffffffeec]))
+        (nil)))
+
+(call_insn 22 21 27 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:SI ("_gfortran_st_write_done") [flags 0x41] <function_decl 0x402b0500 _gfortran_st_write_done>) [0 S1 A8])
+            (const_int 4 [0x4]))) -1 (nil)
+    (nil))
+;; End of basic block 3 -> ( 4)
+
+;; Succ edge  4 (fallthru)
+
+;; Start of basic block ( 3) -> 4
+;; Pred edge  3 (fallthru)
+(note 27 22 24 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+
+(jump_insn 24 27 25 4 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.f90:2 (set (pc)
+        (label_ref 26)) -1 (nil))
+;; End of basic block 4 -> ( 6)
+
+;; Succ edge  6
+
+(barrier 25 24 23)
+
+;; Start of basic block () -> 5
+(code_label 23 25 28 5 1 "" [0 uses])
+
+(note 28 23 26 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+;; End of basic block 5 -> ( 6)
+
+;; Succ edge  6 (fallthru)
+
+;; Start of basic block ( 4 5) -> 6
+;; Pred edge  4
+;; Pred edge  5 (fallthru)
+(code_label 26 28 29 6 2 "" [1 uses])
+
+(note 29 26 0 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+;; End of basic block 6 -> ( 1)
+
+;; Succ edge  EXIT [100.0%]  (fallthru)
+

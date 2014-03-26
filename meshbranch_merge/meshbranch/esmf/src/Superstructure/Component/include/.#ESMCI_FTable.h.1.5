@@ -1,0 +1,167 @@
+// $Id: ESMCI_FTable.h,v 1.5 2009/01/21 21:38:02 cdeluca Exp $
+//
+// Earth System Modeling Framework
+// Copyright 2002-2009, University Corporation for Atmospheric Research, 
+// Massachusetts Institute of Technology, Geophysical Fluid Dynamics 
+// Laboratory, University of Michigan, National Centers for Environmental 
+// Prediction, Los Alamos National Laboratory, Argonne National Laboratory, 
+// NASA Goddard Space Flight Center.
+// Licensed under the University of Illinois-NCSA License.
+//
+//-------------------------------------------------------------------------
+// (all lines below between the !BOP and !EOP markers will be included in 
+//  the automated document processing.)
+//-----------------------------------------------------------------------------
+//
+// these lines prevent this file from being read more than once if it
+// ends up being included multiple times
+
+#ifndef ESMCI_FTable_H
+#define ESMCI_FTable_H
+
+//-----------------------------------------------------------------------------
+//BOPI
+// !CLASS:  ESMCI::FTable - function and data pointer table.
+//
+// !DESCRIPTION:
+//  List of descriptive strings and function/data pointers which can
+//   be get and set by name.  Used to register and call functions by
+//   string instead of making public symbols.  
+// 
+//EOPI
+//-----------------------------------------------------------------------------
+
+#include "ESMCI_VM.h"
+
+
+namespace ESMCI {
+
+// constants and enums
+
+// These are the types of functions which can be entered in the function
+// table.  The types are the arguments that will be stored in the table
+// and that the function will be called with.  There are a few generic 
+// types (called with an int, 2 ints, etc) and then some very specific
+// types used by the framework (e.g. a Gridded Component called with a list 
+// of void's and a final int * for the return code.)
+// The typedefs are to ease the declarations of the function entry point
+// itself.
+enum dtype { DT_VOIDP=1, DT_FORTRAN_UDT_POINTER };
+enum ftype { FT_VOID=1, FT_INT, FT_2INT, FT_INTP, FT_VOIDP, FT_VOIDPINTP,
+              FT_INITFINAL, FT_RUN, FT_COMP1STAT, FT_COMP2STAT, FT_COMPSLIST };
+typedef void (*VoidFunc)(void);
+typedef void (*IntFunc)(int);
+typedef void (*Int2Func)(int, int);
+typedef void (*IntPtrFunc)(int *);
+typedef void (*VoidPtrFunc)(void *);
+typedef void (*VoidPtrIntPtrFunc)(void *, int *);
+typedef void (*C1SFunc)(void *, void *, void *, int *);
+typedef void (*C2SFunc)(void *, void *, void *, void *, int *);
+typedef void (*CSLFunc)(void *, void *, void *, int *);
+
+typedef void (*VoidFuncVM)(void *);
+typedef void (*IntFuncVM)(int, void *);
+typedef void (*Int2FuncVM)(int, int, void *);
+typedef void (*IntPtrFuncVM)(int *, void *);
+typedef void (*VoidPtrFuncVM)(void *, void *);
+typedef void (*VoidPtrIntPtrFuncVM)(void *, int *, void *);
+typedef void (*C1SFuncVM)(void *, void *, void *, int *, void *);
+typedef void (*C2SFuncVM)(void *, void *, void *, void *, int *, void *);
+typedef void (*CSLFuncVM)(void *, void *, void *, int *, void *);
+
+
+// classes
+class FTable;
+
+// class definition
+class funcinfo {
+  private:
+    static const int numargs = 16;
+  protected:
+    char *funcname;
+    void *funcptr;
+    void *funcarg[numargs];
+    enum ftype ftype;
+  public:
+    funcinfo(){
+      funcname = NULL;
+      funcptr = NULL;
+      for (int i=0; i<numargs; i++)
+        funcarg[i] = NULL; 
+      ftype = FT_VOID;
+    }
+    ~funcinfo(){
+      if (funcname != NULL) 
+        delete[] funcname;
+    }
+               
+  friend class FTable;
+};
+
+class datainfo {
+  private:
+  protected:
+    char *dataname;
+    void *dataptr;
+    enum dtype dtype;
+  public:
+    datainfo(){
+      dataname = NULL; 
+      dataptr = NULL;
+      dtype=DT_VOIDP;
+    }
+    ~datainfo(){
+      if (dataname != NULL) 
+        delete[] dataname; 
+      if (dtype == DT_FORTRAN_UDT_POINTER)
+        delete [] (char *)dataptr;
+    } 
+  friend class FTable;
+};
+
+class FTable {
+  private:
+    int funccount;
+    int funcalloc;
+    funcinfo *funcs;
+    int datacount;
+    int dataalloc;
+    datainfo *data;
+  public:
+    static void setServices(void *ptr, void (*func)(), int *status);
+    static void setVM(void *ptr, void (*func)(), int *status);
+    static void setTypedEP(void *ptr, char *tname, int slen, int *phase, 
+      int nstate, enum ftype ftype, void *func, int *status);
+    static void getDP(FTable ***ptr, void **datap, int *status);
+    static void setDP(FTable ***ptr, void **datap, int *status);
+    int getDataPtr(char *name, void **data, enum dtype *dtype);
+    int setDataPtr(char *name, void **data, enum dtype dtype);
+    int setFuncArgs(char *name, int acount, void **arglist);
+    int getFuncPtr(char *name, void **func, enum ftype *ftype);
+    int setFuncPtr(char *name, void *func, enum ftype ftype);
+    int setFuncPtr(char *name, void *func);
+    int setFuncPtr(char *name, void *func, void *arg1, int *arg2);
+    int setFuncPtr(char *name, void *func, enum ftype ftype, 
+      int acount, void **arglist);
+    int extend(int nfuncp, int ndatap);
+    int callVFuncPtr(char *name, int *funcrc);
+    int callVFuncPtr(char *name, ESMCI::VM *vm, int *funcrc);
+    int validate(const char*) const;
+    int print(const char*) const;
+    // native C++ constructors/destructors
+    FTable(void);
+    ~FTable(void);
+  private: 
+    int query(int *nfuncp, int *ndatap);
+};
+
+typedef struct{
+  char name[160];         // trimmed type string
+  FTable *ftable;         // pointer to function table
+  int esmfrc;             // return code of esmf call back method
+  int userrc;             // return code of registered user method
+}cargotype;
+
+} // namespace ESMCI
+
+#endif  // ESMCI_FTable_H

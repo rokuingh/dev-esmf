@@ -1,0 +1,94 @@
+
+;; Function int main() (main)
+
+
+;; Generating RTL for tree basic block 2
+
+;; D.1672 = 0
+(insn 6 5 0 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (reg:SI 58 [ D.1672 ])
+        (const_int 0 [0x0])) -1 (nil))
+
+;; return D.1672
+(insn 7 6 8 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (reg:SI 59 [ <result> ])
+        (reg:SI 58 [ D.1672 ])) -1 (nil))
+
+(jump_insn 8 7 9 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (pc)
+        (label_ref 0)) -1 (nil))
+
+(barrier 9 8 0)
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+
+;; Start of basic block ( 0) -> 2
+;; Pred edge  ENTRY (fallthru)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+
+(insn 2 4 3 2 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:1 (set (reg:SI 60)
+        (reg:SI 2 cx)) -1 (nil))
+
+(note 3 2 5 2 NOTE_INSN_FUNCTION_BEG)
+;; End of basic block 2 -> ( 3)
+
+;; Succ edge  3 [100.0%]  (fallthru)
+
+;; Start of basic block ( 2) -> 3
+;; Pred edge  2 [100.0%]  (fallthru)
+(note 5 3 6 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+
+(insn 6 5 7 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (reg:SI 58 [ D.1672 ])
+        (const_int 0 [0x0])) -1 (nil))
+
+(insn 7 6 8 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (reg:SI 59 [ <result> ])
+        (reg:SI 58 [ D.1672 ])) -1 (nil))
+
+(jump_insn 8 7 9 3 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:2 (set (pc)
+        (label_ref 10)) -1 (nil))
+;; End of basic block 3 -> ( 5)
+
+;; Succ edge  5
+
+(barrier 9 8 18)
+
+;; Start of basic block () -> 4
+(note 18 9 12 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+
+(insn 12 18 13 4 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:3 (clobber (reg/i:SI 0 ax)) -1 (nil))
+
+(insn 13 12 14 4 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:3 (clobber (reg:SI 59 [ <result> ])) -1 (nil))
+
+(jump_insn 14 13 15 4 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:3 (set (pc)
+        (label_ref 16)) -1 (nil))
+;; End of basic block 4 -> ( 6)
+
+;; Succ edge  6
+
+(barrier 15 14 10)
+
+;; Start of basic block ( 3) -> 5
+;; Pred edge  3
+(code_label 10 15 19 5 1 "" [1 uses])
+
+(note 19 10 11 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+
+(insn 11 19 16 5 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:3 (set (reg/i:SI 0 ax)
+        (reg:SI 59 [ <result> ])) -1 (nil))
+;; End of basic block 5 -> ( 6)
+
+;; Succ edge  6 (fallthru)
+
+;; Start of basic block ( 4 5) -> 6
+;; Pred edge  4
+;; Pred edge  5 (fallthru)
+(code_label 16 11 20 6 2 "" [1 uses])
+
+(note 20 16 17 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+
+(insn 17 20 0 6 /home/ryan/sandboxes/merge_meshbranch_copy/esmf/scripts/hello.C:3 (use (reg/i:SI 0 ax)) -1 (nil))
+;; End of basic block 6 -> ( 1)
+
+;; Succ edge  EXIT [100.0%]  (fallthru)
+
