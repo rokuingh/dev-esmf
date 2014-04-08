@@ -27,7 +27,8 @@ srcfield[...] = 25
 
 # create an unstructured cubed-sphere destination mesh from a SCRIP format file
 mesh = ESMF.Mesh(filename=grid2, \
-                 filetype=ESMF.FileFormat.SCRIP)
+                 filetype=ESMF.FileFormat.SCRIP, \
+                 convert_to_dual=False)
 
 print "PET:{0} size = {1}, size_local = {2}".format(ESMF.local_pet(), mesh.size, mesh.size_local)
 
