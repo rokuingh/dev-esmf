@@ -62,7 +62,7 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-AttributeDuplicateNames:
+AttributeRemoveAddNestedPackage:
 
 .PHONY: clean
 clean:
