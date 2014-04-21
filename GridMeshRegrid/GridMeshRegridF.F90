@@ -60,37 +60,27 @@ DEG2RAD = 3.141592653589793_ESMF_KIND_R8/180.0_ESMF_KIND_R8
 srcGrid = ESMF_GridCreate("data/T42_grid.nc", ESMF_FILEFORMAT_SCRIP, &
 						  (/1,petCount/), addCornerStagger=.true., rc=rc)
 dstMesh = ESMF_MeshCreate("data/ne15np4_scrip.nc", ESMF_FILEFORMAT_SCRIP, rc=rc)
-!dstMesh = ESMF_MeshCreate("data/FVCOM_grid2d_20120314.nc", &
-!						  ESMF_FILEFORMAT_UGRID, meshname="fvcom_mesh", rc=rc)
+
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 ! Create source/destination fields
-!call ESMF_ArraySpecSet(arrayspec, 2, ESMF_TYPEKIND_R8, rc=rc)
-!if (rc /= ESMF_SUCCESS) return
-
-!srcField = ESMF_FieldCreate(srcGrid, arrayspec, &
-!staggerloc=ESMF_STAGGERLOC_CENTER, name="source", rc=rc)
 srcField = ESMF_FieldCreate(srcGrid, ESMF_TYPEKIND_R8, &
 staggerloc=ESMF_STAGGERLOC_CENTER, name="source", rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-
-!dstField = ESMF_FieldCreate(dstMesh, arrayspec, &
-!meshloc=ESMF_MESHLOC_ELEMENT, name="dest", rc=rc)
 dstField = ESMF_FieldCreate(dstMesh, ESMF_TYPEKIND_R8, &
 meshloc=ESMF_MESHLOC_ELEMENT, name="dest", rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-
-
 #if 0
-xdstField = ESMF_FieldCreate(dstMesh, arrayspec, &
-meshloc=ESMF_MESHLOC_ELEMENT, name="xdest", rc=rc)
+xdstField = ESMF_FieldCreate(dstMesh, ESMF_TYPEKIND_R8, &
+meshloc=ESMF_MESHLOC_ELEMENT, name="dest", rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-errorField = ESMF_FieldCreate(dstMesh, arrayspec, &
-meshloc=ESMF_MESHLOC_ELEMENT, name="error", rc=rc)
+errorField = ESMF_FieldCreate(dstMesh, ESMF_TYPEKIND_R8, &
+meshloc=ESMF_MESHLOC_ELEMENT, name="dest", rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+#endif
 
 ! Get number of local DEs
 call ESMF_GridGet(srcGrid, localDECount=localDECount, rc=rc)
@@ -130,48 +120,48 @@ do lDE=0,localDECount-1
 	enddo
 
 enddo    ! lDE
-#endif
 
 #if 0
 ! *********************  THIS IS NODE, SHOULD BE ELEMENT *******************
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Destination grid
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!
-!!! get coords
-!call ESMF_MeshGet(dstMesh, spatialDim=sd, numOwnedNodes=num_nodes, rc=rc)
-!if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-!
-!allocate (dstCoords(sd*num_nodes))
-!call ESMF_MeshGet(dstMesh, ownedNodeCoords=dstCoords, rc=rc)
-!if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-!
-!call ESMF_FieldGet(dstField, 0, farrayPtr, rc=rc)
-!if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-!
-!call ESMF_FieldGet(xdstField, 0, xfarrayPtr,  rc=rc)
-!if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-!
-!!! set coords, interpolated function
-!do i=1,sd*num_nodes
-!
-!	! init exact answer
-!	lon = dstCoords(i)
-!	lat = dstCoords(i+1)
-!	
-!	! Set the source to be a function of the x,y,z coordinate
-!	theta = DEG2RAD*(lon)
-!	phi = DEG2RAD*(90.-lat)
-!	
-!	! set exact dst data
-!	xfarrayPtr(i) = 2. + cos(theta)**2.*cos(2.*phi)
-!	
-!	! initialize destination field
-!	farrayPtr(i)=0.0
-!
-!enddo
 
+!! get coords
+call ESMF_MeshGet(dstMesh, spatialDim=sd, numOwnedNodes=num_nodes, rc=rc)
+if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+allocate (dstCoords(sd*num_nodes))
+call ESMF_MeshGet(dstMesh, ownedNodeCoords=dstCoords, rc=rc)
+if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+call ESMF_FieldGet(dstField, 0, farrayPtr, rc=rc)
+if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+call ESMF_FieldGet(xdstField, 0, xfarrayPtr,  rc=rc)
+if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+!! set coords, interpolated function
+do i=1,sd*num_nodes
+
+	! init exact answer
+	lon = dstCoords(i)
+	lat = dstCoords(i+1)
+	
+	! Set the source to be a function of the x,y,z coordinate
+	theta = DEG2RAD*(lon)
+	phi = DEG2RAD*(90.-lat)
+	
+	! set exact dst data
+	xfarrayPtr(i) = 2. + cos(theta)**2.*cos(2.*phi)
+	
+	! initialize destination field
+	farrayPtr(i)=0.0
+
+enddo
 #endif
+
+call ESMF_FieldPrint(dstField)
 
 !!! Regrid forward from the A grid to the B grid
 ! Regrid store
@@ -185,7 +175,10 @@ routeHandle=routeHandle, &
 regridmethod=ESMF_REGRIDMETHOD_CONSERVE, &
 rc=rc)
 
-call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=rc)
+call ESMF_FieldPrint(dstField)
+
+!call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=rc)
+
 
 call ESMF_FieldRegridRelease(routeHandle, rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
