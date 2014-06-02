@@ -23,9 +23,8 @@ integer :: clbnd(2), cubnd(2), flbnd(2), fubnd(2)
 integer :: i1,i2
 integer :: lDE, localDECount
 real(ESMF_KIND_R8) :: lon, lat, theta, phi, DEG2RAD
-real(ESMF_KIND_R8) :: srcmass, dstmass, globalMass(2)
+real(ESMF_KIND_R8) :: srcmass, dstmass, exactmass, globalMass(3)
 integer(ESMF_KIND_I4) :: maskvals(1)
-character(ESMF_MaxPathLen) :: srcGridFile, dstGridFile
 
 ! init success flag
 correct=.true.
@@ -50,17 +49,14 @@ if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 ! degree to rad conversion
 DEG2RAD = 3.141592653589793_ESMF_KIND_R8/180.0_ESMF_KIND_R8
 
-srcGridFile = "data/GRIDSPEC_ACCESS1.nc"
-dstGridFile = "data/SCRIP_1x1.nc"
-
 ! Grid create from file
-srcGrid = ESMF_GridCreate(trim(srcGridFile), &
+srcGrid = ESMF_GridCreate("data/GRIDSPEC_ACCESS1.nc", &
 						  ESMF_FILEFORMAT_GRIDSPEC, &
 						  (/1,petCount/), &
 						  addCornerStagger=.true., &
 						  addUserArea=.true., &
 						  addMask=.true., varname="so", rc=rc)
-dstGrid = ESMF_GridCreate(trim(dstGridFile), &
+dstGrid = ESMF_GridCreate("data/SCRIP_1x1.nc", &
 						  ESMF_FILEFORMAT_SCRIP, &
 						  (/1,petCount/), &
 						  addCornerStagger=.true., rc=rc)
@@ -135,7 +131,7 @@ do lDE=0,localDECount-1
     if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 	
 	! get dst pointer
-	call ESMF_FieldGet(exactField, lDE, dstPtr, rc=rc)
+	call ESMF_FieldGet(dstField, lDE, dstPtr, rc=rc)
 	call ESMF_FieldGet(exactField, lDE, exactPtr, rc=rc)
     if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 	
@@ -184,6 +180,7 @@ if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 srcmass = 0
 dstmass = 0
+exactmass = 0
 do lDE=0,localDECount-1
 
 	! get src pointers
@@ -210,7 +207,8 @@ do lDE=0,localDECount-1
 
 	do i1=flbnd(1),fubnd(1)
 		do i2=flbnd(2),fubnd(2)
-			dstmass = dstmass + dstPtr(i1,i2)*dstfracPtr(i1,i2)*dstareaPtr(i1,i2)
+			dstmass = dstmass + dstPtr(i1,i2)*dstareaPtr(i1,i2)
+			exactmass = exactmass + exactPtr(i1,i2)*dstareaPtr(i1,i2)
 			errorPtr(i1,i2) = dstPtr(i1,i2) - exactPtr(i1,i2)
 		enddo
 	enddo
@@ -218,13 +216,14 @@ do lDE=0,localDECount-1
 enddo    ! lDE
 
 
-call ESMF_VMReduce(vm, (/srcmass, dstmass/), globalMass, &
-				   count=2, reduceflag=ESMF_REDUCE_SUM, rootPet=0, rc=rc)
+call ESMF_VMReduce(vm, (/srcmass, dstmass, exactmass/), globalMass, &
+				   count=3, reduceflag=ESMF_REDUCE_SUM, rootPet=0, rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 if (localPet == 0) then
 	print *, "srcmass = ", globalMass(1)
 	print *, "dstmass = ", globalMass(2)
+	print *, "xctmass = ", globalMass(3)
 endif
 
 ! Clean up

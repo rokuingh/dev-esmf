@@ -62,11 +62,11 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-AttributeRemoveAddNestedPackage:
+AttributeDuplicateNames:
 
 .PHONY: clean
 clean:
-	rm -f  *.o *.Log *.out *.err *.vtk
+	rm -f  *.o *.Log *.out *.err *.vtk AttributeDuplicateNames
 
 .PHONY: dust
 dust:

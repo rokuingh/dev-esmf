@@ -176,8 +176,8 @@ int main(void){
   rc = ESMC_FieldRegridStore(srcfield, dstfield, NULL, NULL, &routehandle, 
                              &regridmethod, NULL, NULL, &unmappedaction,
                              NULL, NULL);
-  rc = ESMC_FieldRegrid(srcfield, dstfield, routehandle, NULL);
-  rc = ESMC_FieldRegridRelease(&routehandle);
+  /*rc = ESMC_FieldRegrid(srcfield, dstfield, routehandle, NULL);
+  rc = ESMC_FieldRegridRelease(&routehandle);*/
   if (rc != ESMF_SUCCESS) ESMC_Finalize();
 
   //----------------------------------------------------------------------------
