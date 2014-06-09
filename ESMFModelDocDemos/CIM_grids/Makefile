@@ -36,13 +36,19 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
+all: GridsDemo GridsDemo2
+
 GridsDemo: CIM_grids_demo.o 
+	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $^ $(ESMF_F90ESMFLINKLIBS)
+	rm *.o
+
+GridsDemo2: CF_to_CIM_demo.o
 	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $^ $(ESMF_F90ESMFLINKLIBS)
 	rm *.o
 
 .PHONY: clean
 clean:
-	rm -f  *.o *.mod *.Log *.out *.err *.vtk *.xml GridsDemo
+	rm -f  *.o *.mod *.ESMF_LogFile *.out *.err *.vtk *.xml GridsDemo GridsDemo2
 
 .PHONY: dust
 dust:

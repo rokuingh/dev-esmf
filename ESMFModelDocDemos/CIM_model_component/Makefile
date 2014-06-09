@@ -38,14 +38,19 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
+all: ModelGridDemo dust
+
 ModelDemo: user_model1.o user_model2.o user_model3.o user_model4.o user_coupler.o CIM_model_demo.o 
 	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $^ $(ESMF_F90ESMFLINKLIBS)
-	rm *.o *.mod
 CIM_model_demo.o: user_model1.o user_model2.o user_model3.o user_model4.o user_coupler.o
+
+ModelGridDemo: user_model1.o user_model2.o user_model3.o user_model4.o user_coupler.o CIM_model_demo_with_grids.o 
+	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $^ $(ESMF_F90ESMFLINKLIBS)
+CIM_model_demo_with_grids.o: user_model1.o user_model2.o user_model3.o user_model4.o user_coupler.o
 
 .PHONY: clean
 clean:
-	rm -f  *.o *.mod *.Log *.out *.err *.vtk *.xml ModelDemoRUN
+	rm -f  *.o *.mod *.Log *.out *.err *.vtk *.xml ModelDemo ModelGridDemo
 
 .PHONY: dust
 dust:

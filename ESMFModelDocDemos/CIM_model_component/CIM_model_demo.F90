@@ -32,7 +32,7 @@ program CIM_model_demo
 !
 
   ! Initialize framework and get back default global VM
-  call ESMF_Initialize(vm=vm, defaultlogfilename="AttributeCIMSTest.Log", &
+  call ESMF_Initialize(vm=vm, defaultlogfilename="ModelDemo.Log", &
                         logkindflag=ESMF_LOGKIND_MULTI, rc=rc)
   if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
     line=__LINE__, &
@@ -80,7 +80,7 @@ program CIM_model_demo
       file=__FILE__)) &
       call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-    cplname = "user coupler"
+    cplname = "user_coupler"
     ! use petList to define cplcomp on PET 0
     cplcomp = ESMF_CplCompCreate(name=cplname, petList=(/0/), rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &

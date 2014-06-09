@@ -101,9 +101,36 @@ module user_model1
     character(ESMF_MAXSTR)      :: sciPropAtt(3)
     type(ESMF_Field)            :: OH, Orog
     type(ESMF_FieldBundle)      :: fieldbundle
-    
+    type(ESMF_Grid)             :: grid
+    type(ESMF_VM)               :: vm
+    integer                     :: localPet, petCount
+
     ! Initialize return code
     rc = ESMF_SUCCESS
+
+    ! get pet info
+    call ESMF_VMGetGlobal(vm, rc=rc)
+    call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=rc)
+    if (rc/=ESMF_SUCCESS) return ! bail out
+
+    grid = ESMF_GridCreate("data/GRIDSPEC_ACCESS1.nc", &
+            ESMF_FILEFORMAT_GRIDSPEC, &
+            (/1,petCount/), &
+            addCornerStagger=.true., &
+            addMask=.true., varname="so", rc=rc)
+    if (rc/=ESMF_SUCCESS) return ! bail out
+
+    call ESMF_AttributeAdd(grid, &
+                           convention='CIM 1.7.1', &
+                           purpose='grids', &
+                           rc=rc)
+    if (rc/=ESMF_SUCCESS) return ! bail out
+
+    call ESMF_GridCompSet(comp, grid=grid, rc=rc)
+    if (rc/=ESMF_SUCCESS) return ! bail out
+
+    call ESMF_AttributeLink(comp, grid, rc=rc)
+    if (rc/=ESMF_SUCCESS) return ! bail out
 
     ! Create the CIM Attribute package on the Gridded Component and set its
     ! values.  The standard Attribute package currently supplied by ESMF for a
