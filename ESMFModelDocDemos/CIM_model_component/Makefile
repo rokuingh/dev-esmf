@@ -38,7 +38,7 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-all: ModelDemo ModelGridDemo dust
+all: ModelGridDemo dust
 
 ModelDemo: user_model1.o user_model2.o user_model3.o user_model4.o user_coupler.o CIM_model_demo.o 
 	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $^ $(ESMF_F90ESMFLINKLIBS)
