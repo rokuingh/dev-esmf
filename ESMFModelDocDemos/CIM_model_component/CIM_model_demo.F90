@@ -122,7 +122,7 @@ program CIM_model_demo
       file=__FILE__)) &
       call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-    cplname = "user coupler"
+    cplname = "user_coupler"
     ! default petList defines cplcomp on all PETs 0,1,2,3,4,5,6,7
     cplcomp = ESMF_CplCompCreate(name=cplname, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
@@ -493,7 +493,7 @@ program CIM_model_demo
     file=__FILE__)) &
     call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-  conv = 'CIM 1.5'
+  conv = 'CIM 1.7.1'
   purp = 'ModelComp'
   ! write the Attribute info in CIM XML format for the Coupler, both Components,
   ! and their Fields

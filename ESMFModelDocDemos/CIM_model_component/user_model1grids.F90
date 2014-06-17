@@ -13,7 +13,7 @@
 !
 !\begin{verbatim}
 
-module user_model2
+module user_model1grids
 
   ! ESMF Framework module
   use ESMF
@@ -22,8 +22,8 @@ module user_model2
   
   private
     
-  public userm2_setvm, userm2_register, user_init
-  
+  public userm1_setvm, userm1_register
+        
   contains
 
 !-------------------------------------------------------------------------
@@ -31,7 +31,7 @@ module user_model2
 !   !   as the init, run, and finalize routines.  Note that these are
 !   !   private to the module.
  
-  subroutine userm2_setvm(comp, rc)
+  subroutine userm1_setvm(comp, rc)
     type(ESMF_GridComp) :: comp
     integer, intent(out) :: rc
 #ifdef ESMF_TESTWITHTHREADS
@@ -68,7 +68,7 @@ module user_model2
 
   end subroutine
 
-  subroutine userm2_register(comp, rc)
+  subroutine userm1_register(comp, rc)
     type(ESMF_GridComp)  :: comp
     integer, intent(out) :: rc
 
@@ -111,11 +111,48 @@ module user_model2
     character(ESMF_MAXSTR)      :: convCIM, purpComp, purpSci, purpField
     character(ESMF_MAXSTR)      :: convISO, purpRP, purpCitation
     character(ESMF_MAXSTR)      :: sciPropAtt(3)
-    type(ESMF_Field)            :: DMS_emi, SST
+    type(ESMF_Field)            :: OH, Orog
     type(ESMF_FieldBundle)      :: fieldbundle
-    
+    type(ESMF_Grid)             :: grid
+    type(ESMF_VM)               :: vm
+    integer                     :: localPet, petCount
+
     ! Initialize return code
     rc = ESMF_SUCCESS
+
+    ! get pet info
+    call ESMF_VMGetGlobal(vm, rc=rc)
+    call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+
+    grid = ESMF_GridCreate("data/GRIDSPEC_ACCESS1.nc", &
+            ESMF_FILEFORMAT_GRIDSPEC, &
+            (/1,petCount/), &
+            addCornerStagger=.true., &
+            addMask=.true., varname="so", rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+
+    call ESMF_AttributeAdd(grid, &
+                           convention='CIM 1.7.1', &
+                           purpose='grids', &
+                           rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+
+    call ESMF_GridCompSet(comp, grid=grid, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+
+    call ESMF_AttributeLink(comp, grid, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
 
     ! Create the CIM Attribute package on the Gridded Component and set its
     ! values.  The standard Attribute package currently supplied by ESMF for a
@@ -128,14 +165,15 @@ module user_model2
     !
     convCIM = 'CIM 1.7.1'
     purpComp = 'ModelComp'
-    ! Specify the Gridded Component to have the default of 1 Responsible
+    ! Specify the Gridded Components to have the default of 1 Responsible
     !   Party sub-package and 1 Citation sub-package
-    call ESMF_AttributeAdd(comp, convention=convCIM, purpose=purpComp, rc=rc)
+    call ESMF_AttributeAdd(comp, convention=convCIM, &
+      purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
 
-    call ESMF_AttributeSet(comp, 'ShortName', 'EarthSys_Ocean', &
+    call ESMF_AttributeSet(comp, 'ShortName', 'EarthSys_Atmos', &
       convention=convCIM, purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -148,7 +186,7 @@ module user_model2
     !                  'SimulationShortName'.
 
     call ESMF_AttributeSet(comp, 'LongName', &
-                           'Ocean component of EarthSys', &
+                           'Atmosphere component of the EarthSys model', &
       convention=convCIM, purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -157,10 +195,9 @@ module user_model2
     !               under title, prepended to attribute 'SimulationLongName'.
 
     call ESMF_AttributeSet(comp, 'Description', &
-      'The EarthSys ocean component uses a latitude-longitude grid ' // &
-      'with a zonal resolution of 2 degrees, and a meridional ' // &
-      'resolution of 2 degrees.  It has 30 evenly spaced levels in ' // &
-      'the vertical.  The timestep period is 1 hour.', &
+      'The EarthSys atmosphere model has a horizontal resolution of 1.125 ' // &
+      'degrees of latitude by 1.75 degrees of longitude with 36 layers ' // &
+      'in the vertical. The atmospheric timestep period is 30 minutes.', &
         convention=convCIM, purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -168,7 +205,7 @@ module user_model2
     ! ESG Display:  "Description:" in top box.
 
     call ESMF_AttributeSet(comp, 'ReleaseDate', &
-      '2009-05-31T23:59:59Z', &
+      '2009-12-31T23:59:59Z', &
         convention=convCIM, purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -176,7 +213,7 @@ module user_model2
     ! ESG Display:  "Release Date" under tabs "Properties->Basic".
 
     call ESMF_AttributeSet(comp, 'ModelType', &
-      'ocean', convention=convCIM, purpose=purpComp, rc=rc)
+      'Atmosphere', convention=convCIM, purpose=purpComp, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
@@ -184,7 +221,7 @@ module user_model2
     !               navigator bar on the left.
 
 
-    ! Responsible party attributes (for Center)
+    ! Responsible party attributes (for Principal Investigator)
     convISO = 'ISO 19115'
     purpRP = 'RespParty'
     call ESMF_AttributeGetAttPack(comp, convISO, purpRP, attpack=attpack, rc=rc)
@@ -193,12 +230,12 @@ module user_model2
       file=__FILE__)) return ! bail out
 
     call ESMF_AttributeSet(comp, 'Name', &
-     'GHI', &
+     'John Doe', &
       convention=convISO, purpose=purpRP, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    ! ESG Display:  Ingested and stored, but not yet displayed, as of ESG 1.3.1.
+    ! ESG Display:  "Principal Investigator" under tabs "Properties->Basic".
 
     call ESMF_AttributeSet(comp, 'PhysicalAddress', &
      'Department of Meteorology, University of ABC', &
@@ -209,15 +246,15 @@ module user_model2
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
     call ESMF_AttributeSet(comp, 'EmailAddress', &
-     'info@earthsys.org', &
+     'john.doe@earthsys.org', &
       convention=convISO, purpose=purpRP, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    ! ESG Display:  Not ingested, as of ESG 1.3.1.
+    ! ESG Display:  Ingested, but not displayed, as of ESG 1.3.1.
 
     call ESMF_AttributeSet(comp, 'ResponsiblePartyRole', &
-     'Center', &
+     'Author', &
       convention=convISO, purpose=purpRP, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -232,21 +269,21 @@ module user_model2
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-
+    
     call ESMF_AttributeSet(comp, 'ShortTitle', &
-     'Doe_2007', &
+     'Doe_2008', &
       convention=convISO, purpose=purpCitation, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
-
+  
     call ESMF_AttributeSet(comp, 'LongTitle', &
      'Doe, J.A.; Doe, S.B.; ' // &
-     'Doe, J.C.; 2007 EarthSys: ' // &
+     'Doe, J.C.; 2008 EarthSys: ' // &
      'The Earth System High Resolution Global Model - ' // &
-     'Ocean model description . Journal of Earth Modeling, 13 (4). ' // &
-     '1461-1496.', &
+     'Atmosphere model description . Journal of Earth Modeling, 14 (3). ' // &
+     '1361-1396.', &
       convention=convISO, purpose=purpCitation, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -255,7 +292,7 @@ module user_model2
     !               tab "References".
 
     call ESMF_AttributeSet(comp, 'Date', &
-     '2007-05-07', &
+     '2008-04-06', &
       convention=convISO, purpose=purpCitation, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -271,7 +308,7 @@ module user_model2
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
     call ESMF_AttributeSet(comp, 'DOI', &
-     'doi:15.1033/2007JCLI4506.1', &
+     'doi:16.1034/2008JCLI4507.1', &
       convention=convISO, purpose=purpCitation, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -285,7 +322,7 @@ module user_model2
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    ! ESG Display:  Not output to CIM, as of v1.5/1.7 (no definition for it).
+    ! ESG Display:  Not output to CIM, as of v1.5/1.7 (no definition for it). 
 
 
     !
@@ -293,10 +330,9 @@ module user_model2
     !
     convCIM = 'CIM 1.7.1'
     purpSci = 'SciProp'
-    ! Define some user-specified scientific properties
-    sciPropAtt(1) = 'OceanOceanKeyPropertiesModelFamily'
-    sciPropAtt(2) = 'OceanOceanKeyPropertiesBasicApproximations'
-    sciPropAtt(3) = 'OceanOceanKeyPropertiesListOfPrognosticVariables'
+    sciPropAtt(1) = 'AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses'
+    sciPropAtt(2) = 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment'
+    sciPropAtt(3) = 'AtmosphereAtmosConvectTurbulCloudCloudSimulatorInputsRadarRadarType'
     call ESMF_AttributeAdd(comp, convention=convCIM, purpose=purpSci, &
       attrList=sciPropAtt, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
@@ -305,8 +341,8 @@ module user_model2
 
     ! Scientific Properties:  attributes per Metafor standard
     call ESMF_AttributeSet(comp, &
-     'OceanOceanKeyPropertiesModelFamily', &
-       'OGCM', &
+      'AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses', &
+        'effect of snow', &
       convention=convCIM, purpose=purpSci, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -315,8 +351,8 @@ module user_model2
     !               "Properties->Scientific"
 
     call ESMF_AttributeSet(comp, &
-     'OceanOceanKeyPropertiesBasicApproximations', &
-       'non-hydrostatic', &
+      'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment', &
+        'yes', &
       convention=convCIM, purpose=purpSci, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -325,8 +361,8 @@ module user_model2
     !               "Properties->Scientific"
 
     call ESMF_AttributeSet(comp, &
-     'OceanOceanKeyPropertiesListOfPrognosticVariables', &
-       'salinity', &
+      'AtmosphereAtmosConvectTurbulCloudCloudSimulatorInputsRadarRadarType', &
+        'spaceborne', &
       convention=convCIM, purpose=purpSci, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -341,49 +377,43 @@ module user_model2
     convCIM = 'CIM 1.7.1'
     purpField = 'Inputs'
 
-    ! DMS_emi Field
-    DMS_emi = ESMF_FieldEmptyCreate(name='DMS_emi', rc=rc)
+
+    ! OH Field
+    OH = ESMF_FieldEmptyCreate(name='OH', rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    call ESMF_AttributeAdd(DMS_emi, convention=convCIM, purpose=purpField,rc=rc)
+    call ESMF_AttributeAdd(OH, convention=convCIM, purpose=purpField,rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
 
 
-    ! DMS_emi ESMF-General Attribute
-    call ESMF_AttributeSet(DMS_emi, 'Intent', 'Export', &
-         convention=convCIM, purpose=purpField, rc=rc)
-    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
-      line=__LINE__, &
-      file=__FILE__)) return ! bail out
-    ! ESG Display:  Not ingested, as of ESG 1.3.1.
-
-
-    ! DMS_emi CF-Extended Attributes
-    call ESMF_AttributeSet(DMS_emi, 'ShortName', 'DMS_emi', &
+    ! OH CF-Extended Attributes
+    call ESMF_AttributeSet(OH, 'ShortName', 'OH_Conc_1900', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  As field name under tab "Inputs".
 
-    call ESMF_AttributeSet(DMS_emi, 'StandardName', 'DMS_emissions', &
+    call ESMF_AttributeSet(OH, 'StandardName', &
+                               'OH_Concentrations', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
-    call ESMF_AttributeSet(DMS_emi, 'LongName', 'DMS emissions', &
+    call ESMF_AttributeSet(OH, 'LongName', &
+                               'seasonal_oxidant_conc', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
-    call ESMF_AttributeSet(DMS_emi, 'Units', 'kg/m2/s', &
+    call ESMF_AttributeSet(OH, 'Units', 'kg/m3', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -391,9 +421,8 @@ module user_model2
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
 
-    ! DMS_emi CIM Attributes
-    call ESMF_AttributeSet(DMS_emi, 'CouplingPurpose', &
-                                    'Ancillary', &
+    ! OH CIM Attributes
+    call ESMF_AttributeSet(OH, 'CouplingPurpose', 'Boundary', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -401,8 +430,8 @@ module user_model2
     ! ESG Display:  Title of expandable bar under tab "Inputs", 
     !               "Boundary Conditions".
 
-    call ESMF_AttributeSet(DMS_emi, 'CouplingSource', &
-                                    'EarthSys_Ocean', &
+    call ESMF_AttributeSet(OH, 'CouplingSource', &
+                               'EarthSys_Atmos', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -410,8 +439,8 @@ module user_model2
     ! ESG Display:  "Input Source Component" under tab "Inputs", 
     !               under field name. 
 
-    call ESMF_AttributeSet(DMS_emi, 'CouplingTarget', &
-                                    'EarthSys_OceanBioGeoChem', &
+    call ESMF_AttributeSet(OH, 'CouplingTarget', &
+                               'EarthSys_AtmosDynCore', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -419,17 +448,17 @@ module user_model2
     ! ESG Display:  "Input Target Component" under tab "Inputs", 
     !               under field name.
 
-    call ESMF_AttributeSet(DMS_emi, 'Description', &
-                                    'Dimethyl Sulfide emissions in the ' // &
-                                    'atmosphere.', &
+    call ESMF_AttributeSet(OH, 'Description', &
+                               'Seasonal oxidant concentration in ' // &
+                               'the atmosphere.', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Next to field name (after colon) under tab "Inputs".
 
-    call ESMF_AttributeSet(DMS_emi, 'SpatialRegriddingMethod', &
-                                    'Conservative-First-Order', &
+    call ESMF_AttributeSet(OH, 'SpatialRegriddingMethod', &
+                               'Near-Neighbor', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -437,15 +466,23 @@ module user_model2
     ! ESG Display:  "Input Spatial Regridding Method" under tab "Inputs",
     !               under field name. 
 
-    call ESMF_AttributeSet(DMS_emi, 'Frequency', '15 Minutes', &
+    call ESMF_AttributeSet(OH, 'SpatialRegriddingDimension', &
+                               '2D', &
+         convention=convCIM, purpose=purpField, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+    ! ESG Display:  Not ingested, as of ESG 1.3.1.
+
+    call ESMF_AttributeSet(OH, 'Frequency', '10 Hours', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  "Input Frequency" under tab "Inputs", under field name.
 
-    call ESMF_AttributeSet(DMS_emi, 'TimeTransformationType', &
-                                    'TimeAverage', &
+    call ESMF_AttributeSet(OH, 'TimeTransformationType', &
+                               'TimeInterpolation', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -453,26 +490,41 @@ module user_model2
     ! ESG Display:  "Input Time Transformation Type" under tab "Inputs", 
     !               under field name. 
 
-
-    ! SST Field
-    SST = ESMF_FieldEmptyCreate(name='SST', rc=rc)
+    
+    ! Orog Field
+    Orog = ESMF_FieldEmptyCreate(name='Orog', rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    call ESMF_AttributeAdd(SST, convention=convCIM, purpose=purpField,rc=rc)
+    call ESMF_AttributeAdd(Orog, convention=convCIM, purpose=purpField,rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
 
-    ! SST CF-Extended Attributes
-    call ESMF_AttributeSet(SST, 'ShortName', 'SST', &
+
+    ! Orog CF-Extended Attributes
+    call ESMF_AttributeSet(Orog, 'ShortName', 'UM_Orog_n320', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  As field name under tab "Inputs".
 
-    call ESMF_AttributeSet(SST, 'Units', 'K', &
+    call ESMF_AttributeSet(Orog, 'StandardName', 'Height', &
+         convention=convCIM, purpose=purpField, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+    ! ESG Display:  Not ingested, as of ESG 1.3.1.
+
+    call ESMF_AttributeSet(Orog, 'LongName', 'Orography', &
+         convention=convCIM, purpose=purpField, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+    ! ESG Display:  Not ingested, as of ESG 1.3.1.
+
+    call ESMF_AttributeSet(Orog, 'Units', 'm', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -480,8 +532,8 @@ module user_model2
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
 
-    ! SST CIM Attributes
-    call ESMF_AttributeSet(SST, 'CouplingPurpose', 'Initial', &
+    ! Orog CIM Attributes
+    call ESMF_AttributeSet(Orog, 'CouplingPurpose', 'Initial', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -489,8 +541,8 @@ module user_model2
     ! ESG Display:  Title of expandable bar under tab "Inputs", 
     !               "Boundary Conditions".
 
-    call ESMF_AttributeSet(SST, 'CouplingSource', &
-                                'EarthSys_Ocean', &
+    call ESMF_AttributeSet(Orog, 'CouplingSource', &
+                                 'EarthSys_Atmos', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -498,8 +550,8 @@ module user_model2
     ! ESG Display:  "Input Source Component" under tab "Inputs", 
     !               under field name. 
 
-    call ESMF_AttributeSet(SST, 'CouplingTarget', &
-                                'EarthSys_OceanBioGeoChem', &
+    call ESMF_AttributeSet(Orog, 'CouplingTarget', &
+                                 'EarthSys_AtmosDynCore', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -507,16 +559,17 @@ module user_model2
     ! ESG Display:  "Input Target Component" under tab "Inputs", 
     !               under field name.
 
-    call ESMF_AttributeSet(SST, 'Description', &
-                                'Sea surface temperature.', &
+    call ESMF_AttributeSet(Orog, 'Description', &
+                                 'Orography/height data in meters at ' // &
+                                 'n320 resolution.', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Next to field name (after colon) under tab "Inputs".
 
-    call ESMF_AttributeSet(SST, 'SpatialRegriddingMethod', &
-                                'Non-Conservative', &
+    call ESMF_AttributeSet(Orog, 'SpatialRegriddingMethod', &
+                                 'Conservative', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -524,23 +577,15 @@ module user_model2
     ! ESG Display:  "Input Spatial Regridding Method" under tab "Inputs",
     !               under field name. 
 
-    call ESMF_AttributeSet(SST, 'SpatialRegriddingDimension', &
-                                '2D', &
+    call ESMF_AttributeSet(Orog, 'SpatialRegriddingDimension', &
+                                 '2D', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
     ! ESG Display:  Not ingested, as of ESG 1.3.1.
 
-    call ESMF_AttributeSet(SST, 'Frequency', '5 Months', &
-         convention=convCIM, purpose=purpField, rc=rc)
-    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
-      line=__LINE__, &
-      file=__FILE__)) return ! bail out
-    ! ESG Display:  "Input Frequency" under tab "Inputs", under field name.
-
-    call ESMF_AttributeSet(SST, 'TimeTransformationType', &
-                                'TimeAverage', &
+    call ESMF_AttributeSet(Orog, 'TimeTransformationType', 'Exact', &
          convention=convCIM, purpose=purpField, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
@@ -550,18 +595,18 @@ module user_model2
 
 
     ! Create a FieldBundle for the two Fields
-    fieldbundle = ESMF_FieldBundleCreate(name="fieldbundle2", rc=rc)
+    fieldbundle = ESMF_FieldBundleCreate(name="fieldbundle1", rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
       
-    ! Add the Fields to the FieldBundle (this will connect the Attribute
+    ! Add the Fields to the FieldBundle (this will link the Attribute
     ! hierarchies of the FieldBundle and Fields)
-    call ESMF_FieldBundleAdd(fieldbundle, (/DMS_emi/), rc=rc)
+    call ESMF_FieldBundleAdd(fieldbundle, (/OH/), rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
-    call ESMF_FieldBundleAdd(fieldbundle, (/SST/), rc=rc)
+    call ESMF_FieldBundleAdd(fieldbundle, (/Orog/), rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
@@ -584,10 +629,29 @@ module user_model2
     type(ESMF_Clock) :: clock
     integer, intent(out) :: rc
 
+    character(ESMF_MAXSTR)      :: convCIM, purpComp, attrVal
+
+    convCIM = 'CIM 1.7.1'
+    purpComp = 'ModelComp'
+
     ! Initialize return code
     rc = ESMF_SUCCESS
 
-    ! Nothing happens in this run cycle for this simple example
+#if 0
+    ! for testing ESMF_AttributeUpdate()
+    call ESMF_AttributeRemove(comp, name="ReleaseDate", &
+      purpose=purpComp, convention=convCIM ,rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+    attrVal = "Test change"
+    call ESMF_AttributeSet(comp, name="Name", &
+      value=attrVal, &
+      convention=convCIM, purpose=purpComp, rc=rc)
+    if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+      line=__LINE__, &
+      file=__FILE__)) return ! bail out
+#endif
                                                              
   end subroutine user_run
 
@@ -600,8 +664,7 @@ module user_model2
     type(ESMF_State) :: importState, exportState
     type(ESMF_Clock) :: clock
     integer, intent(out) :: rc
-    
-    ! Local variables
+
     type(ESMF_Field)            :: field
     type(ESMF_FieldBundle)      :: fieldbundle
     integer                     :: k
@@ -609,7 +672,7 @@ module user_model2
     ! Initialize return code
     rc = ESMF_SUCCESS
     
-    call ESMF_StateGet(exportState, "fieldbundle2", fieldbundle, rc=rc)
+    call ESMF_StateGet(exportState, "fieldbundle1", fieldbundle, rc=rc)
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
@@ -630,8 +693,9 @@ module user_model2
     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
       line=__LINE__, &
       file=__FILE__)) return ! bail out
+
   end subroutine user_final
 
-end module user_model2
+end module user_model1grids
     
 !\end{verbatim}

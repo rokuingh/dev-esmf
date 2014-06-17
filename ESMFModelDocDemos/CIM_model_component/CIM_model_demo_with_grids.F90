@@ -4,7 +4,7 @@ program CIM_model_demo
   ! ESMF Framework module
   use ESMF
 
-  use user_model1, only : userm1_setvm, userm1_register
+  use user_model1grids, only : userm1_setvm, userm1_register
   use user_model2, only : userm2_setvm, userm2_register
   use user_model3, only : userm3_setvm, userm3_register
   use user_model4, only : userm4_setvm, userm4_register
@@ -493,9 +493,7 @@ program CIM_model_demo
     file=__FILE__)) &
     call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-  !conv = 'CIM 1.7.1'
-  !purp = 'grids'
-  conv = 'CIM 1.5'
+  conv = 'CIM 1.7.1'
   purp = 'ModelComp'
   ! write the Attribute info in CIM XML format for the Coupler, both Components,
   ! and their Fields

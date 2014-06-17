@@ -48,7 +48,7 @@ GridsDemo2: CF_to_CIM_demo.o
 
 .PHONY: clean
 clean:
-	rm -f  *.o *.mod *.ESMF_LogFile *.out *.err *.vtk *.xml GridsDemo GridsDemo2
+	rm -f  *.o *.mod *.ESMF_LogFile *.Log *.out *.err *.vtk *.xml GridsDemo GridsDemo2
 
 .PHONY: dust
 dust:
