@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with ESMF Version 5.3.0, http://www.earthsystemmodeling.org -->
+<CIMDocumentSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns="http://www.purl.org/org/esmetadata/cim/1.7.1/schemas" xsi:schemaLocation="http://www.purl.org/org/esmetadata/cim/1.7.1/schemas/cim.xsd">
+  <modelComponent>
+    <shortName>CESM</shortName>
+      <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+      <!--    to ESG: 1) Component name, left-side navigator bar. -->
+      <!--    to ESG: 2) "Simulation Metadata:", top of display, 1st line; 'SimulationShortName' appended. -->
+    <longName>Community Earth System Model</longName>
+      <!-- from ESMF: CIM/Main, 'LongName'. -->
+      <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+    <description>The Community Earth System Model (CESM) is a coupled climate model for simulating the earth&apos;s climate system. Composed of four separate models simultaneously simulating the earth&apos;s atmosphere, ocean, land surface and sea-ice, and one central coupler component, the CESM allows researchers to conduct fundamental research into the earth&apos;s past, present and future climate states.</description>
+      <!-- from ESMF: CIM/Main, 'Description'. -->
+      <!--    to ESG: "Description:" in top box. -->
+    <releaseDate>2010</releaseDate>
+      <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+      <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+    <onlineResource>
+      <gmd:linkage>
+        <gmd:URL>www.cesm.ucar.edu</gmd:URL>
+          <!-- from ESMF: CIM/Main, 'URL'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:linkage>
+    </onlineResource>
+    <childComponent>
+      <modelComponent>
+        <shortName>CAM</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Community Atmosphere Model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>Version 5.0 of the Community Atmosphere Model (CAM) is the latest in a series of global atmosphere models developed primarily at the National Center for Atmospheric Research (NCAR).  CAM 5.0 includes significant enhancements to the representation of atmospheric processes resulting in a number of notable improvements.  CAM 4.0 is also available in the CESM 1.0 release.  Development of the model was led by the Atmosphere Model Working Group (AMWG).</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <componentProperties>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesModelFamily</shortName>
+            <value>AGCM</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesModelFamily'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesBasicApproximations</shortName>
+            <value>hydrostatic</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesBasicApproximations'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesVolcanoesImplementation</shortName>
+            <value>via stratospheric aerosols optical thickness</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesVolcanoesImplementation'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesVolcanoesImplementationMethod</shortName>
+            <value>prescribed zonal monthly-mean masses on an arbitrary meridional and vertical grid</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesVolcanoesImplementationMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesOrographyOrographyType</shortName>
+            <value>present-day</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesOrographyOrographyType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesOrographyOrographyChanges</shortName>
+            <value>none</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesOrographyOrographyChanges'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationImpactOnOzone</shortName>
+            <value>no</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationImpactOnOzone'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationSolarConstantType</shortName>
+            <value>transient</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationSolarConstantType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationSolarConstantCharacteristics</shortName>
+            <value>time series based on Lean et al. (1995)</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationSolarConstantCharacteristics'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersType</shortName>
+            <value>fixed</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersReferenceDate</shortName>
+            <value>Input 1950+/-10^6, or from input of eccentricity factor, longitude of perihelion, and obliquity</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersReferenceDate'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersComputationMethod</shortName>
+            <value>Berger 1978</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosKeyPropertiesTopOfAtmosInsolationOrbitalParametersComputationMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreListOfPrognosticVariables</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreListOfPrognosticVariables'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreTopBoundaryCondition</shortName>
+            <value>radiation boundary condition</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreTopBoundaryCondition'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreHeatTreatmentAtTop</shortName>
+            <value>extra top layer</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreHeatTreatmentAtTop'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreWindTreatmentAtTop</shortName>
+            <value>Lagrangian surface with prescribed pressure</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreWindTreatmentAtTop'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreLateralBoundaryCondition</shortName>
+            <value>none</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreLateralBoundaryCondition'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreTimeSteppingFrameworkSchemeType</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreTimeSteppingFrameworkSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreTimeSteppingFrameworkTimeStep</shortName>
+            <value>1800 seconds</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreTimeSteppingFrameworkTimeStep'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreHorizontalDiscretizationSchemeType</shortName>
+            <value>fixed grid</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreHorizontalDiscretizationSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreHorizontalDiscretizationSchemeMethod</shortName>
+            <value>finite volumes</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreHorizontalDiscretizationSchemeMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreHorizontalDiscretizationPoleSingularityTreatment</shortName>
+            <value>filter</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreHorizontalDiscretizationPoleSingularityTreatment'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreHorizontalDiffusionSchemeName</shortName>
+            <value>monotonicity constraint</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreHorizontalDiffusionSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersSchemeName</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersSchemeCharacteristics</shortName>
+            <value>finite volume</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersSchemeCharacteristics'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersConservedQuantities</shortName>
+            <value>mass, momentum, total energy</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersConservedQuantities'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersConservationMethod</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionTracersConservationMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumSchemeName</shortName>
+            <value>Van Leer</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumSchemeCharacteristics</shortName>
+            <value>staggered grid</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumSchemeCharacteristics'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumStaggeringType</shortName>
+            <value>Arakawa C-grid</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumStaggeringType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumConservedQuantities</shortName>
+            <value>mass, momentum, total energy</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumConservedQuantities'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumConservationMethod</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreAtmosAdvectionMomentumConservationMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationTimeStep</shortName>
+            <value>1800</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationTimeStep'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationAerosolTypes</shortName>
+            <value>sulphate, sea salt, dust, ice, organic, BC (black carbon / soot)</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationAerosolTypes'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationGHG-Types</shortName>
+            <value>CO2, CH4, N2O, CFC, H2O, O3</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationGHG-Types'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationLongwaveSchemeType</shortName>
+            <value>wide-band model</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationLongwaveSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationLongwaveSchemeMethod</shortName>
+            <value>layer interaction</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationLongwaveSchemeMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationLongwaveNumberOfSpectralIntervals</shortName>
+            <value>7</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationLongwaveNumberOfSpectralIntervals'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationShortwaveSchemeType</shortName>
+            <value>wide-band model</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationShortwaveSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationShortwaveNumberOfSpectralIntervals</shortName>
+            <value>19</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationShortwaveNumberOfSpectralIntervals'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationCloudRadiativePropertiesice</shortName>
+            <value>temperature-dependent effective radius</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationCloudRadiativePropertiesice'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosRadiationCloudRadiativePropertiesliquid</shortName>
+            <value>constant effective radius over ocean and sea ice, and temperature-dependent over land</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosRadiationCloudRadiativePropertiesliquid'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceSchemeName</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceSchemeType</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceCounterGradient</shortName>
+            <value>yes</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudBoundaryLayerTurbulenceCounterGradient'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeName</shortName>
+            <value>plume ensemble</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeType</shortName>
+            <value>mass-flux</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeMethod</shortName>
+            <value>CAPE</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudDeepConvectionSchemeMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudDeepConvectionProcesses</shortName>
+            <value>convective momentum transport (CMT)</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudDeepConvectionProcesses'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudShallowConvectionMethod</shortName>
+            <value>separated</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudShallowConvectionMethod'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudShallowConvectionSchemeName</shortName>
+            <value>shallow/middle tropospheric moist convection</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudShallowConvectionSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudShallowConvectionSchemeType</shortName>
+            <value>mass-flux</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudShallowConvectionSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudOtherConvectionSchemeName</shortName>
+            <value>middle tropospheric moist convection</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudOtherConvectionSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudOtherConvectionSchemeType</shortName>
+            <value>mass-flux</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudOtherConvectionSchemeType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudLargeScalePrecipitationSchemeName</shortName>
+            <value>macroscale exchange of water between condensate and vapor, and resulting temperature change</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudLargeScalePrecipitationSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudLargeScalePrecipitationPrecipitatingHydrometeors</shortName>
+            <value>liquid rain</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudLargeScalePrecipitationPrecipitatingHydrometeors'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudMicrophysicsSchemeName</shortName>
+            <value>bulk microphysical conversion from condensate to precipitate</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudMicrophysicsSchemeName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses</shortName>
+            <value>cloud droplets</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment</shortName>
+            <value>yes</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesCloudOverlap</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesCloudOverlap'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesProcesses</shortName>
+            <value>diurnal cycle, aerosols, overlap, heating</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesProcesses'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionType</shortName>
+            <value>prognostic</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionFunctionName</shortName>
+            <value>top-hat distribution</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionFunctionName'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionFunctionOrder</shortName>
+            <value>one moment</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionFunctionOrder'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionCouplingWithConvection</shortName>
+            <value>coupled with deep and shallow</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeSubGridScaleWaterDistributionCouplingWithConvection'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosOrographyAndWavesSpongeLayer</shortName>
+            <value>other</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosOrographyAndWavesSpongeLayer'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosOrographyAndWavesSubGridScaleOrography</shortName>
+            <value>effect on drag</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosOrographyAndWavesSubGridScaleOrography'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosOrographyAndWavesOrographicGravityWavesSourceMechanisms</shortName>
+            <value>statistical sub-grid scale variance</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosOrographyAndWavesOrographicGravityWavesSourceMechanisms'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+        </componentProperties>
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Atmosphere">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>29209cdf-cb2f-69e0-9ca3-6184a2e06ba1</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>CLM</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Community Land Model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>The Community Land Model version 4.0 is the land model used in the CESM1.0.  More information on the CLM project and access to previous CLM model versions and documentation can be found via the CLM Web Page.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Land">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>220d3b06-99a8-7adc-a1a7-3b3a3956fb92</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>CICE</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Community Ice CodE</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>CICE4 is the latest version of the Los Alamos Sea Ice Model, sometimes referred to as the Community Ice CodE.  It is the result of a community effort to  develop a portable, efficient sea ice model that can be run coupled in a global climate model or uncoupled as a stand-alone ice model.  It has been released as the sea ice component of the Community Earth System Model (CESM), a fully-coupled global climate model that provides simulations of the earths past, present and future climate states.  CICE4 is supported on high- and low-resolution Greenland Pole and tripole grids, which are identical to those used by the Parallel Ocean Program (POP) ocean model.  The high resolution version is best suited for simulating present-day and future climate scenarios while the low resolution option is used for paleoclimate simulations and debugging.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Sea Ice">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>51b56a41-f34c-b18d-d1cb-4238f3add24f</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>DOCN</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Climatological Ocean Data Model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>The CESM data models perform the basic function of reading external data, modifying that data, and then sending it to the driver via standard CESM coupling interfaces. The driver and other models have no fundamental knowledge of whether another component is fully active or just a data model.  In some cases, data models are prognostic and also receive and use some data sent by the driver to the data model.  But in most cases, the data models are not running prognostically and have no need to receive any data from the driver.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Ocean">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>73f2d26d-3163-49b9-2d18-53b7b7c65eea</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>SGLC</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Land Ice Stub Model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Land Ice">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>74546c0e-ee21-34d1-3a12-4f82e6d3afb4</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>RTM</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>River Runoff from RTM</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>The RTM component is the river runoff model used in the CESM1.1.  More information on the RTM project and access to previous RTM model versions and documentation can be found via the RTM Web Page.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <releaseDate>2012</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Runoff">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>0b284613-83b2-7ae3-aff3-75ae20551dc3</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>SWAV</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Sea Wav Stub Model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <releaseDate>2010</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <type open="true" value="Sea Wav">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>19601b95-5b5b-b76c-9671-36b6fd02f0c2</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <type open="true" value="Earth System">
+      <!-- from ESMF: CIM/Main, 'ModelType'. -->
+      <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+      <controlledVocabulary>
+        <name>metafor</name>
+        <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+      </controlledVocabulary>
+    </type>
+    <documentID>2a0c9203-6744-e40e-4391-25ab390fd7bb</documentID>
+    <documentVersion>1.0</documentVersion>
+    <documentAuthor>
+      <gmd:individualName>
+        <gco:CharacterString>ESMF Version 5.3.0</gco:CharacterString>
+      </gmd:individualName>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+      </gmd:role>
+    </documentAuthor>
+    <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+  </modelComponent>
+  <simulationRun>
+    <supports>
+      <reference></reference>
+    </supports>
+    <calendar>
+      <realCalendar></realCalendar>
+    </calendar>
+    <dateRange>
+      <closedDateRange>
+      </closedDateRange>
+    </dateRange>
+    <model>
+      <reference></reference>
+    </model>
+    <documentID>5f5a15e0-0b7c-091e-5f99-23533894c0e5</documentID>
+    <documentVersion>1.0</documentVersion>
+    <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+  </simulationRun>
+  <platform>
+    <unit>
+      <machine>
+      </machine>
+    </unit>
+    <documentID>23debe84-a4a2-af06-f355-29b9deb495d9</documentID>
+    <documentVersion>1.0</documentVersion>
+    <documentCreationDate>2013-08-30T15:19:29</documentCreationDate>
+  </platform>
+</CIMDocumentSet>
