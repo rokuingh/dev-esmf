@@ -7,8 +7,8 @@ urlpatterns = patterns('',
     # ex: /eca/
     url(r'^$', views.index, name='index'),
     # ex: /eca/feed/
-    url(r'^eca/feed/$', ESMFAtomFeed()),
+    url(r'^feed/$', ESMFAtomFeed()),
     # ex: /eca/CESM_Component.xml
-    url(r'^(?P<document_id>[^/]+)/$', views.show_doc, name='show_doc'),
+    url(r'^feed/(?P<doc>[^/]+)/$', views.show_doc, name='show_doc'),
 
 )
