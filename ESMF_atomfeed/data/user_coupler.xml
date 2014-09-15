@@ -1,0 +1,1570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with ESMF Version 7.0.0 beta snapshot, http://www.earthsystemmodeling.org -->
+<CIMDocumentSet 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:gml="http://www.opengis.net/gml/3.2" 
+  xmlns:gco="http://www.isotc211.org/2005/gco" 
+  xmlns:gmd="http://www.isotc211.org/2005/gmd" 
+  xmlns="http://www.purl.org/org/esmetadata/cim/1.7.1/schemas" 
+  xsi:schemaLocation="http://www.purl.org/org/esmetadata/cim/1.7.1/schemas http://www.purl.org/org/esmetadata/cim/1.7.1/schemas">
+   <modelComponent>
+    <shortName>EarthSys2.0</shortName>
+      <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+      <!--    to ESG: 1) Component name, left-side navigator bar. -->
+      <!--    to ESG: 2) "Simulation Metadata:", top of display, 1st line; 'SimulationShortName' appended. -->
+    <longName>Earth System High Resolution Global Model</longName>
+      <!-- from ESMF: CIM/Main, 'LongName'. -->
+      <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+    <description>EarthSys brings together expertise from the global community in a concerted effort to develop coupled climate models with increased horizontal resolutions.  Increasing the horizontal resolution of coupled climate models will allow us to capture climate processes and weather systems in much greater detail.</description>
+      <!-- from ESMF: CIM/Main, 'Description'. -->
+      <!--    to ESG: "Description:" in top box. -->
+    <componentProperties>
+      <componentProperty type="custom" represented="true">
+        <shortName>SimulationType</shortName>
+        <value>branch</value>
+          <!-- from ESMF: CIM/GeneralComponentProperties, custom user-defined attribute name 'SimulationType'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </componentProperty>
+      <componentProperty type="custom" represented="true">
+        <shortName>SimulationURL</shortName>
+        <value>http://earthsys.org/simulations</value>
+          <!-- from ESMF: CIM/GeneralComponentProperties, custom user-defined attribute name 'SimulationURL'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </componentProperty>
+      <componentProperty type="custom" represented="true">
+        <shortName>Visualization</shortName>
+        <value>true</value>
+          <!-- from ESMF: CIM/GeneralComponentProperties, custom user-defined attribute name 'Visualization'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </componentProperty>
+    </componentProperties>
+    <responsibleParty>
+      <gmd:individualName>
+        <gco:CharacterString>John Doe</gco:CharacterString>
+          <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+          <!--    to ESG: "Principal Investigator" under tabs "Properties/Basic". -->
+      </gmd:individualName>
+      <gmd:contactInfo>
+        <gmd:CI_Contact>
+          <gmd:address>
+            <gmd:CI_Address>
+              <gmd:deliveryPoint>
+                <gco:CharacterString>Department of Meteorology, University of ABC</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:deliveryPoint>
+              <gmd:electronicMailAddress>
+                <gco:CharacterString>john.doe@earthsys.org</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                  <!--    to ESG: Ingested and stored for role code "PI", but not displayed yet. -->
+              </gmd:electronicMailAddress>
+            </gmd:CI_Address>
+          </gmd:address>
+          <gmd:onlineResource>
+            <gmd:CI_OnlineResource>
+              <gmd:linkage>
+                <gmd:URL>www.earthsys.org</gmd:URL>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'URL'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:linkage>
+            </gmd:CI_OnlineResource>
+          </gmd:onlineResource>
+        </gmd:CI_Contact>
+      </gmd:contactInfo>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="PI"></gmd:CI_RoleCode>
+          <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+          <!--    to ESG: Ingested, but only used to control display. -->
+      </gmd:role>
+      <abbreviation>JD</abbreviation>
+        <!-- from ESMF: CIM/ResponsibleParty, 'Abbreviation'. -->
+        <!--    to ESG: Not ingested yet. -->
+    </responsibleParty>
+    <responsibleParty>
+      <gmd:individualName>
+        <gco:CharacterString>Samuel Doe</gco:CharacterString>
+          <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+          <!--    to ESG: "Contact Name" under tabs "Properties/Basic". -->
+      </gmd:individualName>
+      <gmd:contactInfo>
+        <gmd:CI_Contact>
+          <gmd:address>
+            <gmd:CI_Address>
+              <gmd:deliveryPoint>
+                <gco:CharacterString>Department of Meteorology, University of ABC</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:deliveryPoint>
+              <gmd:electronicMailAddress>
+                <gco:CharacterString>samuel.doe@earthsys.org</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                  <!--    to ESG: "Contact Email" under tabs "Properties/Basic". -->
+              </gmd:electronicMailAddress>
+            </gmd:CI_Address>
+          </gmd:address>
+          <gmd:onlineResource>
+            <gmd:CI_OnlineResource>
+              <gmd:linkage>
+                <gmd:URL>www.earthsys.org</gmd:URL>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'URL'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:linkage>
+            </gmd:CI_OnlineResource>
+          </gmd:onlineResource>
+        </gmd:CI_Contact>
+      </gmd:contactInfo>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="contact"></gmd:CI_RoleCode>
+          <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+          <!--    to ESG: Ingested, but only used to control display. -->
+      </gmd:role>
+      <abbreviation>SD</abbreviation>
+        <!-- from ESMF: CIM/ResponsibleParty, 'Abbreviation'. -->
+        <!--    to ESG: Not ingested yet. -->
+    </responsibleParty>
+    <responsibleParty>
+      <gmd:organisationName>
+        <gco:CharacterString>EarthSys Funding Office</gco:CharacterString>
+          <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+          <!--    to ESG: "Funding Source" under tabs "Properties/Basic". -->
+      </gmd:organisationName>
+      <gmd:contactInfo>
+        <gmd:CI_Contact>
+          <gmd:address>
+            <gmd:CI_Address>
+              <gmd:deliveryPoint>
+                <gco:CharacterString>Department of Oceanography, University of GHI</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:deliveryPoint>
+              <gmd:electronicMailAddress>
+                <gco:CharacterString>sally.doe@earthsys.org</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                  <!--    to ESG: Not ingested yet for role code "funder". -->
+              </gmd:electronicMailAddress>
+            </gmd:CI_Address>
+          </gmd:address>
+        </gmd:CI_Contact>
+      </gmd:contactInfo>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="funder"></gmd:CI_RoleCode>
+          <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+          <!--    to ESG: Ingested, but only used to control display. -->
+      </gmd:role>
+      <abbreviation>EFO</abbreviation>
+        <!-- from ESMF: CIM/ResponsibleParty, abbreviation (initials) of 'Name'. -->
+        <!--    to ESG: Not ingested yet. -->
+    </responsibleParty>
+    <releaseDate>2009-01-01T00:00:00Z</releaseDate>
+      <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+      <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+    <citation>
+      <gmd:title>
+        <gco:CharacterString>Doe_2009</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:title>
+      <gmd:date>
+        <gmd:CI_Date>
+          <gmd:date>
+            <gco:Date>2009-03-05</gco:Date>
+              <!-- from ESMF: CIM/Citation, 'Date'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:date>
+          <gmd:dateType>
+            <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+          </gmd:dateType>
+        </gmd:CI_Date>
+      </gmd:date>
+      <gmd:presentationForm>
+        <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+          <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:presentationForm>
+      <gmd:otherCitationDetails>
+        <gco:CharacterString>doi:17.1035/2009JCLI4508.1</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'DOI'. -->
+          <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+      </gmd:otherCitationDetails>
+      <gmd:collectiveTitle>
+        <gco:CharacterString>Doe, J.A.; Doe, S.B.; Doe, J.C.; 2009 EarthSys: The Earth System High Resolution Global Model - Coupled Atmosphere-Ocean model description and basic evaluation. Journal of Earth Modeling, 15 (2). 1261-1296. http://www.earthsys.org/publications</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+          <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+      </gmd:collectiveTitle>
+    </citation>
+    <citation>
+      <gmd:title>
+        <gco:CharacterString>Doe_2006</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:title>
+      <gmd:date>
+        <gmd:CI_Date>
+          <gmd:date>
+            <gco:Date>2006-10-21</gco:Date>
+              <!-- from ESMF: CIM/Citation, 'Date'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:date>
+          <gmd:dateType>
+            <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+          </gmd:dateType>
+        </gmd:CI_Date>
+      </gmd:date>
+      <gmd:presentationForm>
+        <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+          <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:presentationForm>
+      <gmd:otherCitationDetails>
+        <gco:CharacterString>doi:11.1234/2006JCLI1357.1</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'DOI'. -->
+          <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+      </gmd:otherCitationDetails>
+      <gmd:collectiveTitle>
+        <gco:CharacterString>Doe, J.A.; Doe, S.B.; 2006 EarthSys: The Earth System High Resolution Global Model - Improvements in Atmosphere and Ocean modeling. Journal of Earth Modeling, 11 (3). 1021-1036. http://www.earthsys.org/publications</gco:CharacterString>
+          <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+          <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+      </gmd:collectiveTitle>
+    </citation>
+    <onlineResource>
+      <gmd:linkage>
+        <gmd:URL>www.earthsys.org</gmd:URL>
+          <!-- from ESMF: CIM/Main, 'URL'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </gmd:linkage>
+    </onlineResource>
+    <grid>
+     <reference>
+       <id>faac912e-ecf7-47af-ad4a-f0a00947eea7</id>
+       <name>Grid002</name>
+       <version>1.0</version>
+       <description>CF 1.6 formatted ESMF Grid definition</description>
+     </reference>
+    </grid>
+    <childComponent>
+      <modelComponent>
+        <shortName>EarthSys_Atmos</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Atmosphere component of the EarthSys model</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>The EarthSys atmosphere model has a horizontal resolution of 1.125 degrees of latitude by 1.75 degrees of longitude with 36 layers in the vertical. The atmospheric timestep period is 30 minutes.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <componentProperties>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses</shortName>
+            <value>effect of snow</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudMicrophysicsProcesses'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment</shortName>
+            <value>yes</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudAtmosCloudSchemeCloudSchemeAttributesSeparatedCloudTreatment'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>AtmosphereAtmosConvectTurbulCloudCloudSimulatorInputsRadarRadarType</shortName>
+            <value>spaceborne</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosConvectTurbulCloudCloudSimulatorInputsRadarRadarType'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>OH_Conc_1900</shortName>
+              <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+              <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+            <longName>seasonal_oxidant_conc</longName>
+              <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+              <!--    to ESG: Not ingested yet. -->
+            <units open="true" value="kg/m3">
+              <!-- from ESMF: CIM/Inputs, 'Units'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>units</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </units>
+            <standardName open="true" value="OH_Concentrations">
+              <!-- from ESMF: CIM/Inputs, 'StandardName'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>cfName</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </standardName>
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>UM_Orog_n320</shortName>
+              <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+              <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+            <longName>Orography</longName>
+              <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+              <!--    to ESG: Not ingested yet. -->
+            <units open="true" value="m">
+              <!-- from ESMF: CIM/Inputs, 'Units'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>units</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </units>
+            <standardName open="true" value="Height">
+              <!-- from ESMF: CIM/Inputs, 'StandardName'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>cfName</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </standardName>
+          </componentProperty>
+        </componentProperties>
+        <responsibleParty>
+          <gmd:individualName>
+            <gco:CharacterString>John Doe</gco:CharacterString>
+              <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+              <!--    to ESG: Ingested and stored for role code "author", but not displayed yet. -->
+          </gmd:individualName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Department of Meteorology, University of ABC</gco:CharacterString>
+                      <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                      <!--    to ESG: Not ingested yet. -->
+                  </gmd:deliveryPoint>
+                  <gmd:electronicMailAddress>
+                    <gco:CharacterString>john.doe@earthsys.org</gco:CharacterString>
+                      <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                      <!--    to ESG: Ingested and stored for role code "author", but not displayed yet. -->
+                  </gmd:electronicMailAddress>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="author"></gmd:CI_RoleCode>
+              <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+              <!--    to ESG: Ingested, but only used to control display. -->
+          </gmd:role>
+          <abbreviation>JD</abbreviation>
+            <!-- from ESMF: CIM/ResponsibleParty, abbreviation (initials) of 'Name'. -->
+            <!--    to ESG: Not ingested yet. -->
+        </responsibleParty>
+        <releaseDate>2009-12-31T23:59:59Z</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <citation>
+          <gmd:title>
+            <gco:CharacterString>Doe_2008</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:title>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2008-04-06</gco:Date>
+                  <!-- from ESMF: CIM/Citation, 'Date'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:date>
+              <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:presentationForm>
+            <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+              <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:presentationForm>
+          <gmd:otherCitationDetails>
+            <gco:CharacterString>doi:16.1034/2008JCLI4507.1</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'DOI'. -->
+              <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+          </gmd:otherCitationDetails>
+          <gmd:collectiveTitle>
+            <gco:CharacterString>Doe, J.A.; Doe, S.B.; Doe, J.C.; 2008 EarthSys: The Earth System High Resolution Global Model - Atmosphere model description . Journal of Earth Modeling, 14 (3). 1361-1396. http://www.earthsys.org/publications</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+              <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+          </gmd:collectiveTitle>
+        </citation>
+        <childComponent>
+          <modelComponent>
+            <shortName>EarthSys_AtmosDynCore</shortName>
+              <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+              <!--    to ESG: Component name, left-side navigator bar. -->
+            <longName>Dynamical core of EarthSys_Atmos</longName>
+              <!-- from ESMF: CIM/Main, 'LongName'. -->
+              <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+            <description>The dynamical core of the EarthSys atmosphere model.</description>
+              <!-- from ESMF: CIM/Main, 'Description'. -->
+              <!--    to ESG: "Description:" in top box. -->
+            <componentProperties>
+              <componentProperty represented="true">
+                <shortName>AtmosphereAtmosDynamicalCoreListOfPrognosticVariables</shortName>
+                <value>clouds</value>
+                <value>potential temperature</value>
+                <value>vapour/solid/liquid</value>
+                <value>wind components</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreListOfPrognosticVariables'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>AtmosphereAtmosDynamicalCoreTopBoundaryCondition</shortName>
+                <value>radiation boundary condition</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'AtmosphereAtmosDynamicalCoreTopBoundaryCondition'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>Global_O3_mon</shortName>
+                  <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                  <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+                <longName>Ozone</longName>
+                  <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                <units open="true" value="kg/m3">
+                  <!-- from ESMF: CIM/Inputs, 'Units'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                  <controlledVocabulary>
+                    <name>units</name>
+                    <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+                  </controlledVocabulary>
+                </units>
+                <standardName open="true" value="Ozone">
+                  <!-- from ESMF: CIM/Inputs, 'StandardName'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                  <controlledVocabulary>
+                    <name>cfName</name>
+                    <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+                  </controlledVocabulary>
+                </standardName>
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>UM_Initial_1960</shortName>
+                  <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                  <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+              </componentProperty>
+            </componentProperties>
+            <responsibleParty>
+              <gmd:individualName>
+                <gco:CharacterString>Jane Doe</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+                  <!--    to ESG: "Contact Name" under tabs "Properties/Basic". -->
+              </gmd:individualName>
+              <gmd:contactInfo>
+                <gmd:CI_Contact>
+                  <gmd:address>
+                    <gmd:CI_Address>
+                      <gmd:deliveryPoint>
+                        <gco:CharacterString>Department of Meteorology, University of ABC</gco:CharacterString>
+                          <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                          <!--    to ESG: Not ingested yet. -->
+                      </gmd:deliveryPoint>
+                      <gmd:electronicMailAddress>
+                        <gco:CharacterString>jane.doe@earthatm.org</gco:CharacterString>
+                          <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                          <!--    to ESG: "Contact Email" under tabs "Properties/Basic". -->
+                      </gmd:electronicMailAddress>
+                    </gmd:CI_Address>
+                  </gmd:address>
+                </gmd:CI_Contact>
+              </gmd:contactInfo>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="" codeListValue="contact"></gmd:CI_RoleCode>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+                  <!--    to ESG: Ingested, but only used to control display. -->
+              </gmd:role>
+              <abbreviation>JD</abbreviation>
+                <!-- from ESMF: CIM/ResponsibleParty, abbreviation (initials) of 'Name'. -->
+                <!--    to ESG: Not ingested yet. -->
+            </responsibleParty>
+            <releaseDate>2009-10-31T23:59:59Z</releaseDate>
+              <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+              <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+            <citation>
+              <gmd:title>
+                <gco:CharacterString>Doe_2006</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2006-06-08</gco:Date>
+                      <!-- from ESMF: CIM/Citation, 'Date'. -->
+                      <!--    to ESG: Not ingested yet. -->
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:presentationForm>
+                <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+                  <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:presentationForm>
+              <gmd:otherCitationDetails>
+                <gco:CharacterString>doi:14.1032/2006JCLI4505.1</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'DOI'. -->
+                  <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+              </gmd:otherCitationDetails>
+              <gmd:collectiveTitle>
+                <gco:CharacterString>Doe, J.A.; Doe, S.B.; Doe, J.C.; 2006 EarthSys: The Earth System High Resolution Global Model - Atmosphere Dynamical Core model description . Journal of Earth Modeling, 12 (4). 1561-1596. http://www.earthsys.org/publications</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+                  <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+              </gmd:collectiveTitle>
+            </citation>
+            <type open="true" value="atmosphere">
+              <!-- from ESMF: CIM/Main, 'ModelType'. -->
+              <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+              <controlledVocabulary>
+                <name>DRS_CMIP5_componentType</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </type>
+            <documentID>3d706090-3ec6-6899-efa1-40c77b585c92</documentID>
+            <documentVersion>1.0</documentVersion>
+            <documentAuthor>
+              <gmd:individualName>
+                <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+              </gmd:individualName>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+              </gmd:role>
+            </documentAuthor>
+            <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+          </modelComponent>
+        </childComponent>
+        <type open="true" value="Atmosphere">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>42d9efe7-8986-6a20-0c1d-0d2067cead73</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <childComponent>
+      <modelComponent>
+        <shortName>EarthSys_Ocean</shortName>
+          <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+          <!--    to ESG: Component name, left-side navigator bar. -->
+        <longName>Ocean component of EarthSys</longName>
+          <!-- from ESMF: CIM/Main, 'LongName'. -->
+          <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+        <description>The EarthSys ocean component uses a latitude-longitude grid with a zonal resolution of 2 degrees, and a meridional resolution of 2 degrees.  It has 30 evenly spaced levels in the vertical.  The timestep period is 1 hour.</description>
+          <!-- from ESMF: CIM/Main, 'Description'. -->
+          <!--    to ESG: "Description:" in top box. -->
+        <componentProperties>
+          <componentProperty represented="true">
+            <shortName>OceanOceanKeyPropertiesModelFamily</shortName>
+            <value>OGCM</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanOceanKeyPropertiesModelFamily'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>OceanOceanKeyPropertiesBasicApproximations</shortName>
+            <value>non-hydrostatic</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanOceanKeyPropertiesBasicApproximations'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>OceanOceanKeyPropertiesListOfPrognosticVariables</shortName>
+            <value>salinity</value>
+              <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanOceanKeyPropertiesListOfPrognosticVariables'. -->
+              <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+          </componentProperty>
+          <componentProperty intent="out" represented="true">
+            <!-- from ESMF: CIM/Inputs, 'Intent' ("Export"="out", "Import="in"). -->
+            <!--    to ESG: Not ingested yet. -->
+            <shortName>DMS_emi</shortName>
+              <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+              <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+            <longName>DMS emissions</longName>
+              <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+              <!--    to ESG: Not ingested yet. -->
+            <units open="true" value="kg/m2/s">
+              <!-- from ESMF: CIM/Inputs, 'Units'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>units</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </units>
+            <standardName open="true" value="DMS_emissions">
+              <!-- from ESMF: CIM/Inputs, 'StandardName'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>cfName</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </standardName>
+          </componentProperty>
+          <componentProperty represented="true">
+            <shortName>SST</shortName>
+              <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+              <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+            <units open="true" value="K">
+              <!-- from ESMF: CIM/Inputs, 'Units'. -->
+              <!--    to ESG: Not ingested yet. -->
+              <controlledVocabulary>
+                <name>units</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </units>
+          </componentProperty>
+        </componentProperties>
+        <responsibleParty>
+          <gmd:organisationName>
+            <gco:CharacterString>GHI</gco:CharacterString>
+              <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+              <!--    to ESG: Ingested and stored for role code "center", but not displayed yet. -->
+          </gmd:organisationName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Department of Meteorology, University of ABC</gco:CharacterString>
+                      <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                      <!--    to ESG: Not ingested yet. -->
+                  </gmd:deliveryPoint>
+                  <gmd:electronicMailAddress>
+                    <gco:CharacterString>info@earthsys.org</gco:CharacterString>
+                      <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                      <!--    to ESG: Not ingested yet for role code "center". -->
+                  </gmd:electronicMailAddress>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="centre"></gmd:CI_RoleCode>
+              <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+              <!--    to ESG: Ingested, but only used to control display. -->
+          </gmd:role>
+          <abbreviation>G</abbreviation>
+            <!-- from ESMF: CIM/ResponsibleParty, abbreviation (initials) of 'Name'. -->
+            <!--    to ESG: Not ingested yet. -->
+        </responsibleParty>
+        <releaseDate>2009-05-31T23:59:59Z</releaseDate>
+          <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+          <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+        <citation>
+          <gmd:title>
+            <gco:CharacterString>Doe_2007</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:title>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2007-05-07</gco:Date>
+                  <!-- from ESMF: CIM/Citation, 'Date'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:date>
+              <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:presentationForm>
+            <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+              <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+              <!--    to ESG: Not ingested yet. -->
+          </gmd:presentationForm>
+          <gmd:otherCitationDetails>
+            <gco:CharacterString>doi:15.1033/2007JCLI4506.1</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'DOI'. -->
+              <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+          </gmd:otherCitationDetails>
+          <gmd:collectiveTitle>
+            <gco:CharacterString>Doe, J.A.; Doe, S.B.; Doe, J.C.; 2007 EarthSys: The Earth System High Resolution Global Model - Ocean model description . Journal of Earth Modeling, 13 (4). 1461-1496. http://www.earthsys.org/publications</gco:CharacterString>
+              <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+              <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+          </gmd:collectiveTitle>
+        </citation>
+        <childComponent>
+          <modelComponent>
+            <shortName>EarthSys_OceanBioGeoChem</shortName>
+              <!-- from ESMF: CIM/Main, 'ShortName'+'Version'. -->
+              <!--    to ESG: Component name, left-side navigator bar. -->
+            <longName>Ocean biogeochemistry component of EarthSys</longName>
+              <!-- from ESMF: CIM/Main, 'LongName'. -->
+              <!--    to ESG: "Full Name:", top of display, 2nd line; 'SimulationLongName' appended. -->
+            <description>The biogeochemistry component of the EarthSys ocean model.</description>
+              <!-- from ESMF: CIM/Main, 'Description'. -->
+              <!--    to ESG: "Description:" in top box. -->
+            <componentProperties>
+              <componentProperty represented="true">
+                <shortName>OceanBiogeoChemistryOceanBioKeyPropertiesTransportMethod</shortName>
+                <value>different from Ocean Tracers</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanBiogeoChemistryOceanBioKeyPropertiesTransportMethod'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>OceanBiogeoChemistryOceanBioBoundaryForcingAtmosphericDeposition</shortName>
+                <value>other</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanBiogeoChemistryOceanBioBoundaryForcingAtmosphericDeposition'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>OceanBiogeoChemistryOceanBioChemistryCarbonChemistrypH-scale</shortName>
+                <value>sea water</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanBiogeoChemistryOceanBioChemistryCarbonChemistrypH-scale'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>OceanBiogeoChemistryOceanBioTracersNutrientsListOfSpecies</shortName>
+                <value>Iron (Fe)</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanBiogeoChemistryOceanBioTracersNutrientsListOfSpecies'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>OceanBiogeoChemistryOceanBioTracersOceanBioTracersEcosystemZooplanctonType</shortName>
+                <value>generic</value>
+                  <!-- from ESMF: CIM/ScientificProperties, Metafor-defined attribute name 'OceanBiogeoChemistryOceanBioTracersOceanBioTracersEcosystemZooplanctonType'. -->
+                  <!--    to ESG: ESG-name mapped from Metafor-name, under tabs "Properties/Scientific". -->
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>SOA</shortName>
+                  <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                  <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+                <longName>Secondary organic aerosols</longName>
+                  <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                <units open="true" value="kg/m3">
+                  <!-- from ESMF: CIM/Inputs, 'Units'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                  <controlledVocabulary>
+                    <name>units</name>
+                    <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+                  </controlledVocabulary>
+                </units>
+              </componentProperty>
+              <componentProperty represented="true">
+                <shortName>POM</shortName>
+                  <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                  <!--    to ESG: Ingested below from [simulationRun][input][connection][connectionTarget][dataSource][reference][name]. -->
+                <longName>Particulate organic matter</longName>
+                  <!-- from ESMF: CIM/Inputs, 'LongName'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                <units open="true" value="mol/m3">
+                  <!-- from ESMF: CIM/Inputs, 'Units'. -->
+                  <!--    to ESG: Not ingested yet. -->
+                  <controlledVocabulary>
+                    <name>units</name>
+                    <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+                  </controlledVocabulary>
+                </units>
+              </componentProperty>
+            </componentProperties>
+            <responsibleParty>
+              <gmd:organisationName>
+                <gco:CharacterString>EarthSys Atmosphere Model Working Group</gco:CharacterString>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'Name'. -->
+                  <!--    to ESG: Ingested and stored for role code "", but not displayed yet. -->
+              </gmd:organisationName>
+              <gmd:contactInfo>
+                <gmd:CI_Contact>
+                  <gmd:address>
+                    <gmd:CI_Address>
+                      <gmd:deliveryPoint>
+                        <gco:CharacterString>Climate Division, International Center for Atmospheric Research</gco:CharacterString>
+                          <!-- from ESMF: CIM/ResponsibleParty, 'PhysicalAddress'. -->
+                          <!--    to ESG: Not ingested yet. -->
+                      </gmd:deliveryPoint>
+                      <gmd:electronicMailAddress>
+                        <gco:CharacterString>info@earthsys.org</gco:CharacterString>
+                          <!-- from ESMF: CIM/ResponsibleParty, 'EmailAddress'. -->
+                          <!--    to ESG: Not ingested yet for role code "". -->
+                      </gmd:electronicMailAddress>
+                    </gmd:CI_Address>
+                  </gmd:address>
+                  <gmd:onlineResource>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://www.earthsys.org/working_groups/Atmosphere</gmd:URL>
+                          <!-- from ESMF: CIM/ResponsibleParty, 'URL'. -->
+                          <!--    to ESG: Not ingested yet. -->
+                      </gmd:linkage>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onlineResource>
+                </gmd:CI_Contact>
+              </gmd:contactInfo>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="" codeListValue="author"></gmd:CI_RoleCode>
+                  <!-- from ESMF: CIM/ResponsibleParty, 'ResponsiblePartyRole'. -->
+                  <!--    to ESG: Ingested, but only used to control display. -->
+              </gmd:role>
+              <abbreviation>EAMWG</abbreviation>
+                <!-- from ESMF: CIM/ResponsibleParty, 'Abbreviation'. -->
+                <!--    to ESG: Not ingested yet. -->
+            </responsibleParty>
+            <releaseDate>2010-06-10T00:00:00Z</releaseDate>
+              <!-- from ESMF: CIM/Main, 'ReleaseDate'. -->
+              <!--    to ESG: "Release Date" under tabs "Properties/Basic" -->
+            <citation>
+              <gmd:title>
+                <gco:CharacterString>Doe_2005</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'ShortTitle'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2005-07-09</gco:Date>
+                      <!-- from ESMF: CIM/Citation, 'Date'. -->
+                      <!--    to ESG: Not ingested yet. -->
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="" codeListValue=""></gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:presentationForm>
+                <gmd:CI_PresentationFormCode codeList="" codeListValue="">Online Refereed</gmd:CI_PresentationFormCode>
+                  <!-- from ESMF: CIM/Citation, 'PresentationForm'. -->
+                  <!--    to ESG: Not ingested yet. -->
+              </gmd:presentationForm>
+              <gmd:otherCitationDetails>
+                <gco:CharacterString>doi:13.1031/2005JCLI4504.1</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'DOI'. -->
+                  <!--    to ESG: "Reference" under tab "References", appended to 'LongTitle'. -->
+              </gmd:otherCitationDetails>
+              <gmd:collectiveTitle>
+                <gco:CharacterString>Doe, J.A.; Doe, S.B.; Doe, J.C.; 2005 EarthSys: The Earth System High Resolution Global Model - Ocean Biogeochemistry model description . Journal of Earth Modeling, 11 (5). 1661-1696. http://www.earthsys.org/publications</gco:CharacterString>
+                  <!-- from ESMF: CIM/Citation, 'LongTitle' + 'URL'. -->
+                  <!--    to ESG: "Reference" under tab "References", 'DOI' appended. -->
+              </gmd:collectiveTitle>
+            </citation>
+            <type open="true" value="ocnBgchem">
+              <!-- from ESMF: CIM/Main, 'ModelType'. -->
+              <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+              <controlledVocabulary>
+                <name>DRS_CMIP5_componentType</name>
+                <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+              </controlledVocabulary>
+            </type>
+            <documentID>429b636d-b306-7f22-f097-536a4f9948fa</documentID>
+            <documentVersion>1.0</documentVersion>
+            <documentAuthor>
+              <gmd:individualName>
+                <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+              </gmd:individualName>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+              </gmd:role>
+            </documentAuthor>
+            <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+          </modelComponent>
+        </childComponent>
+        <type open="true" value="ocean">
+          <!-- from ESMF: CIM/Main, 'ModelType'. -->
+          <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+          <controlledVocabulary>
+            <name>DRS_CMIP5_componentType</name>
+            <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+          </controlledVocabulary>
+        </type>
+        <documentID>2b340e09-d426-0afe-a211-5eb03280ab44</documentID>
+        <documentVersion>1.0</documentVersion>
+        <documentAuthor>
+          <gmd:individualName>
+            <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:role>
+            <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+          </gmd:role>
+        </documentAuthor>
+        <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+      </modelComponent>
+    </childComponent>
+    <deployment>
+      <parallelisation>
+        <processes>16</processes>
+          <!-- from ESMF: CIM/Main, 'SimulationNumberOfProcessingElements'. -->
+          <!--    to ESG: Not ingested yet. -->
+      </parallelisation>
+    </deployment>
+    <type open="true" value="model">
+      <!-- from ESMF: CIM/Main, 'ModelType'. -->
+      <!--    to ESG: "Realm:", expanded under component name, left-side navigator bar. -->
+      <controlledVocabulary>
+        <name>metafor</name>
+        <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+      </controlledVocabulary>
+    </type>
+    <documentID>6e4a5462-fee4-6b8d-faeb-486411268707</documentID>
+    <documentVersion>1.2</documentVersion>
+      <!-- from ESMF: CIM/Main, 'MetadataVersion'. -->
+      <!--    to ESG: "Metadata Version" under tabs "Properties/Basic". -->
+    <documentAuthor>
+      <gmd:individualName>
+        <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+      </gmd:individualName>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+      </gmd:role>
+    </documentAuthor>
+    <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+    <documentGenealogy>
+      <relationship>
+        <documentRelationship direction="toTarget" type="previousVersionOf">
+          <description>Horizontal resolution increased to 1.20 x 0.80 degrees; Timestep reduced from 30 minutes to 15 minutes.</description>
+            <!-- from ESMF: CIM/Main, 'PreviousVersionDescription'. -->
+            <!--    to ESG: Not ingested yet. -->
+          <target>
+            <reference>
+              <name>HadGEM1 Atmosphere</name>
+                <!-- from ESMF: CIM/Main, 'PreviousVersion'. -->
+                <!--    to ESG: Not ingested yet. -->
+            </reference>
+          </target>
+        </documentRelationship>
+      </relationship>
+    </documentGenealogy>
+  </modelComponent>
+  <simulationRun>
+    <rationale>EarthSys-ESMF simulation run in repsect to CMIP5 core experiment 1.1 ()</rationale>
+      <!-- from ESMF: CIM/Main, 'SimulationRationale'. -->
+      <!--    to ESG: Not ingested yet. -->
+    <project open="true" value="CMIP5">
+      <!-- from ESMF: CIM/Main, 'SimulationProjectName'. -->
+      <!--    to ESG: "Project" under tabs "Properties/Basic". -->
+      <controlledVocabulary>
+        <name>project</name>
+        <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+      </controlledVocabulary>
+    </project>
+    <shortName>SMS.f09_g16.X.hector</shortName>
+      <!-- from ESMF: CIM/Main, 'SimulationShortName'. -->
+      <!--    to ESG: 1) "Simulation Metadata:", top of display, 1st line; appended to 'ShortName' and 'Version' of top-level component. -->
+      <!--    to ESG: 2) Appears as 2nd part of simulation name when Curator website is searched for Simulations/Realm/Earth System. -->
+    <longName>EarthSys - Earth System Modeling Framework Earth System Model 1.0</longName>
+      <!-- from ESMF: CIM/Main, 'SimulationLongName'. -->
+      <!--    to ESG: "Full Name:", top of display, 2nd line under title, appended to 'LongName'. -->
+    <supports>
+      <reference></reference>
+    </supports>
+    <calendar>
+      <realCalendar></realCalendar>
+    </calendar>
+    <input fullySpecified="true" purpose="boundaryCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Seasonal oxidant concentration in the atmosphere.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="hours" variableRate="false">
+        <rate>10</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding spatialRegriddingDimension="2D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>near-neighbour</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="TimeInterpolation"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>42d9efe7-8986-6a20-0c1d-0d2067cead73</id>
+            <name>EarthSys_Atmos</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>3d706090-3ec6-6899-efa1-40c77b585c92</id>
+            <name>EarthSys_AtmosDynCore</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>OH_Conc_1900</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="initialCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Orography/height data in meters at n320 resolution.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <spatialRegridding spatialRegriddingDimension="2D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>conservative</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="Exact"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>42d9efe7-8986-6a20-0c1d-0d2067cead73</id>
+            <name>EarthSys_Atmos</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>3d706090-3ec6-6899-efa1-40c77b585c92</id>
+            <name>EarthSys_AtmosDynCore</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>UM_Orog_n320</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="boundaryCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Global Ozone concentration monitoring in the atmosphere.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="days" variableRate="false">
+        <rate>20</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding spatialRegriddingDimension="3D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>conservative-second-order</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="TimeInterpolation"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>3d706090-3ec6-6899-efa1-40c77b585c92</id>
+            <name>EarthSys_AtmosDynCore</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>42d9efe7-8986-6a20-0c1d-0d2067cead73</id>
+            <name>EarthSys_Atmos</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>Global_O3_mon</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="initialCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Initialization start data for 0000UTC 1st Jan 1960.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <spatialRegridding>
+        <spatialRegriddingStandardMethod>linear</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="Exact"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>3d706090-3ec6-6899-efa1-40c77b585c92</id>
+            <name>EarthSys_AtmosDynCore</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>42d9efe7-8986-6a20-0c1d-0d2067cead73</id>
+            <name>EarthSys_Atmos</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>UM_Initial_1960</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="ancillaryFile">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Dimethyl Sulfide emissions in the atmosphere.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="File">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="minutes" variableRate="false">
+        <rate>15</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding>
+        <spatialRegriddingStandardMethod>conservative-first-order</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="TimeAverage"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>2b340e09-d426-0afe-a211-5eb03280ab44</id>
+            <name>EarthSys_Ocean</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>dataObject</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>429b636d-b306-7f22-f097-536a4f9948fa</id>
+            <name>EarthSys_OceanBioGeoChem</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>DMS_emi</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="initialCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Sea surface temperature.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="months" variableRate="false">
+        <rate>5</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding spatialRegriddingDimension="2D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>non-conservative</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="TimeAverage"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>2b340e09-d426-0afe-a211-5eb03280ab44</id>
+            <name>EarthSys_Ocean</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>429b636d-b306-7f22-f097-536a4f9948fa</id>
+            <name>EarthSys_OceanBioGeoChem</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>SST</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="boundaryCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Secondary organic aerosols in the ocean.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="years" variableRate="false">
+        <rate>2</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding spatialRegriddingDimension="3D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>cubic</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="Exact"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>429b636d-b306-7f22-f097-536a4f9948fa</id>
+            <name>EarthSys_OceanBioGeoChem</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>2b340e09-d426-0afe-a211-5eb03280ab44</id>
+            <name>EarthSys_Ocean</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>SOA</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <input fullySpecified="true" purpose="initialCondition">
+      <!-- from ESMF: CIM/Inputs, 'CouplingPurpose' ("Ancillary"="ancillaryFile", "Boundary"="boundaryCondition", "Initial"="initialCondition") -->
+      <!--    to ESG: Title of expandable bar under tab "Inputs". -->
+      <description>Particulate organic matter in the ocean.</description>
+        <!-- from ESMF: CIM/Inputs, 'Description'. -->
+        <!--    to ESG: Next to field name (after colon) under tab "Inputs". -->
+      <type open="true" value="Shared Memory">
+        <controlledVocabulary>
+          <name>CouplingType</name>
+          <server>http://proj.badc.rl.ac.uk/svn/metafor/cmip5q/trunk</server>
+        </controlledVocabulary>
+      </type>
+      <timeProfile units="seconds" variableRate="false">
+        <rate>45</rate>
+          <!-- from ESMF: CIM/Inputs, 'Frequency'. -->
+          <!--    to ESG: "Input Frequency" under tab "Inputs", under field name. -->
+      </timeProfile>
+      <spatialRegridding spatialRegriddingDimension="1D">
+        <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingDimension'. -->
+        <!--    to ESG: Not ingested yet. -->
+        <spatialRegriddingStandardMethod>conservative</spatialRegriddingStandardMethod>
+          <!-- from ESMF: CIM/Inputs, 'SpatialRegriddingMethod'. -->
+          <!--    to ESG: "Input Spatial Regridding Method" under tab "Inputs", under field name. -->
+      </spatialRegridding>
+      <timeTransformation>
+        <mappingType open="true" value="TimeAccumulation"></mappingType>
+          <!-- from ESMF: CIM/Inputs, 'TimeTransformationType'. -->
+          <!--    to ESG: "Input Time Transformation Type" under tab "Inputs", under field name. -->
+      </timeTransformation>
+      <couplingSource>
+        <dataSource>
+          <reference>
+            <id>429b636d-b306-7f22-f097-536a4f9948fa</id>
+            <name>EarthSys_OceanBioGeoChem</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingSource'. -->
+              <!--    to ESG: "Input Source Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingSource>
+      <couplingTarget>
+        <dataSource>
+          <reference>
+            <id>2b340e09-d426-0afe-a211-5eb03280ab44</id>
+            <name>EarthSys_Ocean</name>
+              <!-- from ESMF: CIM/Inputs, 'CouplingTarget'. -->
+              <!--    to ESG: "Input Target Component" under tab "Inputs", under field name. -->
+            <type>modelComponent</type>
+          </reference>
+        </dataSource>
+      </couplingTarget>
+      <connection>
+        <connectionTarget>
+          <dataSource>
+            <reference>
+              <name>POM</name>
+                <!-- from ESMF: CIM/Inputs, 'ShortName'. -->
+                <!--    to ESG: Field name under tab "Inputs". -->
+              <type>componentProperty</type>
+            </reference>
+          </dataSource>
+        </connectionTarget>
+      </connection>
+    </input>
+    <dateRange>
+      <closedDateRange>
+        <duration>P10Y</duration>
+          <!-- from ESMF: CIM/Main, 'SimulationDuration'. -->
+          <!--    to ESG: "Simulation Duration" under tabs "Properties/Basic". -->
+        <endDate>1970-01-01T00:00:00Z</endDate>
+          <!-- from ESMF: CIM/Main, 'SimulationEndDate'. -->
+          <!--    to ESG: "Simulation End Date" under tabs "Properties/Basic". -->
+        <startDate>1960-01-01T00:00:00Z</startDate>
+          <!-- from ESMF: CIM/Main, 'SimulationStartDate'. -->
+          <!--    to ESG: "Simulation Start Date" under tabs "Properties/Basic". -->
+      </closedDateRange>
+    </dateRange>
+    <model>
+      <reference></reference>
+    </model>
+    <documentID>405f8b04-3b2b-1de7-618f-638585dc267f</documentID>
+    <documentVersion>1.2</documentVersion>
+      <!-- from ESMF: CIM/Main, 'MetadataVersion'. -->
+      <!--    to ESG: "Metadata Version" under tabs "Properties/Basic". -->
+    <externalID open="true" value="a1b1c1">
+      <!-- from ESMF: CIM/Main, 'SimulationEnsembleID'. -->
+      <!--    to ESG: "Ensemble Identification" under tabs "Properties/Basic". -->
+      <standard>
+        <name>DRS_CMIP5_ensembleType</name>
+      </standard>
+    </externalID>
+    <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+  </simulationRun>
+  <platform>
+    
+    <shortName>HECToR_Pathscale</shortName>
+    <longName>Machine HECToR and compiler Pathscale</longName>
+      <!-- from ESMF: CIM/Platform, 'MachineName' and 'CompilerName'. -->
+      <!--    to ESG: Ingested below from [platform][unit][machine][machineName] and [platform][unit][compiler][compilerName]. -->
+    <description>HECToR (Phase 2a) is currently an integrated system known as Rainier, which includes a scalar MPP XT4 system, a vector system known as BlackWidow, and storage systems.</description>
+      <!-- from ESMF: CIM/Platform, 'MachineDescription'. -->
+      <!--    to ESG: Not ingested yet. -->
+    <unit>
+      <machine>
+        <machineName>HECToR</machineName>
+          <!-- from ESMF: CIM/Platform, 'MachineName'. -->
+          <!--    to ESG: "Machine Name" under tabs "Properties/Technical". -->
+        <machineSystem>Parallel</machineSystem>
+          <!-- from ESMF: CIM/Platform, 'MachineSystem'. -->
+          <!--    to ESG: "Hardware Type" under tabs "Properties/Technical". -->
+        <machineOperatingSystem open="true" value="Unicos"></machineOperatingSystem>
+          <!-- from ESMF: CIM/Platform, 'MachineOperatingSystem'. -->
+          <!--    to ESG: "Operating System" under tabs "Properties/Technical". -->
+        <machineVendor open="true" value="Cray Inc"></machineVendor>
+          <!-- from ESMF: CIM/Platform, 'MachineVendor'. -->
+          <!--    to ESG: Ingested, but only used to classify platform. -->
+        <machineInterconnect open="true" value="Cray Interconnect"></machineInterconnect>
+          <!-- from ESMF: CIM/Platform, 'MachineInterconnectType'. -->
+          <!--    to ESG: "Interconnect Type" under tabs "Properties/Technical". -->
+        <machineMaximumProcessors>22656</machineMaximumProcessors>
+          <!-- from ESMF: CIM/Platform, 'MachineMaximumProcessors'. -->
+          <!--    to ESG: "Maximum Processors" under tabs "Properties/Technical". -->
+        <machineCoresPerProcessor>4</machineCoresPerProcessor>
+          <!-- from ESMF: CIM/Platform, 'MachineCoresPerProcessor'. -->
+          <!--    to ESG: "Number of Cores per Processor" under tabs "Properties/Technical". -->
+        <machineProcessorType open="true" value="AMD X86_64"></machineProcessorType>
+          <!-- from ESMF: CIM/Platform, 'MachineProcessorType'. -->
+          <!--    to ESG: "Processor" under tabs "Properties/Technical". -->
+      </machine>
+      <compiler>
+        <compilerName>Pathscale</compilerName>
+          <!-- from ESMF: CIM/Platform, 'CompilerName'. -->
+          <!--    to ESG: "Compiler" under tabs "Properties/Technical", 'CompilerVersion' appended. -->
+        <compilerVersion>3.0</compilerVersion>
+          <!-- from ESMF: CIM/Platform, 'CompilerVersion'. -->
+          <!--    to ESG: "Compiler" under tabs "Properties/Technical", appended to 'CompilerName'. -->
+      </compiler>
+    </unit>
+    <documentID>67365c0a-36bf-56de-8e2d-3d407585d4a0</documentID>
+    <documentVersion>1.2</documentVersion>
+      <!-- from ESMF: CIM/Main, 'MetadataVersion'. -->
+      <!--    to ESG: Ingested above from [modelComponent][documentVersion] for top-level component. -->
+    <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+  </platform>
+  <gridSpec gml:id="test">
+    <esmModelGrid id="Grid002" isLeaf="true" gridType="regular_lat_lon" numTiles="1">
+      <shortName>Grid002</shortName>
+      <longName>CF 1.6 formatted ESMF Grid definition</longName>
+      <gridTile id="1" discretizationType="logically_rectangular" geometryType="sphere">
+        <simpleGridGeom numDims="2">
+          <xcoords>0 0 0 0 0 0 0 0 0 0 36 36 36 36 36 36 36 36 36 36 72 72 72 72 72 72 72 72 72 72 108 108 108 108 108 108 108 108 108 108 144 144 144 144 144 144 144 144 144 144 180 180 180 180 180 180 180 180 180 180 216 216 216 216 216 216 216 216 216 216 252 252 252 2b52 252 252 252 252 252 252 288 288 288 288 288 288 288 288 288 288 324 324 324 324 324 324 324 324 324 324 </xcoords>
+          <ycoords>-81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 -81 -63 -45 -27 -9 9 27 45 63 81 </ycoords>
+        </simpleGridGeom>
+      </gridTile>
+    </esmModelGrid>
+    <documentID>faac912e-ecf7-47af-ad4a-f0a00947eea7</documentID>
+    <documentVersion>1.0</documentVersion>
+    <documentAuthor>
+      <gmd:individualName>
+        <gco:CharacterString>ESMF Version 7.0.0 beta snapshot</gco:CharacterString>
+      </gmd:individualName>
+      <gmd:role>
+        <gmd:CI_RoleCode codeList="" codeListValue="documentAuthor"></gmd:CI_RoleCode>
+      </gmd:role>
+    </documentAuthor>
+    <documentCreationDate>2014-06-03T10:01:53</documentCreationDate>
+  </gridSpec>
+</CIMDocumentSet>
