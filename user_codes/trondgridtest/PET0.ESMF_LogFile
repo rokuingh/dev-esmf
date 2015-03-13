@@ -1,0 +1,13 @@
+20140722 130516.344 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140722 130518.352 ERROR            PET0 ESMCI_Regrid_F.C:424 c_esmc_regrid_create() Internal error: Bad condition Condition {_srcmesh.spatial_dim() == _dstmesh.spatial_dim()} failed at /Users/ryan.okuinghttons/sandbox/esmf/src/Infrastructure/Mesh/src/ESMCI_GeomRendezvous.C, line:130
+20140722 130518.352 ERROR            PET0 ESMF_Regrid.F90:321 ESMF_RegridStore Internal error: Bad condition - Internal subroutine call returned Error
+20140722 130518.352 ERROR            PET0 ESMF_FieldRegrid.F90:1033 ESMF_FieldRegridStoreNX Internal error: Bad condition - Internal subroutine call returned Error
+20140722 130518.352 ERROR            PET0 ESMF_Field_C.F90:1315 f_esmf_regridstore Internal error: Bad condition - Internal subroutine call returned Error
+20140722 130518.352 ERROR            PET0 ESMCI_Field.C:1003 ESMCI::Field::regridstore() Internal error: Bad condition Internal subroutine call returned Error
+20140722 130518.352 ERROR            PET0 ESMC_Field.C:334 ESMC_FieldRegridStore() Internal error: Bad condition Internal subroutine call returned Error
+20140722 130657.955 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140722 130836.938 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140801 114725.195 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140801 114744.530 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140801 114829.223 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
+20140801 114838.355 INFO             PET0 Running with ESMF Version 7.0.0 beta snapshot
