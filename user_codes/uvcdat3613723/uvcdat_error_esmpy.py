@@ -110,15 +110,14 @@ try:
 except:
     raise ImportError('netCDF4 not available on this machine')
 
+# read longitudes and latitudes from file
 f = nc.Dataset('charles.nc')
 srclons = f.variables['lon'][:]
 srclats = f.variables['lat'][:]
 srclonbounds = f.variables['bounds_lon'][:]
 srclatbounds = f.variables['bounds_lat'][:]
 
-#srcgrid = create_grid_corners(srclons, srclats, srclonbounds, srclatbounds)
-
-# original destination center from charles
+# original destination centers from charles
 # dstlons = numpy.array([135., 137., 139., 141., 143., 145., 147., 149., 151.,
 #                     153., 155., 157., 159., 161., 163., 165., 167., 169.,
 #                     171., 173., 175., 177., 179., 181., 183., 185., 187.,
@@ -127,15 +126,23 @@ srclatbounds = f.variables['bounds_lat'][:]
 #                     225., 227., 229., 231., 233., 235.])
 # dstlats = numpy.array([-29., -27., -25., -23., -21., -19., -17., -15., -13., -11., -9.,
 #     -7., -5., -3., -1., 1., 3., 5., 7., 9., 11., 13.,
-#     15., 17., 19., 21., 23., 25., 27., 29.])
+# #     15., 17., 19., 21., 23., 25., 27., 29.])
+#
+# # create data slightly offset for a destination grid
+# dstlats = srclats - 0.5
+# dstlons = srclons - 0.5
+# dstlatbounds = srclatbounds - 0.5
+# dstlonbounds = srclonbounds - 0.5
+#
+# dstgrid = create_grid_corners(dstlons, dstlats, dstlonbounds, dstlatbounds)
 
-# create data slightly offset for a destination grid
-dstlats = srclats - 0.5
-dstlons = srclons - 0.5
-dstlatbounds = srclatbounds - 0.5
-dstlonbounds = srclonbounds - 0.5
-
-dstgrid = create_grid_corners(dstlons, dstlats, dstlonbounds, dstlatbounds)
+# use same grid to avoid boundary errors associated with domain mismatch
+dstlats = srclats
+dstlons = srclons
+dstlatbounds = srclatbounds
+dstlonbounds = srclonbounds
+dstgrid = ESMF.Grid(filename="charles.nc",
+                    filetype=ESMF.FileFormat.GRIDSPEC, add_corner_stagger=True, is_sphere=False)
 
 srcfield = ESMF.Field(srcgrid, "srcfield", staggerloc=ESMF.StaggerLoc.CENTER)
 dstfield = ESMF.Field(dstgrid, "dstfield", staggerloc=ESMF.StaggerLoc.CENTER)
