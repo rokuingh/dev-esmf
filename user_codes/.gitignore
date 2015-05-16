@@ -18,6 +18,7 @@ PET*.
 *.vtk
 *.csv
 *.nc
+*LogFile
 
 # Eclipse #
 ###########
