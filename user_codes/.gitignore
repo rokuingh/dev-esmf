@@ -1,0 +1,26 @@
+# Compiled source #
+###################
+*.pyc
+
+# Nose #
+########
+*.noseids
+
+# Misc #
+########
+*~
+*.orig
+*.log
+#.Log
+PET*.
+*.stdout
+*.out
+*.vtk
+*.csv
+*.nc
+
+# Eclipse #
+###########
+*.project
+*.pydevproject
+*.settings
