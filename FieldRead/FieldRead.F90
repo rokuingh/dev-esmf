@@ -73,12 +73,11 @@ if (localrc /= ESMF_SUCCESS) return
 
 
 field = ESMF_FieldCreate(grid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-ungriddedLBound=(/1/), ungriddedUBound=(/366/), gridToFieldMap=(/2, 3/), &
+ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2, 3/), &
 name="field", rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
-call ESMF_FieldRead(field, "source.nc", variableName="pr", &
-                    timeslice=366, rc=localrc)
+call ESMF_FieldRead(field, "source.nc", variableName="pr", timeslice=10, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
 call ESMF_FieldPrint(field)
