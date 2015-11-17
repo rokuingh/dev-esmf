@@ -100,7 +100,7 @@ def plot(srclons, srclats, srcfield, dstlons, dstlats, interpfield):
 
 
 # Start up ESMF, this call is only necessary to enable debug logging
-esmpy = ESMF.Manager(logkind=ESMF.LogKind.MULTI, debug=True)
+esmpy = ESMF.Manager(debug=True)
 
 # Create a destination grid from a GRIDSPEC formatted file.
 srcgrid = ESMF.Grid(filename="charles.nc",
@@ -167,6 +167,7 @@ dstmass = compute_mass(dstfield, dstareafield, 0, False)
 
 print "Conservative error = {}".format(abs(srcmass-dstmass)/abs(srcmass))
 
+import ipdb; ipdb.set_trace()
 plot(srclons, srclats, srcfield, dstlons, dstlats, dstfield)
 
 print '\nUVCDAT example completed successfully.\n'
