@@ -2,7 +2,6 @@
 
 import ESMF
 import numpy
-import netCDF4 as nc
 import os
 
 g1 = "nemo"
@@ -70,7 +69,7 @@ def validate(srcfield, dstfield, xctfield, srcfracfield, dstfracfield):
     from operator import mul
 
     ind = numpy.where((dstfield.data != 1e20) & (xctfield.data != 0) & (dstfracfield.data > .999))
-    num_nodes = reduce(mul, xctfield[ind].shape)
+    num_nodes = reduce(mul, xctfield.data[ind].shape)
     relerr = numpy.sum(
         numpy.abs(dstfield.data[ind] / dstfracfield.data[ind] - xctfield.data[ind]) / numpy.abs(xctfield.data[ind]))
     meanrelerr = relerr / num_nodes
@@ -100,6 +99,8 @@ def validate(srcfield, dstfield, xctfield, srcfracfield, dstfracfield):
     dstareafield.destroy()
 
 def plot(srcfield, interpfield):
+    import netCDF4 as nc
+
     # source data
     f = nc.Dataset(grids[g1][0])
     srclons = f.variables[grids[g1][5]][:]
@@ -120,7 +121,7 @@ def plot(srcfield, interpfield):
     fig.suptitle('ESMPy Conservative Regridding', fontsize=14, fontweight='bold')
 
     ax = fig.add_subplot(1, 2, 1)
-    im = ax.imshow(srcfield.T, cmap='gist_ncar', aspect='auto',
+    im = ax.imshow(srcfield.data.T, cmap='gist_ncar', aspect='auto',
                    extent=[numpy.min(srclons), numpy.max(srclons), numpy.min(srclats), numpy.max(srclats)])
     ax.set_xbound(lower=numpy.min(srclons), upper=numpy.max(srclons))
     ax.set_ybound(lower=numpy.min(srclats), upper=numpy.max(srclats))
@@ -129,7 +130,7 @@ def plot(srcfield, interpfield):
     ax.set_title("Source Data")
 
     ax = fig.add_subplot(1, 2, 2)
-    im = ax.imshow(interpfield.T, cmap='gist_ncar', aspect='auto',
+    im = ax.imshow(interpfield.data.T, cmap='gist_ncar', aspect='auto',
                    extent=[numpy.min(dstlons), numpy.max(dstlons), numpy.min(dstlats), numpy.max(dstlats)])
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
@@ -175,8 +176,9 @@ dstfield.data[...] = 1e20
 
 # create an object to regrid data from the source to the destination field
 regrid = ESMF.Regrid(srcfield, dstfield,
-                     regrid_method=ESMF.RegridMethod.CONSERVE,
+                     regrid_method=ESMF.RegridMethod.BILINEAR,
                      unmapped_action=ESMF.UnmappedAction.IGNORE,
+                     ignore_degenerate=True,
                      src_frac_field=srcfracfield,
                      dst_frac_field=dstfracfield)
 
