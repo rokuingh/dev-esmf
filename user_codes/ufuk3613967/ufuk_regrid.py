@@ -5,8 +5,6 @@ import os
 import sys
 import math
 
-ESMF.Manager(debug=True)
-
 [x, y, z] = [0, 1, 2]
 MASK_MAPPED = 99
 MASK_UNMAPPED = 98
@@ -14,8 +12,8 @@ MISSING_VAL = 1.0e20
 
 # parameters
 mm = 1
-file1 = "02i.nc"
-file2 = "mesh_mask_BSEA.nc"
+file1 = "data/BSclimate/%02i.nc" % mm
+file2 = "grids/mesh_mask_BSEA.nc"
 debug = True
 
 flist = [[ 'temp', 'INIT_TEMP', 'BILINEAR', 1.0 , 273.15 ], \
@@ -110,45 +108,42 @@ field_src = ESMF.Field(grid_src, name='field_src', typekind=ESMF.TypeKind.R4, st
 field_dst = ESMF.Field(grid_dst, name='field_dst', typekind=ESMF.TypeKind.R4, staggerloc=ESMF.StaggerLoc.CENTER_VCENTER)
 field_dst.data[...] = MISSING_VAL
 
-field_src.grid._write_("srcgrid.vtk")
-field_dst.grid._write_("dstgrid.vtk")
-
 # create regrid object
-# regrid_method = ESMF.RegridMethod.BILINEAR
-# src_mask_values = np.array([0])
-# dst_mask_values = np.array([0])
-# regrid = ESMF.Regrid(field_src, field_dst, regrid_method=regrid_method,
-#                      src_mask_values=src_mask_values, dst_mask_values=dst_mask_values,
-#                      unmapped_action=ESMF.UnmappedAction.IGNORE)
+regrid_method = ESMF.RegridMethod.BILINEAR
+src_mask_values = np.array([0])
+dst_mask_values = np.array([0])
+regrid = ESMF.Regrid(field_src, field_dst, regrid_method=regrid_method,
+                     src_mask_values=src_mask_values, dst_mask_values=dst_mask_values,
+                     unmapped_action=ESMF.UnmappedAction.IGNORE)
 
-# # open input file
-# nc = Dataset(file1, 'r', format='NETCDF3_CLASSIC')
-#
-# # loop over variables
-# for name in xrange(len(flist)):
-#         var_name = flist[name][0]
-#     sf = float(flist[name][3])
-#     ao = float(flist[name][4])
-#
-#     # get variable
-#     var_src = np.squeeze(nc.variables[var_name][:])
-#     dumm = np.swapaxes(var_src, 0, 2)
-#     var_src = dumm.copy()
-#     field_src.data[...] = var_src[:]
-#
-#     # interpolate data
-#     field_dst2 = regrid(field_src, field_dst, zero_region=ESMF.Region.SELECT)
-#
-#     # create output file
-#     if (debug):
-#             f = Dataset("output.nc", 'w', format='NETCDF3_CLASSIC')
-#         dims = ['lon', 'lat', 'lev']
-#         for i in xrange(len(dims)):
-#                 dumm = f.createDimension(dims[i], field_dst.upper_bounds[i])
-#             print dims[i], field_dst.upper_bounds[i]
-#         var1 = f.createVariable("data1", 'f4', dims[::-1], fill_value=MISSING_VAL)
-#         dumm = np.swapaxes(field_dst2.data[:], 0, 2)
-#         var1[:] = dumm.copy()
-#         f.close()
-#
-#     sys.exit()
+# open input file
+nc = Dataset(file1, 'r', format='NETCDF3_CLASSIC')
+
+# loop over variables
+for name in xrange(len(flist)):
+    var_name = flist[name][0]
+    sf = float(flist[name][3])
+    ao = float(flist[name][4])
+
+    # get variable
+    var_src = np.squeeze(nc.variables[var_name][:])
+    dumm = np.swapaxes(var_src, 0, 2)
+    var_src = dumm.copy()
+    field_src.data[...] = var_src[:]
+
+    # interpolate data
+    field_dst2 = regrid(field_src, field_dst, zero_region=ESMF.Region.SELECT)
+
+    # create output file
+    if (debug):
+        f = Dataset("output.nc", 'w', format='NETCDF3_CLASSIC')
+        dims = ['lon', 'lat', 'lev']
+        for i in xrange(len(dims)):
+            dumm = f.createDimension(dims[i], field_dst.upper_bounds[i])
+            print dims[i], field_dst.upper_bounds[i]
+        var1 = f.createVariable("data1", 'f4', dims[::-1], fill_value=MISSING_VAL)
+        dumm = np.swapaxes(field_dst2.data[:], 0, 2)
+        var1[:] = dumm.copy()
+        f.close()
+
+    sys.exit()
