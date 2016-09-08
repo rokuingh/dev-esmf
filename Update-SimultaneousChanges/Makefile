@@ -58,6 +58,6 @@ clean:
 distclean: clean
 	rm -f PET*.ESMF_LogFile *.dbg
 run:
-	mpirun -np 8 AttributeUpdate
+	mpirun -np 2 AttributeUpdate
 debug:
 	mpirun -n 2 xterm -hold -e gdb -ex run --args ./AttributeUpdate

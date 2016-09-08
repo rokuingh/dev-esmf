@@ -215,16 +215,10 @@ module AttributeUpdateMod
     integer, intent(out) :: rc
 
     type(ESMF_AttPack)                   :: attpack
-    type(ESMF_VM)                        :: vm
     integer                              :: petCount, status, myPet
     character(ESMF_MAXSTR), dimension(3) :: attrList
 
     rc = ESMF_SUCCESS
-
-    call ESMF_CplCompGet(comp, vm=vm, rc=status)
-    if (status .ne. ESMF_SUCCESS) return
-    call ESMF_VMGet(vm, petCount=petCount, localPet=myPet, rc=status)
-    if (status .ne. ESMF_SUCCESS) return
 
     attrList(1) = "name1"
     attrList(2) = "name2"
@@ -268,21 +262,7 @@ module AttributeUpdateMod
     type(ESMF_Clock) :: clock
     integer, intent(out) :: rc
 
-    type(ESMF_AttPack)                   :: attpack
-    integer                              :: status
-
     rc = ESMF_SUCCESS
-
-    call ESMF_AttributeGetAttPack(comp, convention="Comp", purpose="Top", &
-      attpack=attpack, rc=status)
-    if (status .ne. ESMF_SUCCESS) return
-
-    call ESMF_AttributeSet(comp, "name1", attpack=attpack, value="value1-1", &
-      rc=status)
-    if (status .ne. ESMF_SUCCESS) return
-
-    ! add a single Attribute alongside the Attribute packages
-    call ESMF_AttributeSet(comp, "Lone Attribute", value="Lone Attribute", rc=rc)
 
   end subroutine usercpl_run
 
@@ -372,7 +352,6 @@ program AttributeUpdate
 
     ! local variables
     integer                 :: petCount, localPet
-    !integer                 :: petList1(4), petList2(4), petList3(8)
     integer                 :: petList1(1), petList2(1), petList3(2)
     type(ESMF_VM)           :: vm
     type(ESMF_State)        :: c1exp, c2imp
@@ -380,12 +359,7 @@ program AttributeUpdate
     type(ESMF_GridComp)     :: gridcomp2
     type(ESMF_CplComp)      :: cplcomp
 
-    type(ESMF_AttPack)      :: attpack
     character(ESMF_MAXSTR)  :: outVal
-
-#ifdef DEBUG
-    character(ESMF_MAXSTR)  :: filename
-#endif
 
     !-----------------------------------------------------------------------------
     call ESMF_Initialize(rc=rc)
@@ -402,21 +376,6 @@ program AttributeUpdate
     petList2 = (/1/)
     petList3(1:1) = petList1
     petList3(2:2) = petList2
-
-
-#if 0
-    petList1 = (/2,3,0,1/)
-    petList2 = (/6,7,4,5/)
-    petList3(1:4) = petList1
-    petList3(5:8) = petList2
-
-    petList1 = (/20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,36,37,38,39/)
-    petList2 = (/79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40/)
-    petList2 = (/40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79/)
-    petList2 = (/50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,40,41,42,43,44,45,46,47,48,49,70,71,72,73,74,75,76,77,78,79/)
-    petList3(1:40) = petList1
-    petList3(41:80) = petList2
-#endif
 
     gridcomp1 = ESMF_GridCompCreate(name="gridcomp1", &
       petList=petList2, rc=rc)
@@ -465,34 +424,30 @@ program AttributeUpdate
     call ESMF_GridCompRun(gridcomp2, importState=c2imp, rc=rc)
     if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-#ifdef DEBUG
-    write (filename, '(A,I0,A)') "A", localPet, "-cplcomp-0"
-    call ESMF_BasePrint(cplcomp%compp%base, filename=filename, rc=rc)
-#endif
+    !!!!! Simulate Simultaneous Changes to Attribute Tree !!!!!!!!!!!!!!!!
 
-    !!!!!!!!!!!!!!!!!!!!! Attribute Update on Component !!!!!!!!!!!!!!!!
-    call ESMF_AttributeUpdate(cplcomp, vm, rootList=petList2, rc=rc)
-    if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-    !!!!!!!!!!!!!!!!!!!!! Attribute Update on Component !!!!!!!!!!!!!!!!
+    ! simulate changes happening on both sides
+    if (localPet == 0) then
 
-#ifdef DEBUG
-    write (filename, '(A,I0,A)') "A", localPet, "-cplcomp-1"
-    call ESMF_BasePrint(cplcomp%compp%base, filename=filename, rc=rc)
-#endif
+      call ESMF_AttributeSet(cplcomp, "ESMF_RUNTIME_COMPLIANCEICREGISTER", &
+        value="doodle", rc=rc)
+      if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-#if 0
-    call ESMF_AttributeGetAttPack(cplcomp, convention="Comp", purpose="Top", &
-        attpack=attpack, rc=rc)
+      call ESMF_AttributeSet(cplcomp, "ConnectionOptions", value="doodle", rc=rc)
+      if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+    else if (localPet == 1) then
+
+      ! add the SAME attribute that was added to the root PETs
+      call ESMF_AttributeSet(cplcomp, "ConnectionOptions", value="doodle", rc=rc)
+      if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+    endif
+
+    !!!!! Simulate Simultaneous Changes to Attribute Tree !!!!!!!!!!!!!!!!
+
+    call ESMF_AttributeUpdate(cplcomp, vm, rootList=petList1, rc=rc)
     if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-    call ESMF_AttributeGet(cplcomp, "name1", value=outVal, attpack=attpack, rc=rc)
-    if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-    call ESMF_AttributeGet(cplcomp, "name2", value=outVal, attpack=attpack, rc=rc)
-    if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-    call ESMF_AttributeGet(cplcomp, "name3", value=outVal, attpack=attpack, rc=rc)
-    if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-    call ESMF_AttributeGet(cplcomp, "Lone Attribute", value=outVal, rc=rc)
-    if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-#endif
 
     ! Now back to finalizing the model run
     call ESMF_GridCompFinalize(gridcomp1, exportState=c1exp, rc=rc)
