@@ -33,14 +33,13 @@ contains
   logical :: correct
   integer :: localrc
   type(ESMF_Grid) :: srcGrid
-  type(ESMF_Mesh) :: dstGrid
+  type(ESMF_Grid) :: dstGrid
   type(ESMF_Field) :: srcField
   type(ESMF_Field) :: dstField
   type(ESMF_Field) :: xdstField
   type(ESMF_RouteHandle) :: routeHandle
   type(ESMF_VM) :: vm
-  real(ESMF_KIND_R8), pointer :: src(:,:)
-  real(ESMF_KIND_R8), pointer :: dst(:), xct(:)
+  real(ESMF_KIND_R8), pointer :: src(:,:), dst(:,:), xct(:,:)
   real(ESMF_KIND_R8) :: lon, lat, theta, phi
   integer :: localPet, petCount
   real(ESMF_KIND_R8), parameter ::  DEG2RAD = &
@@ -57,8 +56,7 @@ contains
   call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-  ! Establish the resolution of the grids
-
+#if 0
   ! Create Src Grid
   srcGrid=ESMF_GridCreate("data/ll2.5deg_grid.nc", ESMF_FILEFORMAT_SCRIP, &
                                   rc=localrc)
@@ -68,6 +66,12 @@ contains
   dstGrid=ESMF_MeshCreate("data/mpas_uniform_10242_dual_counterclockwise.nc", &
                           ESMF_FILEFORMAT_ESMFMESH, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+#endif
+
+  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
   ! Create source/destination fields
    srcField = ESMF_FieldCreate(srcGrid, typekind=ESMF_TYPEKIND_R8, &
@@ -76,13 +80,13 @@ contains
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
    dstField = ESMF_FieldCreate(dstGrid, ESMF_TYPEKIND_R8, &
-                               meshloc=ESMF_MESHLOC_ELEMENT, &
+                               staggerloc=ESMF_STAGGERLOC_CENTER, &
                                name="dest", rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 
   xdstField = ESMF_FieldCreate(dstGrid, ESMF_TYPEKIND_R8, &
-                               meshloc=ESMF_MESHLOC_ELEMENT, &
+                               staggerloc=ESMF_STAGGERLOC_CENTER, &
                                name="xdest", rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
@@ -91,11 +95,11 @@ contains
   ! dstArray
   call ESMF_FieldGet(dstField, farrayPtr=dst, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  dst(:) = 0.
+  dst(:,:) = 0.
 
   call ESMF_FieldGet(xdstField, farrayPtr=xct, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  xct(:) = 42.
+  xct(:,:) = 42.
 
   ! srcArray
   call ESMF_FieldGet(srcField, farrayPtr=src, rc=localrc)
@@ -110,7 +114,7 @@ contains
 #endif
 
   ! SMM store
-  call ESMF_FieldSMMStore(srcField, dstField, "data/weights_ll25_to_mpas.nc", routeHandle, &
+  call ESMF_FieldSMMStore(srcField, dstField, "data/weights_generic.nc", routeHandle, &
                           rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
@@ -154,7 +158,7 @@ print *, src
   call ESMF_GridDestroy(srcGrid, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-  call ESMF_MeshDestroy(dstGrid, rc=localrc)
+  call ESMF_GridDestroy(dstGrid, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 

@@ -64,13 +64,11 @@ include $(ESMFMKFILE)
 
 ESMC_SMM:
 
-.PHONY: run
-run:
-	./ESMF_SMM
+#ESMF_SMM:
 
 .PHONY: clean
 clean:
-	rm -f ESMC_SMM *.o *.Log *.out *.err
+	rm -f ESMC_SMM ESMF_SMM *.o *.Log *.out *.err
 
 .PHONY: dust
 dust:
