@@ -19,12 +19,52 @@ program esmf_application
   call ESMF_Initialize(rc=rc)
   if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-  call test_bilinear_regrid_csgrid(rc)
+  !call test_bilinear_regrid_csgrid(rc)
+  call test_csgrid_print(rc)
 
   call ESMF_Finalize()
 
 
 contains
+
+ subroutine test_csgrid_print(rc)
+#undef ESMF_METHOD
+#define ESMF_METHOD "test_csgrid_print"
+  integer, intent(out)  :: rc
+  type(ESMF_Grid) :: grid
+  type(ESMF_VM) :: vm
+  integer :: localpet, petCount, localrc
+
+  real(ESMF_KIND_R8), pointer :: coords1(:,:), coords2(:,:)
+
+  ! get pet info
+  call ESMF_VMGetGlobal(vm, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  ! Establish the resolution of the grids
+
+  ! Create grid
+  grid=ESMF_GridCreateCubedSphere(tileSize=6, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  ! get
+
+  call ESMF_GridGetCoord(grid, 1, localDE=0, farrayPtr=coords1, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+  call ESMF_GridGetCoord(grid, 2, localDE=0, farrayPtr=coords2, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  print *, localpet, 1, coords1
+  print *, localpet, 2, coords2
+
+  ! return answer based on correct flag
+  rc=ESMF_SUCCESS
+
+ end subroutine test_csgrid_print
+
 
  subroutine test_bilinear_regrid_csgrid(rc)
 #undef ESMF_METHOD
