@@ -63,21 +63,40 @@ call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 
 ! Grid create from file
-grid = ESMF_GridCreate("source.nc", ESMF_FILEFORMAT_GRIDSPEC, &
-                          regDecomp=[1,1], addCornerStagger=.true., rc=localrc)
+grid = ESMF_GridCreate(&
+    "so_Omon_ACCESS1-0_historical_r1i1p1_185001-185412_2timesteps.nc", &
+    ESMF_FILEFORMAT_GRIDSPEC, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
+
+#define just_time
+#ifdef just_time
 
 ! Create source/destination fields
 call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
-
 field = ESMF_FieldCreate(grid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2, 3/), &
-name="field", rc=localrc)
+    ungriddedLBound=(/1/), ungriddedUBound=(/2/), gridToFieldMap=(/2, 3/), &
+    name="field", rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
-call ESMF_FieldRead(field, "source.nc", variableName="pr", timeslice=10, rc=localrc)
+#else
+
+! Create source/destination fields
+call ESMF_ArraySpecSet(arrayspec, 4, ESMF_TYPEKIND_R8, rc=localrc)
+if (localrc /= ESMF_SUCCESS) return
+
+field = ESMF_FieldCreate(grid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
+    ungriddedLBound=(/1, 1/), ungriddedUBound=(/2, 50/), gridToFieldMap=(/3, 4/), &
+    name="field", rc=localrc)
+if (localrc /= ESMF_SUCCESS) return
+
+#endif
+
+
+call ESMF_FieldRead(field, &
+    "so_Omon_ACCESS1-0_historical_r1i1p1_185001-185412_2timesteps.nc", &
+    variableName="so", timeslice=2, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
 call ESMF_FieldPrint(field)

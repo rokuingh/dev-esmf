@@ -1,0 +1,39 @@
+ $Id:  Exp $
+===============================================================================
+
+                        README - ESMF_Regrid
+
+                    Earth System Modeling Framework (ESMF)
+
+ Earth System Modeling Framework
+ Copyright 2002-2016, University Corporation for Atmospheric Research,
+ Massachusetts Institute of Technology, Geophysical Fluid Dynamics
+ Laboratory, University of Michigan, National Centers for Environmental
+ Prediction, Los Alamos National Laboratory, Argonne National Laboratory,
+ NASA Goddard Space Flight Center.
+ Licensed under the University of Illinois-NCSA License.
+
+================================================================================
+
+Hello, this is the README file for the ESMF_Regrid external demo.
+
+ESMF must be built and installed for this testing application to run properly.
+
+The ESMF library must be built with NetCDF support.
+
+If the ESMF library has already been built on the system you are using, you 
+should only have to set the ESMFMKFILE environment variable.
+This environment variable should point to the esmf.mk file in the INSTALLED 
+version of the ESMF library.
+
+Some useful commands you can issue in this directory:
+
+gmake       - build the application
+gmake dust  - clean out .o and .mod files
+gmake clean - clean the directory and start over
+
+===============================================================================
+
+Please contact esmf_support@list.woc.noaa.gov with any questions or problems.
+
+================================================================================
