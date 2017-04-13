@@ -429,11 +429,11 @@ program AttributeUpdate
     ! simulate changes happening on both sides
     if (localPet == 0) then
 
-      call ESMF_AttributeSet(cplcomp, "ESMF_RUNTIME_COMPLIANCEICREGISTER", &
-        value="doodle", rc=rc)
+      call ESMF_AttributeSet(cplcomp, "ConnectionOptions", value="doodle", rc=rc)
       if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-      call ESMF_AttributeSet(cplcomp, "ConnectionOptions", value="doodle", rc=rc)
+      call ESMF_AttributeSet(cplcomp, "ESMF_RUNTIME_COMPLIANCEICREGISTER", &
+        value="doodle", rc=rc)
       if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
     else if (localPet == 1) then
@@ -446,7 +446,8 @@ program AttributeUpdate
 
     !!!!! Simulate Simultaneous Changes to Attribute Tree !!!!!!!!!!!!!!!!
 
-    call ESMF_AttributeUpdate(cplcomp, vm, rootList=petList1, rc=rc)
+    call ESMF_AttributeUpdate(cplcomp, vm, rootList=petList1, &
+                              reconcile=.false., rc=rc)
     if (rc .ne. ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
     ! Now back to finalizing the model run

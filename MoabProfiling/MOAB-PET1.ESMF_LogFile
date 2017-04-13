@@ -1,0 +1,26 @@
+20160908 155900.321 INFO             PET1 Running with ESMF Version 7.1.0 beta snapshot
+20160908 155900.322 INFO             PET1 Before MeshCreate - MemInfo: VmPeak:	  377496 kB
+20160908 155900.322 INFO             PET1 Before MeshCreate - MemInfo: VmSize:	  377496 kB
+20160908 155900.322 INFO             PET1 Before MeshCreate - MemInfo: VmLck:	       0 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmPin:	       0 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmHWM:	   15600 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmRSS:	   15600 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmData:	   72164 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmStk:	     140 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmExe:	       8 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmLib:	   38548 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmPTE:	     364 kB
+20160908 155900.323 INFO             PET1 Before MeshCreate - MemInfo: VmSwap:	       0 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmPeak:	  452416 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmSize:	  452416 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmLck:	       0 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmPin:	       0 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmHWM:	   64984 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmRSS:	   64984 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmData:	  147080 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmStk:	     144 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmExe:	       8 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmLib:	   38548 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmPTE:	     480 kB
+20160908 155900.698 INFO             PET1 After MeshCreate - MemInfo: VmSwap:	       0 kB
+20160908 155900.698 INFO             PET1 Finalizing ESMF
