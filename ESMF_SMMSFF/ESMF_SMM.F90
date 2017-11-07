@@ -56,23 +56,26 @@ contains
   call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-#if 0
+#if 1
   ! Create Src Grid
   srcGrid=ESMF_GridCreate("data/ll2.5deg_grid.nc", ESMF_FILEFORMAT_SCRIP, &
                                   rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
   ! Create Dst Grid
-  dstGrid=ESMF_MeshCreate("data/mpas_uniform_10242_dual_counterclockwise.nc", &
-                          ESMF_FILEFORMAT_ESMFMESH, rc=localrc)
+  dstGrid=ESMF_GridCreate("data/ll2.5deg_grid.nc", ESMF_FILEFORMAT_SCRIP, &
+                                  rc=localrc)
+!  dstGrid=ESMF_MeshCreate("data/mpas_uniform_10242_dual_counterclockwise.nc", &
+!                          ESMF_FILEFORMAT_ESMFMESH, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 #endif
 
+#if 0
   srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
   dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-
+#endif
   ! Create source/destination fields
    srcField = ESMF_FieldCreate(srcGrid, typekind=ESMF_TYPEKIND_R8, &
                                staggerloc=ESMF_STAGGERLOC_CENTER, &
@@ -113,23 +116,25 @@ contains
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 #endif
 
+#if 0
+
   ! SMM store
   call ESMF_FieldSMMStore(srcField, dstField, "data/weights_generic.nc", routeHandle, &
                           rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 print *, src
+#endif
 
-#if 0
   ! Do regrid
-  call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=localrc)
+  !call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=localrc)
+  call ESMF_FieldRegridStore(srcField, dstField, "weights.nc", rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 
   call ESMF_FieldRegridRelease(routeHandle, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-#endif
 
 #if 0
   call ESMF_GridWriteVTK(srcGrid,staggerloc=ESMF_STAGGERLOC_CENTER, &

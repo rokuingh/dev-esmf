@@ -62,7 +62,7 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-ESMC_SMM:
+ESMF_SMM:
 
 #ESMF_SMM:
 
