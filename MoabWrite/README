@@ -1,0 +1,1 @@
+This was an experiment to see if I could use MOAB code in an external demo like test code (external to esmf). Ran into issues with the ESMF files that are linked from the MBMesh files that needed to be explicitely linked from the demo (the relative paths in those files cannot be resolved). 
