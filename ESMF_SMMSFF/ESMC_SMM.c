@@ -122,6 +122,16 @@ int main(void){
   if (rc != ESMF_SUCCESS) return 0;
 #endif
 
+  printf("srcfield before smmstore = [\n");
+  p = 0;
+  for (int i1=exLBound[1]; i1<=exUBound[1]; ++i1) {
+    for (int i0=exLBound[0]; i0<=exUBound[0]; ++i0) {
+      printf("%f, ", srcfieldptr[p]);
+      p++;
+    }
+  }
+  printf("]\n");
+
   rc = ESMC_FieldSMMStore(srcfield, dstfield, "data/weights_generic.nc", &routehandle,
                           NULL, NULL, NULL, NULL);
   if (rc != ESMF_SUCCESS) return 0;

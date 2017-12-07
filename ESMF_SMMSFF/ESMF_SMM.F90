@@ -41,7 +41,12 @@ contains
   type(ESMF_VM) :: vm
   real(ESMF_KIND_R8), pointer :: src(:,:), dst(:,:), xct(:,:)
   real(ESMF_KIND_R8) :: lon, lat, theta, phi
+  real(ESMF_KIND_R8), pointer :: slon(:,:), slat(:,:), dlon(:,:), dlat(:,:)
+  integer(ESMF_KIND_I4) :: lbnd(2), ubnd(2)
+  integer :: nlon, nlat
   integer :: localPet, petCount
+  integer :: i, j
+  real(ESMF_KIND_R8) :: lon1, lon2, lat1, lat2
   real(ESMF_KIND_R8), parameter ::  DEG2RAD = &
                 3.141592653589793_ESMF_KIND_R8/180.0_ESMF_KIND_R8
 
@@ -56,7 +61,7 @@ contains
   call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-#if 1
+#if 0
   ! Create Src Grid
   srcGrid=ESMF_GridCreate("data/ll2.5deg_grid.nc", ESMF_FILEFORMAT_SCRIP, &
                                   rc=localrc)
@@ -71,11 +76,84 @@ contains
 #endif
 
 #if 0
-  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
+  nlon = 35
+  nlat = 18
+
+  srcGrid = ESMF_GridCreate1PeriDim(maxIndex=(/nlon, nlat/), &
+                                     coordSys=ESMF_COORDSYS_SPH_DEG, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4,4/), rc=localrc)
+
+  call ESMF_GridAddCoord(srcGrid, staggerloc=ESMF_STAGGERLOC_CENTER, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_GridGetCoord(srcGrid, 1, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=slon, rc=localrc)
+
+  call ESMF_GridGetCoord(srcGrid, 2, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=slat, rc=localrc)
+
+  lon1 = 5
+  lon2 = 10
+
+  lat1 = -85
+  lat2 = 10
+
+  do i = lbnd(1), ubnd(1)
+    slon(i,:) = lon1 + (i-1)*lon2
+  enddo
+
+  do i = lbnd(2), ubnd(2)
+    slat(:,i) = lat1 + (i-1)*lat2
+  enddo
+
+  nlon = 72
+  nlat = 36
+
+  dstGrid = ESMF_GridCreate1PeriDim(maxIndex=(/nlon, nlat/), &
+                                     coordSys=ESMF_COORDSYS_SPH_DEG, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_GridAddCoord(dstGrid, staggerloc=ESMF_STAGGERLOC_CENTER, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_GridGetCoord(dstGrid, 1, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=dlon, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_GridGetCoord(dstGrid, 2, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=dlat, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  lon1 = 2.5
+  lon2 = 5
+
+  lat1 = -87.5
+  lat2 = 5
+
+  do i = lbnd(1), ubnd(1)
+    dlon(i,:) = lon1 + (i-1)*lon2
+  enddo
+
+  do i = lbnd(2), ubnd(2)
+    dlat(:,i) = lat1 + (i-1)*lat2
+  enddo
+
+#endif
+
+#if 1
+  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4, 4/), &
+                                     coordSys=ESMF_COORDSYS_CART, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4, 4/), &
+                                     coordSys=ESMF_COORDSYS_CART, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 #endif
+
   ! Create source/destination fields
    srcField = ESMF_FieldCreate(srcGrid, typekind=ESMF_TYPEKIND_R8, &
                                staggerloc=ESMF_STAGGERLOC_CENTER, &
@@ -117,6 +195,13 @@ contains
 #endif
 
 #if 0
+  ! Do regrid
+  !call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=localrc)
+  call ESMF_FieldRegridStore(srcField, dstField, "weights.nc", rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+#endif
+
+print *, src
 
   ! SMM store
   call ESMF_FieldSMMStore(srcField, dstField, "data/weights_generic.nc", routeHandle, &
@@ -124,12 +209,6 @@ contains
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 print *, src
-#endif
-
-  ! Do regrid
-  !call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=localrc)
-  call ESMF_FieldRegridStore(srcField, dstField, "weights.nc", rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 
   call ESMF_FieldRegridRelease(routeHandle, rc=localrc)
