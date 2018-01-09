@@ -32,23 +32,19 @@ contains
   integer, intent(out)  :: rc
   logical :: correct
   integer :: localrc
-  type(ESMF_Grid) :: srcGrid
-  type(ESMF_Grid) :: dstGrid
-  type(ESMF_Field) :: srcField
-  type(ESMF_Field) :: dstField
-  type(ESMF_Field) :: xdstField
+  type(ESMF_Grid) :: srcGrid, dstGrid
+  type(ESMF_Field) :: srcField, dstField, xdstField
+  type(ESMF_Array) :: srcA, dstA, errA
   type(ESMF_RouteHandle) :: routeHandle
   type(ESMF_VM) :: vm
-  real(ESMF_KIND_R8), pointer :: src(:,:), dst(:,:), xct(:,:)
+  type(ESMF_DistGrid) :: distgrid
+  real(ESMF_KIND_R8), pointer :: src(:,:), dst(:,:), xct(:,:), errP(:,:)
+  real(ESMF_KIND_R8), allocatable, target :: err(:,:)
   real(ESMF_KIND_R8) :: lon, lat, theta, phi
-  real(ESMF_KIND_R8), pointer :: slon(:,:), slat(:,:), dlon(:,:), dlat(:,:)
+  real(ESMF_KIND_R8), pointer :: s_x(:,:), s_y(:,:), d_x(:,:), d_y(:,:)
   integer(ESMF_KIND_I4) :: lbnd(2), ubnd(2)
-  integer :: nlon, nlat
   integer :: localPet, petCount
   integer :: i, j
-  real(ESMF_KIND_R8) :: lon1, lon2, lat1, lat2
-  real(ESMF_KIND_R8), parameter ::  DEG2RAD = &
-                3.141592653589793_ESMF_KIND_R8/180.0_ESMF_KIND_R8
 
   ! init success flag
   correct=.true.
@@ -75,84 +71,56 @@ contains
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 #endif
 
-#if 0
-  nlon = 35
-  nlat = 18
 
-  srcGrid = ESMF_GridCreate1PeriDim(maxIndex=(/nlon, nlat/), &
-                                     coordSys=ESMF_COORDSYS_SPH_DEG, rc=localrc)
+  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/8,8/), &
+                                     coordSys=ESMF_COORDSYS_CART, &
+                                     indexflag=ESMF_INDEX_GLOBAL, &
+                                     rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/8,8/), &
+                                     coordSys=ESMF_COORDSYS_CART, &
+                                     indexflag=ESMF_INDEX_GLOBAL,  &
+                                     rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
   call ESMF_GridAddCoord(srcGrid, staggerloc=ESMF_STAGGERLOC_CENTER, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-
-  call ESMF_GridGetCoord(srcGrid, 1, staggerloc=ESMF_STAGGERLOC_CENTER, &
-                         computationalLBound=lbnd, computationalUBound=ubnd, &
-                         farrayPtr=slon, rc=localrc)
-
-  call ESMF_GridGetCoord(srcGrid, 2, staggerloc=ESMF_STAGGERLOC_CENTER, &
-                         computationalLBound=lbnd, computationalUBound=ubnd, &
-                         farrayPtr=slat, rc=localrc)
-
-  lon1 = 5
-  lon2 = 10
-
-  lat1 = -85
-  lat2 = 10
-
-  do i = lbnd(1), ubnd(1)
-    slon(i,:) = lon1 + (i-1)*lon2
-  enddo
-
-  do i = lbnd(2), ubnd(2)
-    slat(:,i) = lat1 + (i-1)*lat2
-  enddo
-
-  nlon = 72
-  nlat = 36
-
-  dstGrid = ESMF_GridCreate1PeriDim(maxIndex=(/nlon, nlat/), &
-                                     coordSys=ESMF_COORDSYS_SPH_DEG, rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-
   call ESMF_GridAddCoord(dstGrid, staggerloc=ESMF_STAGGERLOC_CENTER, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
+  call ESMF_GridGetCoord(srcGrid, 1, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=s_x, rc=localrc)
+
+  call ESMF_GridGetCoord(srcGrid, 2, staggerloc=ESMF_STAGGERLOC_CENTER, &
+                         computationalLBound=lbnd, computationalUBound=ubnd, &
+                         farrayPtr=s_y, rc=localrc)
+
+  do i = lbnd(1), ubnd(1)
+    do j = lbnd(2), ubnd(2)
+        s_x(i, j) = i
+        s_y(i, j) = j
+    enddo
+  enddo
+
+
   call ESMF_GridGetCoord(dstGrid, 1, staggerloc=ESMF_STAGGERLOC_CENTER, &
                          computationalLBound=lbnd, computationalUBound=ubnd, &
-                         farrayPtr=dlon, rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+                         farrayPtr=d_x, rc=localrc)
 
   call ESMF_GridGetCoord(dstGrid, 2, staggerloc=ESMF_STAGGERLOC_CENTER, &
                          computationalLBound=lbnd, computationalUBound=ubnd, &
-                         farrayPtr=dlat, rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+                         farrayPtr=d_y, rc=localrc)
 
-  lon1 = 2.5
-  lon2 = 5
+    do i = lbnd(1), ubnd(1)
+      do j = lbnd(2), ubnd(2)
+          d_x(i, j) = i
+          d_y(i, j) = j
+      enddo
+    enddo
 
-  lat1 = -87.5
-  lat2 = 5
-
-  do i = lbnd(1), ubnd(1)
-    dlon(i,:) = lon1 + (i-1)*lon2
-  enddo
-
-  do i = lbnd(2), ubnd(2)
-    dlat(:,i) = lat1 + (i-1)*lat2
-  enddo
-
-#endif
-
-#if 1
-  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4, 4/), &
-                                     coordSys=ESMF_COORDSYS_CART, rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-
-  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/4, 4/), &
-                                     coordSys=ESMF_COORDSYS_CART, rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-#endif
+! print *, "PET", localPet, ": lbnd, ubnd", lbnd, ubnd
+! print *, "PET", localPet, ": d_x", d_x
 
   ! Create source/destination fields
    srcField = ESMF_FieldCreate(srcGrid, typekind=ESMF_TYPEKIND_R8, &
@@ -176,56 +144,60 @@ contains
   ! dstArray
   call ESMF_FieldGet(dstField, farrayPtr=dst, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  dst(:,:) = 0.
+  dst = 0.
 
   call ESMF_FieldGet(xdstField, farrayPtr=xct, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  xct(:,:) = 42.
+  xct = 42.
 
   ! srcArray
   call ESMF_FieldGet(srcField, farrayPtr=src, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  src(:,:) = 42.
+  src = 42.
 
-
-#if 0
-  call ESMF_GridWriteVTK(srcGrid,staggerloc=ESMF_STAGGERLOC_CENTER, &
-       filename="srcGrid", rc=localrc)
-  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-#endif
-
-#if 0
   ! Do regrid
-  !call ESMF_FieldRegrid(srcField, dstField, routeHandle, rc=localrc)
-  call ESMF_FieldRegridStore(srcField, dstField, "weights.nc", rc=localrc)
+  call ESMF_FieldRegridStore(srcField, dstField, routehandle=routeHandle, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-#endif
 
-print *, src
-
+#if 0
   ! SMM store
-  call ESMF_FieldSMMStore(srcField, dstField, "data/weights_generic.nc", routeHandle, &
+  call ESMF_FieldSMMStore(srcField, dstField, "weights.nc", routeHandle, &
                           rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
 print *, src
-
+#endif
 
   call ESMF_FieldRegridRelease(routeHandle, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-
 #if 0
+  call ESMF_FieldGet(srcField, array=srcA, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
   call ESMF_GridWriteVTK(srcGrid,staggerloc=ESMF_STAGGERLOC_CENTER, &
-       filename="srcGrid", array1=srcArray, &
+       filename="srcGrid", array1=srcA, &
        rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_FieldGet(dstField, array=dstA, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  call ESMF_GridGet(dstGrid, distgrid=distgrid, rc=localrc)
+  if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
+
+  allocate(err(8,8))
+  err = xct - dst / xct
+  errP => err
+  errA = ESMF_ArrayCreate(distgrid, farrayPtr=errP, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
   call ESMF_GridWriteVTK(dstGrid,staggerloc=ESMF_STAGGERLOC_CENTER, &
-       filename="dstGrid", array1=dstArray, array2=errArray, &
+       filename="dstGrid", array1=dstA, array2=errA, &
        rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
+  deallocate(err)
 #endif
 
   ! Destroy the Fields
@@ -244,7 +216,6 @@ print *, src
 
   call ESMF_GridDestroy(dstGrid, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-
 
   ! return answer based on correct flag
   if (correct) then

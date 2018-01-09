@@ -62,13 +62,13 @@ include $(ESMFMKFILE)
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-ESMC_SMM:
+ESMF_SMM:
 
 #ESMF_SMM:
 
 .PHONY: clean
 clean:
-	rm -f ESMC_SMM ESMF_SMM *.o *.Log *.out *.err PET0.ESMF_LogFile *.nc
+	rm -f ESMC_SMM ESMF_SMM *.o *.Log *.out *.err PET*.ESMF_LogFile
 
 .PHONY: dust
 dust:
