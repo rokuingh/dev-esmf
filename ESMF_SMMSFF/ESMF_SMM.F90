@@ -44,7 +44,7 @@ contains
   real(ESMF_KIND_R8), pointer :: s_x(:,:), s_y(:,:), d_x(:,:), d_y(:,:)
   integer(ESMF_KIND_I4) :: lbnd(2), ubnd(2)
   integer :: localPet, petCount
-  integer :: i, j
+  integer :: i, j, m, n
 
   ! init success flag
   correct=.true.
@@ -71,13 +71,15 @@ contains
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 #endif
 
+  m = 8
+  n = 9
 
-  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/8,8/), &
+  srcGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/n,n/), &
                                      coordSys=ESMF_COORDSYS_CART, &
                                      indexflag=ESMF_INDEX_GLOBAL, &
                                      rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
-  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/8,8/), &
+  dstGrid = ESMF_GridCreateNoPeriDim(maxIndex=(/m,m/), &
                                      coordSys=ESMF_COORDSYS_CART, &
                                      indexflag=ESMF_INDEX_GLOBAL,  &
                                      rc=localrc)
@@ -96,10 +98,12 @@ contains
                          computationalLBound=lbnd, computationalUBound=ubnd, &
                          farrayPtr=s_y, rc=localrc)
 
+! print *, "PET", localPet, ": lbnd, ubnd", lbnd, ubnd
+
   do i = lbnd(1), ubnd(1)
     do j = lbnd(2), ubnd(2)
-        s_x(i, j) = i
-        s_y(i, j) = j
+        s_x(i, j) = i - 0.5
+        s_y(i, j) = j - 0.5
     enddo
   enddo
 
@@ -123,7 +127,7 @@ contains
 ! print *, "PET", localPet, ": d_x", d_x
 
   ! Create source/destination fields
-   srcField = ESMF_FieldCreate(srcGrid, typekind=ESMF_TYPEKIND_R8, &
+   srcField = ESMF_FieldCreate(dstGrid, typekind=ESMF_TYPEKIND_R8, &
                                staggerloc=ESMF_STAGGERLOC_CENTER, &
                                name="source", rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
@@ -186,7 +190,7 @@ print *, src
   call ESMF_GridGet(dstGrid, distgrid=distgrid, rc=localrc)
   if (localrc /= ESMF_SUCCESS) return ESMF_FAILURE
 
-  allocate(err(8,8))
+  allocate(err(m,m))
   err = xct - dst / xct
   errP => err
   errA = ESMF_ArrayCreate(distgrid, farrayPtr=errP, rc=localrc)

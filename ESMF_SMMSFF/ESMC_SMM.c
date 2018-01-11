@@ -50,16 +50,77 @@ int main(void){
   if (rc != ESMF_SUCCESS) return 0;
 #endif
 
+  int m = 8;
+  int n = 9;
+
   int dimcount = 2;
   maxIndex = (int *)malloc(dimcount*sizeof(int));
-  maxIndex[0] = 4;
-  maxIndex[1] = 4;
+  maxIndex[0] = m;
+  maxIndex[1] = m;
   rc = ESMC_InterArrayIntSet(&i_maxIndex, maxIndex, dimcount);
 
-  srcgrid = ESMC_GridCreateNoPeriDim(&i_maxIndex, NULL, NULL, NULL, &rc);
+  ESMC_IndexFlag indexflag = ESMC_INDEX_GLOBAL;
+  srcgrid = ESMC_GridCreateNoPeriDim(&i_maxIndex, NULL, NULL, &indexflag, &rc);
   if (rc != ESMF_SUCCESS) return 0;
-  dstgrid = ESMC_GridCreateNoPeriDim(&i_maxIndex, NULL, NULL, NULL, &rc);
+
+  maxIndex[0] = m;
+  maxIndex[1] = m;
+
+  dstgrid = ESMC_GridCreateNoPeriDim(&i_maxIndex, NULL, NULL, &indexflag, &rc);
   if (rc != ESMF_SUCCESS) return 0;
+
+    int *exLBound = NULL;
+    int *exUBound = NULL;
+    int p = 0;
+
+    ESMC_GridAddCoord(srcgrid, ESMC_STAGGERLOC_CENTER);
+
+    exLBound = (int *)malloc(dimcount*sizeof(int));
+    exUBound = (int *)malloc(dimcount*sizeof(int));
+
+    double *gridXCoord = (double *)ESMC_GridGetCoord(srcgrid, 1,
+                                                     ESMC_STAGGERLOC_CENTER, NULL,
+                                                     exLBound, exUBound, &rc);
+
+    double *gridYCoord = (double *)ESMC_GridGetCoord(srcgrid, 2,
+                                                     ESMC_STAGGERLOC_CENTER, NULL,
+                                                     NULL, NULL, &rc);
+
+    // printf("PET%d: lbnd, ubnd    %d    %d    %d    %d\n", localPet, exLBound[0], exLBound[1], exUBound[0], exUBound[1]);
+
+    p = 0;
+    for (int i1=exLBound[1]; i1<=exUBound[1]; ++i1) {
+      for (int i0=exLBound[0]; i0<=exUBound[0]; ++i0) {
+        gridXCoord[p]=i0;
+        gridYCoord[p]=i1;
+        ++p;
+      }
+    }
+
+    ESMC_GridAddCoord(dstgrid, ESMC_STAGGERLOC_CENTER);
+
+    exLBound = (int *)malloc(dimcount*sizeof(int));
+    exUBound = (int *)malloc(dimcount*sizeof(int));
+
+    gridXCoord = (double *)ESMC_GridGetCoord(dstgrid, 1,
+                                                     ESMC_STAGGERLOC_CENTER, NULL,
+                                                     exLBound, exUBound, &rc);
+
+    gridYCoord = (double *)ESMC_GridGetCoord(dstgrid, 2,
+                                                     ESMC_STAGGERLOC_CENTER, NULL,
+                                                     NULL, NULL, &rc);
+
+    // printf("exLBounds = [%d,%d]\n", exLBound[0], exLBound[1]);
+    // printf("exUBounds = [%d,%d]\n", exUBound[0], exUBound[1]);
+
+    p = 0;
+    for (int i1=exLBound[1]; i1<=exUBound[1]; ++i1) {
+      for (int i0=exLBound[0]; i0<=exUBound[0]; ++i0) {
+        gridXCoord[p]=i0;
+        gridYCoord[p]=i1;
+        ++p;
+      }
+    }
 
   //----------------------------------------------------------------------------
   //---------------------- FIELD CREATION --------------------------------------
@@ -75,8 +136,8 @@ int main(void){
 
 
   // get and fill first coord array and computational bounds
-  int *exLBound = (int *)malloc(dimcount*sizeof(int));
-  int *exUBound = (int *)malloc(dimcount*sizeof(int));
+  exLBound = (int *)malloc(dimcount*sizeof(int));
+  exUBound = (int *)malloc(dimcount*sizeof(int));
 
   rc = ESMC_FieldGetBounds(srcfield, 0, exLBound, exUBound, dimcount);
   if (rc != ESMF_SUCCESS) return 0;
@@ -84,7 +145,7 @@ int main(void){
   double * srcfieldptr = (double *)ESMC_FieldGetPtr(srcfield, 0, &rc);
   if (rc != ESMF_SUCCESS) return 0;
 
-  int p = 0;
+  p = 0;
   for (int i1=exLBound[1]; i1<=exUBound[1]; ++i1) {
     for (int i0=exLBound[0]; i0<=exUBound[0]; ++i0) {
       srcfieldptr[p] = 42.0;
@@ -115,12 +176,15 @@ int main(void){
   //-------------------------- REGRIDDING --------------------------------------
   //----------------------------------------------------------------------------
 
+  rc = ESMC_FieldRegridStore(srcfield, dstfield, NULL, NULL, &routehandle,
+                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  if (rc != ESMF_SUCCESS) return 0;
+
 #if 0
   rc = ESMC_FieldRegridStoreFile(srcfield, dstfield, "data/weights.nc", NULL, NULL,
                                  &routehandle, NULL, NULL, NULL, NULL, NULL,
                                  NULL, NULL, NULL, NULL);
   if (rc != ESMF_SUCCESS) return 0;
-#endif
 
   printf("srcfield before smmstore = [\n");
   p = 0;
@@ -146,9 +210,9 @@ int main(void){
   }
   printf("]\n");
 
-
   //rc = ESMC_FieldRegrid(srcfield, dstfield, routehandle, NULL);
   if (rc != ESMF_SUCCESS) return 0;
+#endif
 
   rc = ESMC_FieldRegridRelease(&routehandle);
   if (rc != ESMF_SUCCESS) return 0;
