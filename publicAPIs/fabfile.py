@@ -26,7 +26,7 @@
 from fabric.context_managers import cd, shell_env
 from fabric.decorators import task
 from fabric.operations import run, get
-from fabric.api import env, settings
+from fabric.api import env, settings, prefix
 from fabric.contrib.files import exists
 
 env.hosts = ['pluto.esrl.svc']
@@ -79,6 +79,7 @@ def do(esmfdir, outputfile, tag):
 def build_esmf_docs(esmfdir, tag):
     with cd(esmfdir):
         with shell_env(ESMF_DIR=esmfdir), \
+             prefix("module load gfortran/4.7.2/gcc/4.7.2/gcc"), \
              settings(abort_exception=FabricException):
             run("git checkout master")
             run("git pull")
