@@ -32,7 +32,7 @@ from fabric.contrib.files import exists
 env.hosts = ['pluto.esrl.svc']
 
 env.user = "ryan.okuinghttons"
-env.password = "split(Y)ariposa(Y)allorca"
+env.password = "password"
 
 
 class FabricException(Exception):
