@@ -31,8 +31,8 @@ from fabric.contrib.files import exists
 
 env.hosts = ['pluto.esrl.svc']
 
-env.user = "ryan.okuinghttons"
-env.password = "password"
+env.user = "silverio.vasquez"
+env.password = ""
 
 
 class FabricException(Exception):
@@ -79,6 +79,7 @@ def do(esmfdir, outputfile, tag):
 def build_esmf_docs(esmfdir, tag):
     with cd(esmfdir):
         with shell_env(ESMF_DIR=esmfdir), \
+             shell_env(ESMF_MOAB=OFF), \
              prefix("module load gfortran/4.7.2/gcc/4.7.2/gcc"), \
              settings(abort_exception=FabricException):
             run("git checkout master")
