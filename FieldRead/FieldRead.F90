@@ -173,7 +173,7 @@ call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
 field = ESMF_FieldCreate(grid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-    ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/1,2/), &
+    ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2,3/), &
     name="field", rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
@@ -186,25 +186,25 @@ if (localrc /= ESMF_SUCCESS) return
 
 print *, "tasmax field read success"
 
-dstgrid = ESMF_GridCreate("ll1deg_grid.nc", ESMF_FILEFORMAT_SCRIP, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
-
-call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
-
-dstfield = ESMF_FieldCreate(dstgrid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-    ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/1,2/), &
-    name="dstfield", rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
-
-
-print *, "destination field creation success"
+! dstgrid = ESMF_GridCreate("ll1deg_grid.nc", ESMF_FILEFORMAT_SCRIP, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
+! 
+! call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
+! 
+! dstfield = ESMF_FieldCreate(dstgrid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
+!     ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2,3/), &
+!     name="dstfield", rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
+! 
+! 
+! print *, "destination field creation success"
 
 call ESMF_FieldPrint(field)
 
-call ESMF_FieldRegridStore(field, dstfield, routehandle=routehandle, &
-                           unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
+! call ESMF_FieldRegridStore(field, dstfield, routehandle=routehandle, &
+!                            unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
 
 print *, "SUCCESS"
 
@@ -265,22 +265,22 @@ if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
 line=__LINE__, file=__FILE__, rcToReturn=rc)) &
 call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-
-dstgrid = ESMF_GridCreate("ll1deg_grid.nc", ESMF_FILEFORMAT_SCRIP, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
-
-call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
-
-dstfield = ESMF_FieldCreate(dstgrid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-    ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2,1/), &
-    name="dstfield", rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
+! 
+! dstgrid = ESMF_GridCreate("ll1deg_grid.nc", ESMF_FILEFORMAT_SCRIP, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
+! 
+! call ESMF_ArraySpecSet(arrayspec, 3, ESMF_TYPEKIND_R8, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
+! 
+! dstfield = ESMF_FieldCreate(dstgrid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
+!     ungriddedLBound=(/1/), ungriddedUBound=(/10/), gridToFieldMap=(/2,1/), &
+!     name="dstfield", rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
 
 
 ! Grid create from file
 grid = ESMF_GridCreate(&
-    "o_Omon_GISS-E2.nc", &
+    "so_Omon_GISS-E2.nc", &
     ESMF_FILEFORMAT_GRIDSPEC, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
@@ -289,7 +289,7 @@ call ESMF_ArraySpecSet(arrayspec, 4, ESMF_TYPEKIND_R8, rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
 field = ESMF_FieldCreate(grid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTER, &
-    ungriddedLBound=(/1, 1/), ungriddedUBound=(/2, 50/), gridToFieldMap=(/3, 4/), &
+    ungriddedLBound=(/1, 1/), ungriddedUBound=(/33, 2/), gridToFieldMap=(/1,2/), &
     name="field", rc=localrc)
 if (localrc /= ESMF_SUCCESS) return
 
@@ -301,9 +301,9 @@ if (localrc /= ESMF_SUCCESS) return
 
 call ESMF_FieldPrint(field)
 
-call ESMF_FieldRegridStore(field, dstfield, routehandle=routehandle, &
-                           unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
-if (localrc /= ESMF_SUCCESS) return
+! call ESMF_FieldRegridStore(field, dstfield, routehandle=routehandle, &
+!                            unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
+! if (localrc /= ESMF_SUCCESS) return
 
 print *, "SUCCESS"
 
