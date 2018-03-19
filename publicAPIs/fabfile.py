@@ -86,11 +86,11 @@ def build_esmf_docs(esmfdir, tag):
             run("git pull")
             run("git checkout tags/" + tag)
             run("make distclean > /dev/null 2>&1")
-            try:
-                run("make > temp.out 2>&1")
-            except FabricException:
-                run("tail -50 temp.out")
-                run("rm temp.out")
+            # try:
+            #     run("make > temp.out 2>&1")
+            # except FabricException:
+            #     run("tail -50 temp.out")
+            #     run("rm temp.out")
             try:
                 run("make doc > temp.out 2>&1")
             except FabricException:
