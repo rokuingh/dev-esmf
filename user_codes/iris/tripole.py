@@ -22,24 +22,29 @@ import os
 
 regrid_method = ESMF.RegridMethod.BILINEAR
 
-g1 = "ll2.5deg"
-g2 = "nemo"
+g1 = "nemo2"
+g2 = "nemo2"
+
+DATADIR = "/home/ryan/data/grids/tripole"
 
 grids = {}
 # filename, filetype, addcornerstagger, coordnames, addmask, varname, srclons, srclats, srclonbnds, srclatbnds
-grids["nemo"] = ("data/nemo_025_sample_grid.nc",
+grids["nemo"] = (os.path.join(DATADIR, "nemo_025_sample_grid.nc"),
                  ESMF.FileFormat.GRIDSPEC, True, False, "",
                  "nav_lon", "nav_lat", "nav_lon_bnds", "nav_lat_bnds")
-grids["orca"] = ("data/ORCA2_1d_00010101_00010101_grid_T_0000.nc",
+grids["nemo2"] = (os.path.join(DATADIR, "nemo_ay490o_1d_19701216-19710101_grid-T.nc"),
+                 ESMF.FileFormat.GRIDSPEC, False, False, "",
+                 "nav_lon", "nav_lat", "", "")
+grids["orca"] = (os.path.join(DATADIR, "ORCA2_1d_00010101_00010101_grid_T_0000.nc"),
                  ESMF.FileFormat.GRIDSPEC, True, False, "",
                  "nav_lon", "nav_lat", "nav_lon_bnds", "nav_lat_bnds")
-grids["pop"] = ("data/tx0.1v2_070911.nc",
+grids["pop"] = (os.path.join(DATADIR, "tx0.1v2_070911.nc"),
                 ESMF.FileFormat.SCRIP, True, True, "grid_imask",
                 "grid_center_lon", "grid_center_lat", "grid_corner_lon", "grid_corner_lat")
-grids["ll1deg"] = ("data/ll1deg_grid.nc",
+grids["ll1deg"] = (os.path.join(DATADIR, "ll1deg_grid.nc"),
                    ESMF.FileFormat.SCRIP, True, False, "",
                    "grid_center_lon", "grid_center_lat", "grid_corner_lon", "grid_corner_lat")
-grids["ll2.5deg"] = ("data/ll2.5deg_grid.nc",
+grids["ll2.5deg"] = (os.path.join(DATADIR, "ll2.5deg_grid.nc"),
                    ESMF.FileFormat.SCRIP, True, False, "",
                    "grid_center_lon", "grid_center_lat", "grid_corner_lon", "grid_corner_lat")
 
@@ -188,11 +193,15 @@ def plot(srcfield, interpfield, regrid_method="Conservative"):
 # this will enable ESMF logging
 ESMF.Manager(debug=True)
 
+print ("Create grid 1...")
+
 # Create a grid1
 grid1 = create_grid(g1)
 # fix the wonky coords in the nemo grid
 if g1 == "nemo":
     grid1.coords[0][1][:, 498] = 0
+
+print ("Create grid 2...")
 
 # Create a grid2
 grid2 = create_grid(g2)
@@ -200,17 +209,25 @@ grid2 = create_grid(g2)
 if g2 == "nemo":
     grid2.coords[0][1][:, 498] = 0
 
+print ("Create field 1...")
+
 # create a field on the center stagger locations of the source grid
 srcfield = ESMF.Field(grid1, name='srcfield', staggerloc=ESMF.StaggerLoc.CENTER)
+
+print ("Create field 2...")
 
 # create fields on the center stagger locations of the other grid
 dstfield = ESMF.Field(grid2, name='dstfield', staggerloc=ESMF.StaggerLoc.CENTER)
 xctfield = ESMF.Field(grid2, name='xctfield', staggerloc=ESMF.StaggerLoc.CENTER)
 
+print ("Initialize fields...")
+
 # initialize the field to either an analytic or source value
 initialize_field(srcfield, analytic=True)
 initialize_field(xctfield, analytic=True)
 dstfield.data[...] = 1e20
+
+print ("Regrid weight generation...")
 
 # create fields needed to analyze accuracy of conservative regridding
 srcfracfield = None
@@ -223,12 +240,17 @@ if regrid_method is ESMF.RegridMethod.CONSERVE:
 regrid = ESMF.Regrid(srcfield, dstfield,
                      regrid_method=regrid_method,
                      unmapped_action=ESMF.UnmappedAction.IGNORE,
-                     ignore_degenerate=True,
+                     ignore_degenerate=False,
                      src_frac_field=srcfracfield,
                      dst_frac_field=dstfracfield)
 
+print ("SMM..")
+
 # do the regridding from source to destination field
 dstfield = regrid(srcfield, dstfield, zero_region=ESMF.Region.SELECT)
+
+print ("Validating...")
+
 
 validate(srcfield, dstfield, xctfield, srcfracfield, dstfracfield)
 
