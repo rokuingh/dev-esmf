@@ -53,7 +53,8 @@ ESMF_F90ESMFLINKLIBS+=-lbumplib
 ################################################################################
 ### Sample targets for user ESMF applications ##################################
 
-esmfbumpeval:
+# esmfbumpeval:
+bump_simple_test:
 
 .PHONY: clean
 clean:

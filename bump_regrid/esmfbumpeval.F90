@@ -69,12 +69,14 @@ program ESMF_BUMP_eval
      write(*,*) "======= BUMP interpolation ======="
   endif
   
+    call interp_bump_serial_test(rc=localrc)
+
   ! Regridding using BUMP
-  call run_regrid(bump=.true., rc=localrc)
-   if (localrc /=ESMF_SUCCESS) then
-     write(*,*) "Error in BUMP interpolation"
-          stop
-    endif
+  ! call run_regrid(bump=.true., rc=localrc)
+  if (localrc /=ESMF_SUCCESS) then
+    write(*,*) "Error in BUMP interpolation"
+    stop
+  endif
   
   ! Finalize ESMF
   call ESMF_Finalize(rc=localrc)
@@ -460,7 +462,7 @@ subroutine interp_bump(field, grid, locstream, rc)
   call ESMF_GridGet(grid, localDECount=localDECount, rc=localrc)
   if (ESMF_LogFoundError(localrc, ESMF_ERR_PASSTHRU, &
     ESMF_CONTEXT, rcToReturn=rc)) return
-
+  
   do lDE=0,localDECount-1
     call ESMF_GridGetCoord(grid, staggerLoc=ESMF_STAGGERLOC_CENTER,   &
           localDE=lDE, coordDim=1, farrayPtr=grid_lon, &
@@ -471,14 +473,14 @@ subroutine interp_bump(field, grid, locstream, rc)
           localDE=lDE, coordDim=2, farrayPtr=grid_lat, rc=localrc)
     if (ESMF_LogFoundError(localrc, ESMF_ERR_PASSTHRU, &
     ESMF_CONTEXT, rcToReturn=rc)) return
-
+  
     !Get the Solution dimensions
     !---------------------------
     mod_nx  = totalUBnd(1) - totalLBnd(1) + 1  
     mod_ny  = totalUBnd(2) - totalLBnd(2) + 1
     mod_num = mod_nx * mod_ny
     ! mod_nz  = grid%npz
-    
+  
     !Calculate interpolation weight using BUMP
     !-----------------------------------------
     ! RLO comment out allocate as it was triggering a Fortran ABORT saying it was already allocated..
@@ -489,7 +491,7 @@ subroutine interp_bump(field, grid, locstream, rc)
     mod_lat = reshape(grid_lat(totalLBnd(1):totalUBnd(1), &
                                totalLBnd(2):totalUBnd(2)), &
                       [mod_num])
-
+  
   enddo
   
   ! get locstream coordinates
@@ -501,7 +503,7 @@ subroutine interp_bump(field, grid, locstream, rc)
   
   ! Loop over each local DE pulling out memory and setting coordinates
   do lDE=0,localDECount-1
-
+  
     ! Get bounds of this DE
     call  ESMF_LocStreamGetBounds(locStream, &
                                   localDE=lDE, &
@@ -510,7 +512,7 @@ subroutine interp_bump(field, grid, locstream, rc)
                                   rc=localrc)
     if (ESMF_LogFoundError(localrc, ESMF_ERR_PASSTHRU, &
     ESMF_CONTEXT, rcToReturn=rc)) return
-
+  
     ! Get memory for latitudes
     call ESMF_LocStreamGetKey(locStream, &
                               localDE=lDE, &
@@ -519,8 +521,8 @@ subroutine interp_bump(field, grid, locstream, rc)
                               rc=localrc)
     if (ESMF_LogFoundError(localrc, ESMF_ERR_PASSTHRU, &
     ESMF_CONTEXT, rcToReturn=rc)) return
-
-
+  
+  
     ! Get memory for longitudes
     call ESMF_LocStreamGetKey(locStream, &
                               localDE=lDE, &
@@ -529,7 +531,7 @@ subroutine interp_bump(field, grid, locstream, rc)
                               rc=localrc)
     if (ESMF_LogFoundError(localrc, ESMF_ERR_PASSTHRU, &
     ESMF_CONTEXT, rcToReturn=rc)) return
-
+  
     obs_num = cu - cl + 1
   enddo
 
@@ -538,9 +540,9 @@ subroutine interp_bump(field, grid, locstream, rc)
   bump%nam%nobs = obs_num         ! Number of observations
   bump%nam%obsop_interp = 'bilin' ! Interpolation type (bilinear)
   bump%nam%obsdis = 'local'       ! Observation distribution parameter ('random','local' or 'adjusted')
-  bump%nam%diag_interp = 'bilin'
+  ! bump%nam%diag_interp = 'bilin'
 
-  ! RLO: options added to make it work
+  ! RLO: options added
   bump%nam%model = ''
   bump%nam%verbosity = 'all'
 
@@ -562,12 +564,18 @@ subroutine interp_bump(field, grid, locstream, rc)
   allocate(lmask(mod_num,1))
   area = 1.0           ! Dummy area
   vunit = 1.0          ! Dummy vertical unit
-  lmask = .true.       ! Mask
+  lmask = .false.       ! Mask
+
+  !Open BUMP log file
+  open(unit=10,file='bump_simple_test.log',status='replace')
 
   !Initialize BUMP
+  call bump%nam%init
+  bump%nam%prefix = 'bump_simple_test'
+  bump%nam%new_obsop = .true.
   call bump%setup_online( mod_num,1,1,1,mod_lon,mod_lat,area,vunit,lmask, &
-                           nobs=obs_num,lonobs=ls_lon(:),latobs=ls_lat(:) )
-
+                          nobs=ls_num,lonobs=ls_lon(:),latobs=ls_lat(:),lunit=10 )
+  
   !Release memory
   deallocate(area)
   deallocate(vunit)
@@ -575,6 +583,81 @@ subroutine interp_bump(field, grid, locstream, rc)
   deallocate(mod_lon, mod_lat)
 
 end subroutine interp_bump
+
+subroutine interp_bump_serial_test(rc)
+
+  use type_bump, only: bump_type
+  
+  implicit none
+  integer, intent(inout), optional :: rc
+
+  integer :: localrc
+
+  type(bump_type) :: bump
+  
+  integer :: mod_num, ls_num
+  real(ESMF_KIND_R8), allocatable :: mod_lon(:), mod_lat(:)
+  real(ESMF_KIND_R8), allocatable :: ls_lon(:), ls_lat(:)
+
+  real(ESMF_KIND_R8), allocatable :: area(:),vunit(:,:)
+  logical, allocatable :: lmask(:,:)
+  
+  rc = ESMF_SUCCESS
+  
+  ! test of simple coords to only be run in serial
+  mod_num = 9
+  allocate( mod_lon(mod_num), mod_lat(mod_num) )
+  mod_lon = (/60, 120, 180, 60, 120, 180, 60, 120, 180/)
+  mod_lat = (/0, 0, 0, 30, 30, 30, 60, 60, 60/)
+  
+  ls_num = 3
+  allocate( ls_lon(ls_num), ls_lat(ls_num) )
+  ls_lon = (/60, 120, 180/)
+  ls_lat = (/0, 30, 60/)
+  
+  !Important namelist options
+  bump%nam%prefix = 'oops_data'   ! Prefix for files output
+  bump%nam%nobs = ls_num         ! Number of observations
+  bump%nam%obsop_interp = 'bilin' ! Interpolation type (bilinear)
+  bump%nam%obsdis = 'local'       ! Observation distribution parameter ('random','local' or 'adjusted')
+  ! bump%nam%diag_interp = 'bilin'
+
+  ! RLO: options added
+  bump%nam%model = ''
+  bump%nam%verbosity = 'all'
+
+  !Less important namelist options (should not be changed)
+  bump%nam%default_seed = .true.
+  bump%nam%new_hdiag = .false.
+  bump%nam%check_adjoints = .false.
+  bump%nam%check_pos_def = .false.
+  bump%nam%check_dirac = .false.
+  bump%nam%check_randomization = .false.
+  bump%nam%check_consistency = .false.
+  bump%nam%check_optimality = .false.
+  bump%nam%new_lct = .false.
+  bump%nam%new_obsop = .true.
+
+  !Initialize geometry
+  allocate(area(mod_num))
+  allocate(vunit(mod_num,1))
+  allocate(lmask(mod_num,1))
+  area = 1.0           ! Dummy area
+  vunit = 1.0          ! Dummy vertical unit
+  lmask = .false.       ! Mask
+
+  !Initialize BUMP
+  call bump%setup_online( mod_num,1,1,1,mod_lon,mod_lat,area,vunit,lmask, &
+                           nobs=ls_num,lonobs=ls_lon(:),latobs=ls_lat(:) )
+
+  !Release memory
+  deallocate(area)
+  deallocate(vunit)
+  deallocate(lmask)
+  deallocate(mod_lon, mod_lat)
+  deallocate(ls_lon, ls_lat)
+
+end subroutine interp_bump_serial_test
 
 subroutine compute_max_avg_time(in, max, avg, rc)
   real(ESMF_KIND_R8) :: in,max,avg
