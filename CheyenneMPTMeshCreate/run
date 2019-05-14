@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+#
+
+# escape characters in datadir are required for sed later on
+ROOTDIR="$HOME/CheyenneMPTMeshCreate"
+EXDIR="$HOME/CheyenneMPTMeshCreate"
+DATADIR=$PWD"/data/"
+GRID1=$DATADIR"ll1280x1280_grid.esmf.nc"
+GRID2=$DATADIR"tx0.1v2_nomask.esmf.nc"
+
+# create rundir
+RUNDIR=$(python run_id.py $ROOTDIR 2>&1)
+mkdir $RUNDIR
+cd $RUNDIR
+
+num_procs=(36 72 144 288)
+# 288 is where the mpt issue occurs
+num_procs=(288)
+
+for pnum in "${num_procs[@]}"
+do
+  cd $RUNDIR
+  mkdir $pnum
+  cd "$pnum"
+  nnum=$(( $pnum/36 ))
+  sed "s&%np%&$pnum&g; s&%nn%&$nnum&g; s&%grid1%&$GRID1&g; s&%grid2%&$GRID2&g; s&%esmf_lib%&$ESMF_LIB&g" $EXDIR/run_pbs > run_pbs
+  cp $EXDIR/CheyenneMPTMeshCreate .
+  qsub run_pbs
+done
