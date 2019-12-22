@@ -1,51 +1,118 @@
 
 import ESMF
-import numpy
+import numpy as np
 
 # This call enables debug logging
 esmpy = ESMF.Manager(debug=True)
 
-selection = 2
-grid_name = {1:["ufs.s2s.C384_t025.20120701.cmeps_v0.5.1.cice.h2_06h.2012-07-06-00000.nc", ['ULAT', 'ULON']], # degenerate
-        2:["ufs.s2s.C384_t025.20120101.cmeps_v0.5.1.mom6.sfc._2012_01_07_75600.nc", ['xq', 'yq']], # large error
-        3:["ufs.s2s.C384_t025.20120101.cmeps_v0.5.1.mom6.static.nc", ['xq', 'yq']], # large error
-        4:["cf-compliant.cice.nc", ['ULAT', 'ULON']], # degenerate
-        99:"ll2.5deg_grid.nc"} # destination regular grid
+src = 3
+name = 0
+coords = 1
+dims = 2
+offset = 3
+grid_name = {1:["ufs.s2s.C384_t025.20120701.cmeps_v0.5.1.cice.h2_06h.2012-07-06-00000.nc", ['ULON', 'ULAT'], 2, 300], # degenerate
+        2:["cf-compliant.cice.nc", ['ULON', 'ULAT'], 2, 300], # degenerate
+        3:["ufs.s2s.C384_t025.20120101.cmeps_v0.5.1.mom6.sfc._2012_01_07_75600.nc", ['xq', 'yq'], 1, 300], # 
+        4:["ufs.s2s.C384_t025.20120101.cmeps_v0.5.1.mom6.static.nc", ['xq', 'yq'], 1, 300]} # large error
 
-# Create a uniform global latlon grid from a SCRIP formatted file
-grid = ESMF.Grid(filename=grid_name[selection][0], filetype=ESMF.FileFormat.GRIDSPEC,
-                 is_sphere=True, coord_names=grid_name[selection][1])
 
-# grid._write_(grid_name[selection][0].rstrip(".nc"))
+# Create a grid from file
+grid_src = ESMF.Grid(filename=grid_name[src][name], filetype=ESMF.FileFormat.GRIDSPEC,
+                 is_sphere=True, coord_names=grid_name[src][coords])
 
-# create a field on the center stagger locations of the source grid
-srcfield = ESMF.Field(grid, name='srcfield')
-srcfracfield = ESMF.Field(grid, name='srcfracfield')
+# write the grid to vtk for vis
+# grid._write_(grid_name[src][name].rstrip(".nc"))
 
-# create an ESMF formatted unstructured mesh with clockwise cells removed
-grid_reg = ESMF.Grid(filename=grid_name[99], filetype=ESMF.FileFormat.SCRIP, 
-                     pole_kind=numpy.array([ESMF.PoleKind.BIPOLE, ESMF.PoleKind.MONOPOLE], dtype=numpy.int32),
-                     is_sphere=True)
-
-# grid_reg._write_(grid_name[99][0].rstrip(".nc"))
-
-# create a field on the nodes of the destination mesh
-dstfield = ESMF.Field(grid_reg, name='dstfield')
-xctfield = ESMF.Field(grid_reg, name='xctfield')
-dstfracfield = ESMF.Field(grid_reg, name='dstfracfield')
-
-# initialize the fields
+# set up general grid coordinate info
 [lon,lat] = [0, 1]
 
-gridLon = srcfield.grid.get_coords(lon)
-gridLat = srcfield.grid.get_coords(lat)
-srcfield.data[...] = 2.0 + numpy.cos(numpy.radians(gridLat[...]))**2 * \
-                           numpy.cos(2.0*numpy.radians(gridLon[...]))
+lbx = grid_src.lower_bounds[ESMF.StaggerLoc.CENTER][lon]
+ubx = grid_src.upper_bounds[ESMF.StaggerLoc.CENTER][lon]
+lby = grid_src.lower_bounds[ESMF.StaggerLoc.CENTER][lat]
+uby = grid_src.upper_bounds[ESMF.StaggerLoc.CENTER][lat]
 
-gridLon = xctfield.grid.get_coords(lon)
-gridLat = xctfield.grid.get_coords(lat)
-xctfield.data[...] = 2.0 + numpy.cos(numpy.radians(gridLat[...]))**2 * \
-                           numpy.cos(2.0*numpy.radians(gridLon[...]))
+srcLonCenter = np.zeros([ubx-lbx, uby-lby])
+srcLatCenter = np.zeros([ubx-lbx, uby-lby])
+
+
+# pull full coordinate arrays from file
+try:
+    import netCDF4 as nc
+except:
+    raise ImportError('netCDF4 not available on this machine')
+
+f = nc.Dataset(grid_name[src][name])
+srclons = np.array(f.variables[grid_name[src][coords][lon]])
+# source data on some grids is from -300:60 degrees longitude??
+srclons = srclons + grid_name[src][offset]
+srclats = np.array(f.variables[grid_name[src][coords][lat]])
+
+# parallelize the coordinates before setting
+if grid_name[src][dims] == 1:
+    srclonpar = srclons[lbx:ubx]
+    srclatpar = srclats[lby:uby]
+elif grid_name[src][dims] == 2:
+    srclonpar = srclons[lbx:ubx, lby:uby]
+    srclatpar = srclats[lbx:ubx, lby:uby]
+else:
+    raise("dims not available")
+
+# set coordinates on the grid
+if grid_name[src][dims] == 1:
+    srcLonCenter[:,:] = srclonpar.reshape((srclonpar.size, 1))
+    srcLatCenter[:,:] = srclatpar.reshape((1, srclatpar.size))
+elif grid_name[src][dims] == 2:
+    srcLonCenter[:,:] = srclonpar.T
+    srcLatCenter[:,:] = srclatpar.T
+else:
+    raise("dims not available")
+
+# create a field on the center stagger locations of the source grid
+srcfield = ESMF.Field(grid_src, name='srcfield')
+
+# set up analytic field data for testing
+# srcfield.data[...] = 2.0 + np.cos(np.radians(srcLatCenter[...]))**2 * \
+#                            np.cos(2.0*np.radians(srcLonCenter[...]))
+srcfield.data[...] = np.cos(np.radians(srcLatCenter[...]))*np.cos(np.radians(srcLonCenter[...]))
+# srcfield.data[...] = 2.0
+
+
+# create a regular grid in memory with artificial poles
+dst_nlon = 144
+dst_nlat = 72
+max_index = np.array([dst_nlon,dst_nlat])
+grid_dst = ESMF.Grid(max_index, staggerloc=[ESMF.StaggerLoc.CENTER], pole_kind=np.array([ESMF.PoleKind.BIPOLE, ESMF.PoleKind.MONOPOLE], dtype=np.int32))
+
+# set up general grid coordinate info
+lbx = grid_dst.lower_bounds[ESMF.StaggerLoc.CENTER][lon]
+ubx = grid_dst.upper_bounds[ESMF.StaggerLoc.CENTER][lon]
+lby = grid_dst.lower_bounds[ESMF.StaggerLoc.CENTER][lat]
+uby = grid_dst.upper_bounds[ESMF.StaggerLoc.CENTER][lat]
+
+dstLonCenter = grid_dst.get_coords(lon)
+dstLatCenter = grid_dst.get_coords(lat)
+
+dstlons = np.linspace(0,360,dst_nlon)
+dstlats = np.linspace(-89,89,dst_nlat)
+
+# parallelize the coordinates before setting
+dstlonpar = dstlons[lbx:ubx]
+dstlatpar = dstlats[lby:uby]
+
+# set coordinates on the grid
+dstLonCenter[...] = dstlonpar.reshape((dstlonpar.size, 1))
+dstLatCenter[...] = dstlatpar.reshape((1, dstlatpar.size))
+
+# grid_dst._write_(grid_name[dst][name].rstrip(".nc"))
+
+# create destination Fields
+dstfield = ESMF.Field(grid_dst, name='dstfield')
+xctfield = ESMF.Field(grid_dst, name='xctfield')
+
+# xctfield.data[...] = 2.0 + np.cos(np.radians(dstLatCenter[...]))**2 * \
+#                            np.cos(2.0*np.radians(dstLonCenter[...]))
+xctfield.data[...] = np.cos(np.radians(dstLatCenter[...]))*np.cos(np.radians(dstLonCenter[...]))
+# xctfield.data[...] = 2.0
 
 dstfield.data[...] = 1e20
 
@@ -53,21 +120,18 @@ dstfield.data[...] = 1e20
 regrid = ESMF.Regrid(srcfield, dstfield,
                      regrid_method=ESMF.RegridMethod.BILINEAR,
                      unmapped_action=ESMF.UnmappedAction.ERROR)
-                     # src_frac_field=srcfracfield,
-                     # dst_frac_field=dstfracfield)
 
 # do the regridding from source to destination field
 dstfield = regrid(srcfield, dstfield)
 
 # compute the mean relative error
 
-num_nodes = numpy.prod(xctfield.data.shape)
+num_nodes = np.prod(xctfield.data.shape)
 relerr = 0
 meanrelerr = 0
 if num_nodes is not 0:
-    ind = numpy.where((dstfield.data != 1e20) & (xctfield.data != 0))[0]
-    relerr = numpy.sum(numpy.abs(dstfield.data[ind] - xctfield.data[ind]) / numpy.abs(xctfield.data[ind]))
-    meanrelerr = relerr / num_nodes
+    ind = np.where((dstfield.data != 1e20) & (xctfield.data > 1e-6))[0]
+    relerr = np.sum(np.abs(dstfield.data[ind] - xctfield.data[ind]) / np.abs(xctfield.data[ind]))
 
 # handle the parallel case
 if ESMF.pet_count() > 1:
@@ -79,13 +143,44 @@ if ESMF.pet_count() > 1:
     relerr = comm.reduce(relerr, op=MPI.SUM)
     num_nodes = comm.reduce(num_nodes, op=MPI.SUM)
 
-    print ("rank #{0} - field bounds = [{1}, {2}]".format(ESMF.local_pet(),
-        dstfield.lower_bounds, dstfield.upper_bounds))
+    # print ("rank #{0} - field bounds = [{1}, {2}]".format(ESMF.local_pet(),
+    #     dstfield.lower_bounds, dstfield.upper_bounds))
 
 # output the results from one processor only
-if ESMF.local_pet() is 0:
+if ESMF.local_pet() == 0:
     meanrelerr = relerr / num_nodes
     print ("ESMPy Regridding Example")
     print ("  interpolation mean relative error = {0}".format(meanrelerr))
+    
 
-    assert (meanrelerr < 3e-3)
+if ESMF.pet_count() == 1:
+    try:
+        import matplotlib
+        import matplotlib.pyplot as plt
+    except:
+        raise ImportError("matplotlib is not available on this machine")
+    
+    fig = plt.figure(1, (15, 6))
+    fig.suptitle('ESMPy Regridding using     ufs.s2s.C384_t025.20120101.cmeps_v0.5.1.mom6.static.nc', fontsize=14,     fontweight='bold')
+    
+    ax = fig.add_subplot(1, 2, 1)
+    im = ax.imshow(dstfield.data.T, cmap='gist_ncar', aspect='auto',
+                   extent=[min(dstlons), max(dstlons), min(dstlats), max(dstlats)])
+    ax.set_xbound(lower=min(dstlons), upper=max(dstlons))
+    ax.set_ybound(lower=min(dstlats), upper=max(dstlats))
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    ax.set_title("Solution Data")
+    
+    ax = fig.add_subplot(1, 2, 2)
+    im = ax.imshow((dstfield.data.T - xctfield.data.T)/ xctfield.data.T, cmap='gist_ncar', aspect='auto',
+                   extent=[min(dstlons), max(dstlons), min(dstlats), max(dstlats)])
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    ax.set_title("Relative Error in Solution Values")
+    
+    fig.subplots_adjust(right=0.8)
+    cbar_ax = fig.add_axes([0.9, 0.1, 0.01, 0.8])
+    fig.colorbar(im, cax=cbar_ax)
+    
+    plt.show()
