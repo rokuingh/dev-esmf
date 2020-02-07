@@ -1,6 +1,6 @@
 ! Ryan O'Kuinghttons
 ! May 5, 2019
-! F90 reproducer for SMM double free segfault demonstrated in ticket 3614713
+! F90 reproducer for SMM double free segfault demonstrated in ticket 3614712
 
 ! #define ANALYTIC_DATA
 
@@ -40,14 +40,14 @@ program regrid
 
    ! Init ESMF
   call ESMF_Initialize(rc=localrc, logappendflag=.false.)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   ! get pet info
   call ESMF_VMGetGlobal(vm, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_VMGet(vm, petCount=petCount, localPet=localpet, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   ! Write out number of PETS
   if (localPet .eq. 0) then
@@ -62,7 +62,7 @@ program regrid
 
   srcGrid=ESMF_GridCreate(filename=srcfile, fileformat=ESMF_FILEFORMAT_CFGRID, &
                           rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   srcField = ESMF_FieldCreate(srcGrid, ESMF_TYPEKIND_R8, &
                               staggerloc=ESMF_STAGGERLOC_CENTER, &
@@ -70,14 +70,14 @@ program regrid
                               ungriddedLBound=(/1,1/), &
                               ungriddedUBound=(/levels,timesteps/), &
                               name="src", rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 
 #ifdef ANALYTIC_DATA
 
   call ESMF_FieldGet(srcField, 0, srcFarrayPtr, computationalLBound=clbnd, &
                      computationalUBound=cubnd,  rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   ! Set field values
   do i1=clbnd(1),cubnd(1)
@@ -94,7 +94,7 @@ program regrid
 
   call ESMF_FieldRead(srcField, srcfile, variableName="t",&
                       timeslice=timesteps, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 #endif
   
@@ -103,7 +103,7 @@ program regrid
   
   dstGrid=ESMF_GridCreate(filename=dstfile, fileformat=ESMF_FILEFORMAT_CFGRID, &
                           rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   dstField = ESMF_FieldCreate(dstGrid, ESMF_TYPEKIND_R8, &
                               staggerloc=ESMF_STAGGERLOC_CENTER, &
@@ -111,7 +111,7 @@ program regrid
                               ungriddedLBound=(/1,1/), &
                               ungriddedUBound=(/levels,timesteps/), &
                               name="dst", rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   xctField = ESMF_FieldCreate(dstGrid, ESMF_TYPEKIND_R8, &
                               staggerloc=ESMF_STAGGERLOC_CENTER, &
@@ -119,13 +119,13 @@ program regrid
                               ungriddedLBound=(/1,1/), &
                               ungriddedUBound=(/levels,timesteps/), &
                               name="xct", rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldGet(dstField, 0, dstFarrayPtr, computationalLBound=clbnd, &
                      computationalUBound=cubnd,  rc=localrc)
   call ESMF_FieldGet(xctField, 0, xctFarrayPtr, computationalLBound=clbnd, &
                      computationalUBound=cubnd,  rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   ! Set field values
   do i1=clbnd(1),cubnd(1)
@@ -146,14 +146,14 @@ program regrid
                              regridmethod=ESMF_REGRIDMETHOD_BILINEAR, &
                              unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, &
                              rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldRegrid(srcField, dstField, routeHandle, &
                         zeroregion=ESMF_REGION_SELECT, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldRegridRelease(routeHandle, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 
 
@@ -168,10 +168,10 @@ program regrid
 
   call ESMF_FieldGet(dstField, 0, dstFarrayPtr, computationalLBound=clbnd, &
                      computationalUBound=cubnd, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldGet(xctField, 0, xctFarrayPtr, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   !! check relative error
   unmapped_count(1) = 0;
@@ -214,13 +214,13 @@ program regrid
   !!!!!!!!!!!!!!!!!!!!!!!!!!! COMMUNICATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   call ESMF_VMAllReduce(vm, maxerror, maxerrorg, 1, ESMF_REDUCE_MAX, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_VMAllReduce(vm, minerror, minerrorg, 1, ESMF_REDUCE_MIN, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_VMAllReduce(vm, unmapped_count, unmapped_countg, 1, ESMF_REDUCE_SUM, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 #endif
 
@@ -231,7 +231,7 @@ program regrid
   call ESMF_FieldGet(dstField, array=dstFieldArray, rc=localrc)
   call ESMF_FieldGet(xctField, array=xctFieldArray, rc=localrc)
 
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_GridWrite(srcGrid,"src", srcFieldArray)
   call ESMF_GridWrite(dstGrid,"dst", dstFieldArray, xctFieldArray)
@@ -243,13 +243,13 @@ program regrid
 
   ! Destroy the Fields
   call ESMF_FieldDestroy(srcField, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldDestroy(dstField, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   call ESMF_FieldDestroy(xctField, rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OUTPUT RESULTS !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -266,9 +266,7 @@ program regrid
     write(*,*)
   endif
   
-  
   ! Finalize ESMF
-  call ESMF_Finalize(rc=localrc)
-  if (localrc /=ESMF_SUCCESS) call ESMF_Finalize(rc=localrc)
+  call ESMF_Finalize()
 
 end program
