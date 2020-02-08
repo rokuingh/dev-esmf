@@ -15,3 +15,6 @@ PET*.
 *.stdout
 *.out
 *.nc
+*.tar
+*.bz2
+*.gz
