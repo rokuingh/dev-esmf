@@ -1,0 +1,17 @@
+# Compiled source #
+###################
+*.pyc
+
+# Misc #
+########
+*~
+*.orig
+*.DS_Store
+*.o
+*.mod
+*.log
+ESMF_LogFile
+PET*.
+*.stdout
+*.out
+*.nc
