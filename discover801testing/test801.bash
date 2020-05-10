@@ -34,7 +34,7 @@
 # edintel1801impi
 # edpgi18openmpi
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 shopt -s expand_aliases
 
@@ -90,7 +90,7 @@ alias esmfpgi17openmpi='module purge; module load comp/pgi-17.7.0 other/mpi/open
 # alias esmfpgi18mpiuni='module purge; module load comp/pgi-18.5.0; export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config'
 alias edpgi18openmpi='module purge; module load comp/pgi-18.5.0 other/mpi/openmpi/3.1.1-pgi-18.5.0-k40; export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config'
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # declare -a LibTests=("esmfgfortran481mpiuni" "esmfgfortran481mvapich2" "esmfgfortran481openmpi" "esmfintel17mvapich2" "esmfintel1803openmpi" "esmfintel1805mpiuni" "esmfintel1805impi" "esmfnag" "esmfpgi14mvapich2" "esmfpgi17mpiuni" "esmfpgi17openmpi")
 declare -a LibTests=("esmfintel17mvapich2")
@@ -124,7 +124,7 @@ for test in "${LibTests[@]}"; do
     $test
   
     # run the test
-    sbatch --export=ALL test_esmf_local
+    sbatch --export=ALL $homedir/test_esmf_local
   
     # do anything special with the output?
 
