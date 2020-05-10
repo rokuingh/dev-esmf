@@ -123,7 +123,6 @@ for test in "${LibTests[@]}"; do
 
     # clone esmf
     git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
-    cd esmf
   
     # set up test parameters
     clearesmfvars
