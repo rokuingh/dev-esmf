@@ -5,6 +5,16 @@
 #SBATCH -o output.%j
 #SBATCH --account=s1184
 
+%homedir%
+%logdir%
+
+%modules%
+
+%esmfdir%
+%esmfenv%
+%esmfbopt%
+%commonesmfvars%
+
 bash $homedir/test_esmf_local > out.out
 
 exit 0
