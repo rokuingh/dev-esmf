@@ -3,6 +3,7 @@
 # Ryan O'Kuinghttons
 # May 9, 2020
 # script to run all discover platforms for ESMF testing
+# view jobs in queue with squeue --user=<user>
 
 
 # discover platforms (g and O for all):
@@ -118,10 +119,10 @@ for test in "${LibTests[@]}"; do
     # create test directory
     mkdir $test-$mode
     cd $test-$mode
-    echo $test-$mode
+    echo $PWD
 
     # clone esmf
-    git clone git@github.com:esmf-org/esmf.git 2>&1
+    git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
     cd esmf
   
     # set up test parameters
@@ -133,7 +134,7 @@ for test in "${LibTests[@]}"; do
   
     # run the test
     echo "sbatch --export=ALL $homedir/test_esmf_local"
-    sbatch --export=ALL $homedir/test_esmf_local
+    sbatch --get-user-env $homedir/test_esmf_local
   
     # do anything special with the output?
 
