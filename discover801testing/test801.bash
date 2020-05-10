@@ -39,7 +39,7 @@
 
 shopt -s expand_aliases
 
-alias commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=default; export ESMF_TESTEXHAUSTIVE=ON; export ESMF_TESTWITHTHREADS=OFF; export ESMF_MPIRUN=mpirun; export homedir=/discover/nobackup/rokuingh/sandbox/test_scripts/manual_testing;"
+alias commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=default; export ESMF_TESTEXHAUSTIVE=ON; export ESMF_TESTWITHTHREADS=OFF; export ESMF_MPIRUN=mpirun"
 
 alias clearesmfvars="unset ESMF_COMPILER; unset ESMF_COMM; unset ESMF_NETCDF; unset ESMF_NETCDF_INCLUDE; unset ESMF_NETCDF_LIBPATH; unset ESMF_PNETCDF; unset ESMF_PNETCDF_INCLUDE; unset ESMF_PNETCDF_LIBPATH; unset ESMF_CXXCOMPILEOPTS; unset ESMF_F90COMPILEOPTS; unset ESMF_PROJ4; unset ESMF_PROJ4_INCLUDE; unset ESMF_PROJ4_LIBPATH; unset ESMF_YAMLCPP"
 
@@ -102,6 +102,8 @@ declare -a LibTests=("esmfintel17mvapich2")
 # test with just one
 declare -a Mode=("g")
 
+export homedir=/discover/nobackup/rokuingh/sandbox/test_scripts/manual_testing
+export scriptdir=/discover/nobackup/rokuingh/sandbox/esmf_dev/discover801testing
 
 # set the run number
 workdir=/discover/nobackup/rokuingh/discovertesting801
@@ -123,6 +125,9 @@ for test in "${LibTests[@]}"; do
 
     # clone esmf
     git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
+    cd esmf
+    git checkout ESMF_8_0_1_beta_snapshot_13
+    cd ..
   
     # set up test parameters
     clearesmfvars
@@ -132,8 +137,8 @@ for test in "${LibTests[@]}"; do
     $(test)
   
     # run the test
-    echo "sbatch --export=ALL $homedir/test_esmf_local"
-    sbatch --get-user-env $homedir/test_esmf_local
+    echo "sbatch --export=ALL $scriptdir/test_esmf.slurm"
+    sbatch --get-user-env $scriptdir/test_esmf.slurm
   
     # do anything special with the output?
 
