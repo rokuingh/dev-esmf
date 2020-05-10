@@ -195,6 +195,7 @@ for test in "${LibTests[@]}"; do
     cd ..
   
     # set up test parameters
+    mkdir logs
     logdir="export LOGDIR=$PWD/logs"
     esmfdir="export ESMF_DIR=$PWD/esmf"
     esmfbopt="export ESMF_BOPT=$mode"
