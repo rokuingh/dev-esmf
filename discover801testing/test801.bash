@@ -1,43 +1,40 @@
-
-discover platforms (g and O for all):
-
-lib: 
-esmfgfortran481mpiuni - fail (c++11?)
-esmfgfortran481mvapich2
-esmfgfortran481openmpi
-esmfintel17mvapich2
-esmfintel1803openmpi
-esmfintel1805mpiuni
-esmfintel1805impi
-esmfnag
-esmfpgi14mvapich2
-esmfpgi17mpiuni
-esmfpgi17openmpi
-
-esmpy:
-esmpygfortran492mpiuni
-esmpygfortran492mvapich2
-esmpyintel17mpiuni
-esmpyintel17mvapich2
-esmpypgi17openmpi
-
-mapl:
-maplintel15impi
-
-external demos/bfb:
-edintel1801impi
-edpgi18openmpi
-
-
-For running the batch scripts:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #!/bin/bash
 
 # Ryan O'Kuinghttons
 # May 9, 2020
 # script to run all discover platforms for ESMF testing
+
+
+# discover platforms (g and O for all):
+# 
+# lib: 
+# esmfgfortran481mpiuni - fail (c++11?)
+# esmfgfortran481mvapich2
+# esmfgfortran481openmpi
+# esmfintel17mvapich2
+# esmfintel1803openmpi
+# esmfintel1805mpiuni
+# esmfintel1805impi
+# esmfnag
+# esmfpgi14mvapich2
+# esmfpgi17mpiuni
+# esmfpgi17openmpi
+# 
+# esmpy:
+# esmpygfortran492mpiuni
+# esmpygfortran492mvapich2
+# esmpyintel17mpiuni
+# esmpyintel17mvapich2
+# esmpypgi17openmpi
+# 
+# mapl:
+# maplintel15impi
+# 
+# external demos/bfb:
+# edintel1801impi
+# edpgi18openmpi
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 shopt -s expand_aliases
 
@@ -98,6 +95,9 @@ alias edpgi18openmpi='module purge; module load comp/pgi-18.5.0 other/mpi/openmp
 # declare -a LibTests=("esmfgfortran481mpiuni" "esmfgfortran481mvapich2" "esmfgfortran481openmpi" "esmfintel17mvapich2" "esmfintel1803openmpi" "esmfintel1805mpiuni" "esmfintel1805impi" "esmfnag" "esmfpgi14mvapich2" "esmfpgi17mpiuni" "esmfpgi17openmpi")
 declare -a LibTests=("esmfintel17mvapich2")
 
+# g and O
+declare -a Mode=("g" "O")
+
 
 # set the run number
 workdir=/discover/nobackup/rokuingh/801discovertesting
@@ -107,23 +107,26 @@ python run_id.py $workdir
 commonesmfvars
 
 for test in "${LibTests[@]}"; do
-  # create test directory
-  mkdir $test
-  cd $test
+  for mode in "${Mode[@]}"; do
+    # create test directory
+    mkdir $test-$mode
+    cd $test-$mode
+  
+    # clone esmf
+    git clone git@github.com:esmf-org/esmf.git
+    cd esmf
+  
+    # set up test parameters
+    clearesmfvars
+    export LOGDIR=$test/logs; 
+    export ESMF_DIR=$test/esmf
+    export ESMF_BOPT=$mode
+    $test
+  
+    # run the test
+    sbatch --export=ALL test_esmf_local
+  
+    # do anything special with the output?
 
-  # clone esmf
-  git clone git@github.com:esmf-org/esmf.git
-  cd esmf
-
-  # set up test parameters
-  clearesmfvars
-  export LOGDIR=$test/logs; 
-  export ESMF_DIR=$test/esmf"
-  $test
-
-  # run the test
-  sbatch --export=ALL test_esmf_local
-
-  # do anything special with the output?
-
+  done
 done
