@@ -93,27 +93,35 @@ alias edpgi18openmpi='module purge; module load comp/pgi-18.5.0 other/mpi/openmp
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # declare -a LibTests=("esmfgfortran481mpiuni" "esmfgfortran481mvapich2" "esmfgfortran481openmpi" "esmfintel17mvapich2" "esmfintel1803openmpi" "esmfintel1805mpiuni" "esmfintel1805impi" "esmfnag" "esmfpgi14mvapich2" "esmfpgi17mpiuni" "esmfpgi17openmpi")
+# test with just one
 declare -a LibTests=("esmfintel17mvapich2")
 
 # g and O
-declare -a Mode=("g" "O")
+# declare -a Mode=("g" "O")
+# test with just one
+declare -a Mode=("g")
 
 
 # set the run number
-workdir=/discover/nobackup/rokuingh/801discovertesting
-python run_id.py $workdir
+workdir=/discover/nobackup/rokuingh/discovertesting801
+# create rundir
+RUNDIR=$(python run_id.py $workdir 2>&1)
+mkdir $RUNDIR
 
 ! set the common ESMF variables
 commonesmfvars
 
 for test in "${LibTests[@]}"; do
   for mode in "${Mode[@]}"; do
+    cd $RUNDIR
+
     # create test directory
     mkdir $test-$mode
     cd $test-$mode
-  
+    echo $test-$mode
+
     # clone esmf
-    git clone git@github.com:esmf-org/esmf.git
+    git clone git@github.com:esmf-org/esmf.git 2>&1
     cd esmf
   
     # set up test parameters
@@ -121,9 +129,10 @@ for test in "${LibTests[@]}"; do
     export LOGDIR=$test/logs; 
     export ESMF_DIR=$test/esmf
     export ESMF_BOPT=$mode
-    $test
+    $(test)
   
     # run the test
+    echo "sbatch --export=ALL $homedir/test_esmf_local"
     sbatch --export=ALL $homedir/test_esmf_local
   
     # do anything special with the output?
