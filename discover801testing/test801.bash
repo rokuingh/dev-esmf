@@ -234,11 +234,11 @@ for test in "${LibTests[@]}"; do
     case $test in
       *ed)
         # checkout external demos
-        echo "cloning esmf..."
-        git clone git://git.code.sf.net/p/esmf/external_demos external_demos
+        echo "cloning external_demos..."
+        git clone git://git.code.sf.net/p/esmf/external_demos external_demos >/dev/null 2>&1
         # cd external_demos
         # git checkout ESMF_8_0_1_beta_snapshot_13
-        cd ..
+        # cd ..
 
         # set the demodir variable
         demodir="export DEMODIR=$TESTDIR/external_demos"
