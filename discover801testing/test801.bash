@@ -150,6 +150,8 @@ esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+clearesmfvars="unset ESMF_OS; unset ESMF_ABI; unset ESMF_SITE; unset ESMF_TESTEXHAUSTIVE; unset ESMF_TESTWITHTHREADS; unset ESMF_MPIRUN; unset ESMF_COMPILER; unset ESMF_COMM; unset ESMF_NETCDF; unset ESMF_NETCDF_INCLUDE; unset ESMF_NETCDF_LIBPATH; unset ESMF_PNETCDF; unset ESMF_PNETCDF_INCLUDE; unset ESMF_PNETCDF_LIBPATH; unset ESMF_PROJ4; unset ESMF_PROJ4_INCLUDE; unset ESMF_PROJ4_LIBPATH; unset ESMF_YAMLCPP; unset ESMF_CXXCOMPILEOPTS; unset ESMF_F90COMPILEOPTS"
+
 commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=default; export ESMF_TESTEXHAUSTIVE=ON; export ESMF_TESTWITHTHREADS=OFF; export ESMF_MPIRUN=mpirun"
 
 
@@ -182,12 +184,12 @@ declare -a Mode=("g" "O")
 
 # set working directories
 # following are for local tests
-# scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
-# homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
-# workdir=/home/ryan/discovertesting801
-scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
-homedir="export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing"
-workdir=$NOBACKUP/discovertesting801
+scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
+homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
+workdir=/home/ryan/discovertesting801
+# scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
+# homedir="export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing"
+# workdir=$NOBACKUP/discovertesting801
 
 # create rundir
 RUNDIR=$(python $scriptdir/run_id.py $workdir 2>&1)
@@ -214,16 +216,16 @@ for test in "${LibTests[@]}"; do
 
     # clone esmf and checkout appropriate tag
     echo "cloning esmf..."
-    git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
-    cd esmf
-    git checkout ESMF_8_0_1_beta_snapshot_13
-    cd ..
+    # git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
+    # cd esmf
+    # git checkout ESMF_8_0_1_beta_snapshot_13
+    # cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
-    sed "s&%testname%&$test-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
+    sed "s&%testname%&$test-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%clearesmfvars%&$clearesmfvars&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
   
     # run the test
     echo "sbatch esmftest-$test-$mode.slurm"
-    sbatch esmftest-$test-$mode.slurm
+    # sbatch esmftest-$test-$mode.slurm
   done
 done
