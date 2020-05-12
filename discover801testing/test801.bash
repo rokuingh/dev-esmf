@@ -76,17 +76,22 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETC
 # run g and O of mpiuni and mvapich2, for esmpy
 function intel17mpiuniesmpy () {
 modules='module purge; module load comp/intel-17.0.4.196 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_YAMLCPP=OFF; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/SLES11/netcdf/4.1.3/intel-12.1.0.233/bin; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_YAMLCPP=OFF; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 function intel17mvapich2esmpy () {
 modules='module purge; module load comp/intel-17.0.4.196 other/mpi/mvapich2-2.3b/intel-17.0.4.196 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_YAMLCPP=OFF'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=/usr/local/other/SLES11/netcdf/4.1.3/intel-12.1.0.233/bin; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_YAMLCPP=OFF'
 }
 
-# run g and O (maybe with optlevel=2), for external demos b4b
 function intel1801impied () {
 modules='module purge; module load comp/intel-18.0.1.163 mpi/impi-5.1.2.150 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib;'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"; export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"; export ESMF_NUM_PROCS=16; export ESMF_OPTLEVEL=2'
+}
+
+# only runs optimized
+function intel1801impibfb () {
+modules='module purge; module load comp/intel-18.0.1.163 mpi/impi-5.1.2.150 other/comp/gcc-4.8.1'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"; export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"; export ESMF_NUM_PROCS=16; export ESMF_OPTLEVEL=2; export ESMF_MPIMPMDRUN=/apps/slurm/default/bin/srun'
 }
 
 # run g and O, for lib, no netcdf
@@ -141,16 +146,16 @@ esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=
 # run g and O for openmpi, for external demos
 # function pgi18mpiunilib () {
 # modules='module purge; module load comp/pgi-18.5.0'
-# esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
+# esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config; export ESMF_YAMLCPP=OFF; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 # }
 function pgi18openmpied () {
 modules='module purge; module load comp/pgi-18.5.0 other/mpi/openmpi/3.1.1-pgi-18.5.0-k40'
-esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config'
+esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=/usr/local/other/SLES11.1/netcdf4/pgi-14.9.0/bin/nc-config;  export ESMF_YAMLCPP=OFF'
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-clearesmfvars="unset ESMF_OS; unset ESMF_ABI; unset ESMF_SITE; unset ESMF_TESTEXHAUSTIVE; unset ESMF_TESTWITHTHREADS; unset ESMF_MPIRUN; unset ESMF_COMPILER; unset ESMF_COMM; unset ESMF_NETCDF; unset ESMF_NETCDF_INCLUDE; unset ESMF_NETCDF_LIBPATH; unset ESMF_PNETCDF; unset ESMF_PNETCDF_INCLUDE; unset ESMF_PNETCDF_LIBPATH; unset ESMF_PROJ4; unset ESMF_PROJ4_INCLUDE; unset ESMF_PROJ4_LIBPATH; unset ESMF_YAMLCPP; unset ESMF_CXXCOMPILEOPTS; unset ESMF_F90COMPILEOPTS"
+clearesmfvars="unset ESMF_OS; unset ESMF_ABI; unset ESMF_SITE; unset ESMF_TESTEXHAUSTIVE; unset ESMF_TESTWITHTHREADS; unset ESMF_MPIRUN; unset ESMF_COMPILER; unset ESMF_COMM; unset ESMF_NETCDF; unset ESMF_NETCDF_INCLUDE; unset ESMF_NETCDF_LIBPATH; unset ESMF_PNETCDF; unset ESMF_PNETCDF_INCLUDE; unset ESMF_PNETCDF_LIBPATH; unset ESMF_PROJ4; unset ESMF_PROJ4_INCLUDE; unset ESMF_PROJ4_LIBPATH; unset ESMF_YAMLCPP; unset ESMF_CXXCOMPILEOPTS; unset ESMF_F90COMPILEOPTS; unset ESMF_NUM_PROCS; unset ESMF_OPTLEVEL; unset ESMF_MPIMPMDRUN"
 
 commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=default; export ESMF_TESTEXHAUSTIVE=ON; export ESMF_TESTWITHTHREADS=OFF; export ESMF_MPIRUN=mpirun"
 
@@ -169,8 +174,16 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 
 # esmpy
 # declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy" "pgi17mpiuniesmpy" "pgi17openmpiesmpy")
-declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy")
+# declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy")
 
+# mapl
+# declare -a LibTests=("intel15impimapl")
+
+# external demos
+declare -a LibTests=("intel1801impied" "pgi18openmpied")
+
+# bit for bit, only optimized
+# declare -a LibTests=("intel1801impibfb")
 
 # g and O
 declare -a Mode=("g" "O")
