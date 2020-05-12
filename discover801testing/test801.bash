@@ -230,6 +230,22 @@ for test in "${LibTests[@]}"; do
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
     sed "s&%testname%&$test-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%clearesmfvars%&$clearesmfvars&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
   
+    # switch out for external demos, esmpy, mapl etc
+    case $test in
+      *ed)
+        cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
+        sed "s&test_esmf_local&test_external_demos_local&g;" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
+      ;;
+      *esmpy)
+        cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
+        sed "s&test_esmf_local&test_esmpy_local&g;" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
+      ;;
+      *mapl)
+        cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
+        sed "s&test_esmf_local&test_mapl_local&g;" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
+      ;;
+    esac
+
     # run the test
     echo "sbatch esmftest-$test-$mode.slurm"
     sbatch esmftest-$test-$mode.slurm
