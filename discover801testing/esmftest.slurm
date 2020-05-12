@@ -16,6 +16,6 @@
 %esmfenv%
 %esmfbopt%
 
-bash $homedir/test_esmf_local > out.out
+bash $homedir/test_esmf_local > test_esmf_local.out
 
 exit 0
