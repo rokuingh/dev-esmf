@@ -10,6 +10,8 @@
 
 %modules%
 
+%clearesmfvars%
+
 %esmfdir%
 # commonesmfvars before esmfenv to overwrite ESMF_MPIRUN for mpiuni cases
 %commonesmfvars%
