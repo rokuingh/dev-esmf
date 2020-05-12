@@ -70,17 +70,17 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_NETC
 # run g and O of mvapich2 for the lib
 function intel17mvapich2lib () {
 modules='module purge; module load comp/intel-17.0.4.196 other/mpi/mvapich2-2.3b/intel-17.0.4.196 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/lib; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_PNETCDF=standard; export ESMF_PNETCDF_INCLUDE=/usr/local/other/SLES11.1/pnetcdf/1.4.1/intel-14.0.1.106-impi-4.1.1.036/include; export ESMF_PNETCDF_LIBPATH=/usr/local/other/SLES11.1/pnetcdf/1.4.1/intel-14.0.1.106-impi-4.1.1.036/lib'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_PNETCDF=standard; export ESMF_PNETCDF_INCLUDE=/usr/local/other/SLES11.1/pnetcdf/1.4.1/intel-14.0.1.106-impi-4.1.1.036/include; export ESMF_PNETCDF_LIBPATH=/usr/local/other/SLES11.1/pnetcdf/1.4.1/intel-14.0.1.106-impi-4.1.1.036/lib'
 }
 
 # run g and O of mpiuni and mvapich2, for esmpy
 function intel17mpiuniesmpy () {
 modules='module purge; module load comp/intel-17.0.4.196 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/lib; export ESMF_YAMLCPP=OFF; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_YAMLCPP=OFF; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 function intel17mvapich2esmpy () {
 modules='module purge; module load comp/intel-17.0.4.196 other/mpi/mvapich2-2.3b/intel-17.0.4.196 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5 other/comp/gcc-4.8.1'
-esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.3/netcdf4/4.5.0/intel-17.0.4.196/lib; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_YAMLCPP=OFF'
+esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mvapich2; export ESMF_NETCDF=/usr/local/other/netcdf/4.1.2_intel-14.0.3/bin/nc-config; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_YAMLCPP=OFF'
 }
 
 # run g and O (maybe with optlevel=2), for external demos b4b
@@ -97,11 +97,11 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=openmpi; export ESMF_PROJ4
 
 # run g and O of both, for lib, no netcdf
 function intel1805mpiunilib () {
-modules='module purge; module load comp/intel-18.0.5.274 other/comp/gcc-4.8.1'
+modules='module purge; module load comp/intel-18.0.5.274 other/comp/gcc-4.8.1 other/comp/gcc-4.8.1'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 function intel1805impilib () {
-modules='module purge; module load comp/intel-18.0.5.274 mpi/impi-18.0.5.274'
+modules='module purge; module load comp/intel-18.0.5.274 mpi/impi-18.0.5.274 other/comp/gcc-4.8.1'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib;'
 }
 
@@ -119,10 +119,10 @@ esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mvapich2; export ESMF_NETCDF
 }
 
 # run g and O for both, for esmpy, regridfromfile test on O, openmpi
-# function pgi17mpiuniesmpy () {
-# modules='module purge; module load comp/pgi-17.5.0'
-# esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
-# }
+function pgi17mpiuniesmpy () {
+modules='module purge; module load comp/pgi-17.5.0'
+esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
+}
 function pgi17openmpiesmpy () {
 modules='module purge; module load comp/pgi-17.5.0 other/mpi/openmpi/2.1.1-pgi-17.5.0 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5'
 esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=openmpi; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/lib; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; ESMF_YAMLCPP=OFF'
@@ -162,10 +162,14 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 # declare -a LibTests=("gfortran481mpiunilib" "gfortran481mvapich2lib" "gfortran481openmpilib")
 
 # intel
-declare -a LibTests=("intel17mvapich2lib" "intel1803openmpilib" "intel1805mpiunilib" "intel1805impilib")
+# declare -a LibTests=("intel17mvapich2lib" "intel1803openmpilib" "intel1805mpiunilib" "intel1805impilib")
 
 # nag and pgi
 # declare -a LibTests=("nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
+
+# esmpy
+# declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy" "pgi17mpiuniesmpy" "pgi17openmpiesmpy")
+declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy")
 
 
 # g and O
@@ -173,12 +177,12 @@ declare -a Mode=("g" "O")
 
 # set working directories
 # following are for local tests
-scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
-homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
-workdir=/home/ryan/discovertesting801
-# scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
-# homedir="export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing"
-# workdir=$NOBACKUP/discovertesting801
+# scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
+# homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
+# workdir=/home/ryan/discovertesting801
+scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
+homedir="export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing"
+workdir=$NOBACKUP/discovertesting801
 
 # create rundir
 RUNDIR=$(python $scriptdir/run_id.py $workdir 2>&1)
@@ -205,16 +209,16 @@ for test in "${LibTests[@]}"; do
 
     # clone esmf and checkout appropriate tag
     echo "cloning esmf..."
-    # git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
-    # cd esmf
-    # git checkout ESMF_8_0_1_beta_snapshot_13
-    # cd ..
+    git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
+    cd esmf
+    git checkout ESMF_8_0_1_beta_snapshot_13
+    cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
     sed "s&%testname%&$test-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%clearesmfvars%&$clearesmfvars&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
   
     # run the test
     echo "sbatch esmftest-$test-$mode.slurm"
-    # sbatch esmftest-$test-$mode.slurm
+    sbatch esmftest-$test-$mode.slurm
   done
 done
