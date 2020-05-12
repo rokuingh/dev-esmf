@@ -228,13 +228,24 @@ for test in "${LibTests[@]}"; do
     cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
-    sed "s&%testname%&$test-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%clearesmfvars%&$clearesmfvars&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
+    sed "s&#testname#&$test-$mode&g; s&#homedir#&$homedir&g; s&#logdir#&$logdir&g; s&#modules#&$modules&g; s&#clearesmfvars#&$clearesmfvars&g; s&#esmfdir#&$esmfdir&g; s&#commonesmfvars#&$commonesmfvars&g; s&#esmfenv#&$esmfenv&g; s&#esmfbopt#&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
   
     # switch out for external demos, esmpy, mapl etc
     case $test in
       *ed)
+        # checkout external demos
+        echo "cloning esmf..."
+        git clone git://git.code.sf.net/p/esmf/external_demos external_demos
+        # cd external_demos
+        # git checkout ESMF_8_0_1_beta_snapshot_13
+        cd ..
+
+        # set the demodir variable
+        demodir="export DEMODIR=$TESTDIR/external_demos"
+
+        # modify esmftest.slurm script to call test_external_demos_local and include demodir
         cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
-        sed "s&test_esmf_local&test_external_demos_local&g;" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
+        sed "s&test_esmf_local&test_external_demos_local&g; s&#demodir#&$demodir&g" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
       ;;
       *esmpy)
         cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
