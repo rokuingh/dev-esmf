@@ -11,9 +11,10 @@
 %modules%
 
 %esmfdir%
+# commonesmfvars before esmfenv to overwrite ESMF_MPIRUN for mpiuni cases
+%commonesmfvars%
 %esmfenv%
 %esmfbopt%
-%commonesmfvars%
 
 bash $homedir/test_esmf_local > out.out
 

@@ -195,16 +195,50 @@ declare -a Mode=("g" "O")
 
 # set working directories
 # following are for local tests
-# export scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
+# scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
 # homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
 # workdir=/home/ryan/discovertesting801
-export scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
+scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
 homedir="export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing"
 workdir=$NOBACKUP/discovertesting801
 
 # create rundir
 RUNDIR=$(python $scriptdir/run_id.py $workdir 2>&1)
 mkdir $RUNDIR
+
+# function to replace nameref in >4.3 bash (thank you discover)
+submitcombos ()
+{
+  # nameref magic
+  local testproxy="${1}[@]"
+  local testproxyname="${1}"
+  local testproxyvals=("${!testproxy}")
+
+  # set up test parameters
+  TESTPROXYDIR=$RUNDIR/$testproxyname
+  mkdir $TESTPROXYDIR/logs
+  logdir="export LOGDIR=$TESTPROXYDIR/logs"
+  esmfdir="export ESMF_DIR=$TESTPROXYDIR/esmf"
+  
+
+  # actually iterate the combos and submit the jobs
+  for combo in "${testproxyvals[@]}"; do
+    # set the case specific variables, via function
+    $combo
+
+    for mode in "${Mode[@]}"; do
+      # set up test parameters
+      esmfbopt="export ESMF_BOPT=$mode"
+    
+      # sbatch --export,--get-user-env doesn't work, so manually set the environment
+      sed "s&%testname%&$combo-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$combo-$mode.slurm
+  
+      # run the test
+      echo "sbatch esmftest-$combo-$mode.slurm"
+      # sbatch esmftest--$combo-$mode.slurm
+    done
+  done
+}
 
 for test in "${LibTests[@]}"; do
   cd $RUNDIR
@@ -222,29 +256,6 @@ for test in "${LibTests[@]}"; do
   git checkout ESMF_8_0_1_beta_snapshot_13
   cd ..
 
-  # set up test parameters
-  mkdir $TESTDIR/logs
-  logdir="export LOGDIR=$TESTDIR/logs"
-  esmfdir="export ESMF_DIR=$TESTDIR/esmf"
-  
-  testproxy=$test
-  declare -n testproxy="$test"
+  submitcombos $test
 
-  for combo in "${testproxy[@]}"; do
-    # set the case specific variables, via function
-    $combo
-
-    for mode in "${Mode[@]}"; do
-      # set up test parameters
-      esmfbopt="export ESMF_BOPT=$mode"
-    
-      # sbatch --export,--get-user-env doesn't work, so manually set the environment
-      # esmfenv is after commonesmfvars so mpirun can be reset for mpiuni combos
-      sed "s&%testname%&$combo-$mode&g; s&%homedir%&$homedir&g; s&%logdir%&$logdir&g; s&%modules%&$modules&g; s&%esmfdir%&$esmfdir&g; s&%commonesmfvars%&$commonesmfvars&g; s&%esmfenv%&$esmfenv&g; s&%esmfbopt%&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest.slurm
-  
-      # run the test
-      echo "sbatch esmftest.slurm $combo-$mode"
-      sbatch esmftest.slurm
-    done
-  done
 done
