@@ -157,25 +157,14 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 # declare -a LibTests=("gfortran481mpiunilib" "gfortran481mvapich2lib" "gfortran481openmpilib" "intel17mvapich2lib" "intel1803openmpilib" "intel1805mpiunilib" "intel1805impilib" "nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
 
 # gfortran481
-declare -a LibTests=("gfortran481mpiunilib" "gfortran481mvapich2lib" "gfortran481openmpilib")
+# declare -a LibTests=("gfortran481mpiunilib" "gfortran481mvapich2lib" "gfortran481openmpilib")
 
-# intel17
-# declare -a LibTests=("intel17mvapich2lib")
+# intel
+declare -a LibTests=("intel17mvapich2lib" "intel1803openmpilib" "intel1805mpiunilib" "intel1805impilib")
 
-# intel1803
-# declare -a LibTests=("intel1803openmpilib")
+# nag and pgi
+# declare -a LibTests=("nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
 
-# intel1805
-# declare -a LibTests=("intel1805mpiunilib" "intel1805impilib")
-
-# nag62
-# declare -a LibTests=("nag62mpiunilib")
-
-# pgi14
-# declare -a LibTests=("pgi14mvapich2lib")
-
-# pgi17
-# declare -a LibTests=("pgi17mpiunilib" "pgi17openmpilib")
 
 # g and O
 declare -a Mode=("g" "O")
