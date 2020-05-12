@@ -238,6 +238,8 @@ for test in "${LibTests[@]}"; do
         git clone git://git.code.sf.net/p/esmf/external_demos external_demos >/dev/null 2>&1
         cd external_demos
         git checkout ESMF_8_0_0
+        mkdir ESMF_RegridWeightGenCheck/input
+        cp $scriptdir/rwgdata/* ESMF_RegridWeightGenCheck/input/
         cd ..
 
         # set the demodir variable
