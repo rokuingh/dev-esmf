@@ -113,7 +113,7 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_PROJ
 # run g and O, for lib
 function nag62mpiunilib () {
 modules='module purge; module load comp/nag-6.2-6204'
-esmfenv='export ESMF_COMM=mpiuni; export ESMF_COMPILER=nag; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
+esmfenv='export ESMF_COMM=mpiuni; export ESMF_COMPILER=nag; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun; export ESMF_YAMLCPP=OFF'
 }
 
 # run g and O for mvapich2
@@ -171,6 +171,7 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 
 # nag and pgi
 # declare -a LibTests=("nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
+declare -a LibTests=("nag62mpiunilib")
 
 # esmpy
 # declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy" "pgi17mpiuniesmpy" "pgi17openmpiesmpy")
@@ -180,7 +181,7 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 # declare -a LibTests=("intel15impimapl")
 
 # external demos
-declare -a LibTests=("intel1801impied" "pgi18openmpied")
+# declare -a LibTests=("intel1801impied" "pgi18openmpied")
 
 # bit for bit, only optimized
 # declare -a LibTests=("intel1801impibfb")
@@ -230,7 +231,7 @@ for test in "${LibTests[@]}"; do
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
     sed "s&#testname#&$test-$mode&g; s&#homedir#&$homedir&g; s&#logdir#&$logdir&g; s&#modules#&$modules&g; s&#clearesmfvars#&$clearesmfvars&g; s&#esmfdir#&$esmfdir&g; s&#commonesmfvars#&$commonesmfvars&g; s&#esmfenv#&$esmfenv&g; s&#esmfbopt#&$esmfbopt&g" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
   
-    # switch out for external demos, esmpy, mapl etc
+    # special handling for external demos, esmpy, mapl etc
     case $test in
       *ed)
         # checkout external demos
@@ -248,6 +249,7 @@ for test in "${LibTests[@]}"; do
         # modify esmftest.slurm script to call test_external_demos_local and include demodir
         cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
         sed "s&test_esmf_local&test_external_demos_local&g; s&#demodir#&$demodir&g" esmftest-$test-$mode.slurmtemp > esmftest-$test-$mode.slurm
+        rm esmftest-$test-$mode.slurmtemp
       ;;
       *esmpy)
         cp esmftest-$test-$mode.slurm esmftest-$test-$mode.slurmtemp
