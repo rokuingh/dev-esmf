@@ -102,7 +102,7 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=openmpi; export ESMF_PROJ4
 
 # run g and O of both, for lib, no netcdf
 function intel1805mpiunilib () {
-modules='module purge; module load comp/intel-18.0.5.274 other/comp/gcc-4.8.1 other/comp/gcc-4.8.1'
+modules='module purge; module load comp/intel-18.0.5.274 other/comp/gcc-4.8.1'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpiuni; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 function intel1805impilib () {
@@ -112,8 +112,8 @@ esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi; export ESMF_PROJ
 
 # run g and O, for lib
 function nag62mpiunilib () {
-modules='module purge; module load comp/nag-6.2-6204'
-esmfenv='export ESMF_COMM=mpiuni; export ESMF_COMPILER=nag; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun; export ESMF_YAMLCPP=OFF'
+modules='module purge; module load comp/nag-6.2-6204 other/comp/gcc-4.8.5'
+esmfenv='export ESMF_COMM=mpiuni; export ESMF_COMPILER=nag; export ESMF_PROJ4=external; export ESMF_PROJ4_INCLUDE=/home/scvasque/proj4/include; export ESMF_PROJ4_LIBPATH=/home/scvasque/proj4/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 
 # run g and O for mvapich2
@@ -125,7 +125,7 @@ esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mvapich2; export ESMF_NETCDF
 
 # run g and O for both, for esmpy, regridfromfile test on O, openmpi
 function pgi17mpiuniesmpy () {
-modules='module purge; module load comp/pgi-17.5.0'
+modules='module purge; module load comp/pgi-17.5.0 other/SSSO_Ana-PyD/SApd_4.2.0_py3.5'
 esmfenv='export ESMF_COMPILER=pgi; export ESMF_COMM=mpiuni; export ESMF_NETCDF=split; export ESMF_NETCDF_INCLUDE=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/include; export ESMF_NETCDF_LIBPATH=/usr/local/other/SLES11.1/netcdf/4.3.2/pgi-14.3.0/lib; export ESMF_MPIRUN=$ESMF_DIR/src/Infrastructure/stubs/mpiuni/mpirun'
 }
 function pgi17openmpiesmpy () {
@@ -171,7 +171,8 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 
 # nag and pgi
 # declare -a LibTests=("nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
-declare -a LibTests=("nag62mpiunilib")
+declare -a LibTests=("pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
+# declare -a LibTests=("nag62mpiunilib")
 
 # esmpy
 # declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy" "pgi17mpiuniesmpy" "pgi17openmpiesmpy")
@@ -182,6 +183,7 @@ declare -a LibTests=("nag62mpiunilib")
 
 # external demos
 # declare -a LibTests=("intel1801impied" "pgi18openmpied")
+# declare -a LibTests=("intel1802impied")
 
 # bit for bit, only optimized
 # declare -a LibTests=("intel1801impibfb")
@@ -225,7 +227,9 @@ for test in "${LibTests[@]}"; do
     echo "cloning esmf..."
     git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
     cd esmf
-    git checkout ESMF_8_0_1_beta_snapshot_13
+    # git checkout ESMF_8_0_1_beta_snapshot_13
+    # for nag and pgi fix
+    git checkout ESMF_8_0_1branch
     cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
