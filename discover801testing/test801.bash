@@ -171,8 +171,7 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 
 # nag and pgi
 # declare -a LibTests=("nag62mpiunilib" "pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
-declare -a LibTests=("pgi14mvapich2lib" "pgi17mpiunilib" "pgi17openmpilib")
-# declare -a LibTests=("nag62mpiunilib")
+declare -a LibTests=("nag62mpiunilib" "pgi17mpiunilib" "pgi17openmpilib")
 
 # esmpy
 # declare -a LibTests=("gfortran492mpiuniesmpy" "gfortran492mvapich2esmpy" "intel17mpiuniesmpy" "intel17mvapich2esmpy" "pgi17mpiuniesmpy" "pgi17openmpiesmpy")
@@ -227,9 +226,7 @@ for test in "${LibTests[@]}"; do
     echo "cloning esmf..."
     git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
     cd esmf
-    # git checkout ESMF_8_0_1_beta_snapshot_13
-    # for nag and pgi fix
-    git checkout ESMF_8_0_1branch
+    git checkout ESMF_8_0_1
     cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
@@ -242,7 +239,7 @@ for test in "${LibTests[@]}"; do
         echo "cloning external_demos..."
         git clone git://git.code.sf.net/p/esmf/external_demos external_demos >/dev/null 2>&1
         cd external_demos
-        git checkout ESMF_8_0_0
+        git checkout ESMF_8_0_1
         mkdir ESMF_RegridWeightGenCheck/input
         cp $scriptdir/rwgdata/* ESMF_RegridWeightGenCheck/input/
         cd ..
