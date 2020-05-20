@@ -82,7 +82,7 @@ for test in "${LibTests[@]}"; do
     sed "s&#testname#&$test-$mode&g; s&#homedir#&$homedir&g; s&#logdir#&$logdir&g; s&#modules#&$modules&g; s&#clearesmfvars#&$clearesmfvars&g; s&#esmfdir#&$esmfdir&g; s&#commonesmfvars#&$commonesmfvars&g; s&#esmfenv#&$esmfenv&g; s&#esmfbopt#&$esmfbopt&g" $scriptdir/esmftest.pbs > esmftest-$test-$mode.pbs
   
     # run the test
-    echo "sbatch esmftest-$test-$mode.pbs"
-    sbatch esmftest-$test-$mode.pbs
+    echo "qsub esmftest-$test-$mode.pbs"
+    # qsub esmftest-$test-$mode.pbs
   done
 done
