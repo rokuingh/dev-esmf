@@ -7,22 +7,22 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function intel1805mptlib () {
-modules='module purge; module load ncarenv/1.3 ncarcompilers/0.5.0 intel/18.0.5 mpt/2.19 netcdf/4.6.3'
+modules='module purge; module load ncarenv/1.3 intel/18.0.5 ncarcompilers/0.5.0 mpt/2.19 netcdf/4.6.3'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpt; export ESMF_MPIRUN=mpiexec_mpt'
 }
 
 function intel1805openmpilib () {
-modules='module purge; module load ncarenv/1.3 ncarcompilers/0.5.0 intel/18.0.5 openmpi/3.1.4 netcdf/4.6.3'
+modules='module purge; module load ncarenv/1.3 intel/18.0.5 ncarcompilers/0.5.0 openmpi/3.1.4 netcdf/4.6.3'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=openmpi;'
 }
 
 function intel1805impilib () {
-modules='module purge; module load ncarenv/1.3 ncarcompilers/0.5.0 intel/18.0.5 impi/2018.4.274 netcdf/4.6.3'
+modules='module purge; module load ncarenv/1.3 intel/18.0.5 ncarcompilers/0.5.0 impi/2018.4.274 netcdf/4.6.3'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=intelmpi;'
 }
 
 function intel1902mptlib () {
-modules='module purge; module load ncarenv/1.3 ncarcompilers/0.5.0 intel/19.0.2 mpt/2.19 netcdf-mpi/4.7.1 pnetcdf/1.11.0'
+modules='module purge; module load ncarenv/1.3 intel/19.0.2 ncarcompilers/0.5.0 mpt/2.19 netcdf-mpi/4.7.1 pnetcdf/1.11.0'
 esmfenv='export ESMF_COMPILER=intel; export ESMF_COMM=mpt; export ESMF_NETCDF=nc-config; export ESMF_PIO=internal; export ESMF_TESTTRACE=ON; export ESMF_YAMLCPP=internal; export ESMF_MPIRUN=mpiexec_mpt'
 }
 
@@ -41,12 +41,12 @@ declare -a Mode=("g" "O")
 
 # set working directories
 # following are for local tests
-scriptdir=/home/ryan/sandbox/esmf_dev/cheyenne801testing
-homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
-workdir=/home/ryan/cheyennetesting801
-# scriptdir=/glade/work/rokuingh/sandbox/esmf_dev/cheyenne801testing
-# homedir="export homedir=/glade/work/rokuingh/sandbox/test_scripts/manual_testing"
-# workdir=/glade/work/rokuingh/cheyennetesting801
+# scriptdir=/home/ryan/sandbox/esmf_dev/cheyenne801testing
+# homedir="export homedir=/home/ryan/sandbox/test_scripts/manual_testing"
+# workdir=/home/ryan/cheyennetesting801
+scriptdir=/glade/work/rokuingh/sandbox/esmf_dev/cheyenne801testing
+homedir="export homedir=/glade/work/rokuingh/sandbox/test_scripts/manual_testing"
+workdir=/glade/work/rokuingh/cheyennetesting801
 
 # create rundir
 RUNDIR=$(python $scriptdir/run_id.py $workdir 2>&1)
@@ -73,16 +73,16 @@ for test in "${LibTests[@]}"; do
 
     # clone esmf and checkout appropriate tag
     echo "cloning esmf..."
-    # git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
-    # cd esmf
-    # git checkout ESMF_8_0_1
-    # cd ..
+    git clone git@github.com:esmf-org/esmf.git >/dev/null 2>&1
+    cd esmf
+    git checkout ESMF_8_0_1
+    cd ..
 
     # sbatch --export,--get-user-env doesn't work, so manually set the environment
     sed "s&#testname#&$test-$mode&g; s&#homedir#&$homedir&g; s&#logdir#&$logdir&g; s&#modules#&$modules&g; s&#clearesmfvars#&$clearesmfvars&g; s&#esmfdir#&$esmfdir&g; s&#commonesmfvars#&$commonesmfvars&g; s&#esmfenv#&$esmfenv&g; s&#esmfbopt#&$esmfbopt&g" $scriptdir/esmftest.pbs > esmftest-$test-$mode.pbs
   
     # run the test
     echo "qsub esmftest-$test-$mode.pbs"
-    # qsub esmftest-$test-$mode.pbs
+    qsub esmftest-$test-$mode.pbs
   done
 done
