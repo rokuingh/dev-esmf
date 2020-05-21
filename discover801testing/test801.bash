@@ -225,6 +225,7 @@ for test in "${LibTests[@]}"; do
         python setup.py test_regrid_from_file_dryrun
 
         # add esmpy test target
+        cd $TESTDIR
         sed "s&test_esmf_local&test_esmpy_local&g;" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
       ;;
       # # NOTE: doesn't work well because of need to dryrun RWGC and RC on login node before submitting to queue
