@@ -209,20 +209,22 @@ for test in "${LibTests[@]}"; do
     # special handling for external demos, esmpy, etc
     case $test in
       *esmpy)
-        # dryrun for regrid_from_file
-        $localcommonesmfvars
-        module purge
-        $localmodules
-        $localesmfenv
-        cd $TESTDIR/esmf
-        export ESMF_DIR=$TESTDIR/esmf
-        export ESMF_BOPT=$mode
-        make -j8 1> make.out 2>&1
-        export ESMFMKFILE=$TESTDIR/esmf/lib/lib$mode/$ESMF_OS.$ESMF_COMPILER.$ESMF_ABI.$ESMF_COMM.$ESMF_SITE/esmf.mk
-        echo $ESMFMKFILE
-        cd $TESTDIR/esmf/src/addon/ESMPy
-        python setup.py build
-        python setup.py test_regrid_from_file_dryrun
+        # dryrun for regrid_from_file in optimized mode
+        if [[ $mode == "O" ]]; then
+          $localcommonesmfvars
+          module purge
+          $localmodules
+          $localesmfenv
+          cd $TESTDIR/esmf
+          export ESMF_DIR=$TESTDIR/esmf
+          export ESMF_BOPT=$mode
+          make -j8 1> make.out 2>&1
+          export ESMFMKFILE=$TESTDIR/esmf/lib/lib$mode/$ESMF_OS.$ESMF_COMPILER.$ESMF_ABI.$ESMF_COMM.$ESMF_SITE/esmf.mk
+          echo $ESMFMKFILE
+          cd $TESTDIR/esmf/src/addon/ESMPy
+          python setup.py build
+          python setup.py test_regrid_from_file_dryrun
+        fi 
 
         # add esmpy test target
         cd $TESTDIR
