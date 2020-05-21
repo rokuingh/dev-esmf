@@ -165,12 +165,12 @@ declare -a Mode=("g" "O")
 
 # set working directories
 # following are for local tests
-scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
-homedir='export homedir=/home/ryan/sandbox/test_scripts/manual_testing'
-workdir=/home/ryan/discovertesting801
-# scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
-# homedir='export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing'
-# workdir=$NOBACKUP/discovertesting801
+# scriptdir=/home/ryan/sandbox/esmf_dev/discover801testing
+# homedir='export homedir=/home/ryan/sandbox/test_scripts/manual_testing'
+# workdir=/home/ryan/discovertesting801
+scriptdir=$NOBACKUP/sandbox/esmf_dev/discover801testing
+homedir='export homedir=$NOBACKUP/sandbox/test_scripts/manual_testing'
+workdir=$NOBACKUP/discovertesting801
 
 # create rundir
 RUNDIR=$(python $scriptdir/run_id.py $workdir 2>&1)
@@ -214,8 +214,7 @@ for test in "${LibTests[@]}"; do
         echo $ESMFMKFILE
         cd $TESTDIR/esmf/src/addon/ESMPy
         python setup.py build
-        echo 'python setup.py test_regrid_from_file_dryrun'
-        # python setup.py test_regrid_from_file_dryrun
+        python setup.py test_regrid_from_file_dryrun
 
         # add esmpy test target
         sed "s&test_esmf_local&test_esmpy_local&g;" $scriptdir/esmftest.slurm > esmftest-$test-$mode.slurm
@@ -250,6 +249,6 @@ for test in "${LibTests[@]}"; do
 
     # run the test
     echo "sbatch esmftest-$test-$mode.slurm"
-    # sbatch esmftest-$test-$mode.slurm
+    sbatch esmftest-$test-$mode.slurm
   done
 done
