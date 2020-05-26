@@ -6,8 +6,14 @@ import numpy
 
 print (ESMF.__version__)
 
+if ESMF.__version__ < "8.0.1":
+    raise EnvironmentError("ESMF versions prior to 8.0.1 will fail with segv on overflow in SMM")
+
 ANALYTIC_DATA = True
 UNINITVAL = 1e-20
+
+level = 10
+times = 25
 
 DATADIR="./"
 
@@ -33,8 +39,8 @@ def initialize(field, grid="src"):
 
     for i in range(field.data.shape[0]):
         for j in range(field.data.shape[1]):
-            for k in range(field.data.shape[2]):
                 for l in range(field.data.shape[3]):
+                    for k in range(field.data.shape[2]):
                     field.data[i,j,k,l] = k
 
 def validate(dstfield, xctfield):
@@ -64,13 +70,13 @@ def validate(dstfield, xctfield):
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
 
-    comm.reduce(maxerror, maxerrorg, op=MPI.MAX)
-    comm.reduce(unmapped_count, unmapped_countg, op=MPI.SUM)
+    comm.reduce(maxerror, op=MPI.MAX)
+    comm.reduce(unmapped_count, op=MPI.SUM)
     
     # output
     if rank == 0:
-        print ("%d unmapped points".format(unmapped_countg))
-        print ("Interpolation maximum relative error = %f".format(maxerrorg))
+        print (f"{unmapped_count} unmapped points")
+        print (f"Interpolation maximum relative error = {maxerror}")
 
 def plot(srcfield, interpfield, regrid_method="Bilinear"):
     import netCDF4 as nc
@@ -119,13 +125,12 @@ def plot(srcfield, interpfield, regrid_method="Bilinear"):
 
 filename = os.path.join(DATADIR, "t_2016123100.nc")
 
-level = 9
 # Create a uniform global latlon grid from a SCRIP formatted file
 src_grid = ESMF.Grid(filename=filename, filetype=ESMF.FileFormat.GRIDSPEC)
 
 # Create a field on the centers of the grid
 src_field = ESMF.Field(src_grid, name='t',
-    staggerloc=ESMF.StaggerLoc.CENTER, ndbounds=[level, 25])
+    staggerloc=ESMF.StaggerLoc.CENTER, ndbounds=[level, times])
 
 # field.read does not work if ESMF is built with MPIUNI
 
@@ -133,17 +138,17 @@ if ANALYTIC_DATA:
     initialize(src_field)
 else:
     if ESMF.api.constants._ESMF_COMM is not ESMF.api.constants._ESMF_COMM_MPIUNI:
-        src_field.read(filename=filename, variable='t', timeslice=25)
+        src_field.read(filename=filename, variable='t', timeslice=times)
 
 filename = os.path.join(DATADIR, "temporal_coords.nc")
 dst_grid = ESMF.Grid(filename=filename, filetype=ESMF.FileFormat.GRIDSPEC)
 
-dst_field = ESMF.Field(dst_grid, name='t', ndbounds=[level,25])
+dst_field = ESMF.Field(dst_grid, name='t', ndbounds=[level,times])
 dst_field.data[...] = UNINITVAL
 
 xct_field = None
 if ANALYTIC_DATA:
-    xct_field = ESMF.Field(dst_grid, name='t', ndbounds=[level,25])
+    xct_field = ESMF.Field(dst_grid, name='t', ndbounds=[level,times])
     xct_field.data[...] = UNINITVAL
 
 regrid = ESMF.Regrid(src_field, dst_field,
@@ -151,9 +156,10 @@ regrid_method=ESMF.RegridMethod.BILINEAR,
     unmapped_action=ESMF.UnmappedAction.IGNORE)
 
 dst_field = regrid(src_field, dst_field)
-print (dst_field.data.shape)
+print ("Regrid completed successfully, dstfield shape = "+str(dst_field.data.shape))
 
+import ipdb; ipdb.set_trace()
 if ANALYTIC_DATA:
     validate(dst_field, xct_field)
-
-# plot(src_field, dst_field)
+else:
+    plot(src_field, dst_field)
