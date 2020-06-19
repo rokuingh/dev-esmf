@@ -35,6 +35,7 @@ commonesmfvars="export ESMF_OS=Linux; export ESMF_ABI=64; export ESMF_SITE=defau
 
 
 declare -a LibTests=("intel1805mptlib" "intel1805openmpilib" "intel1805impilib" "intel1902mptlib")
+declare -a LibTests=("intel1805openmpilib" "intel1805impilib")
 
 # g and O
 declare -a Mode=("g" "O")
