@@ -29,10 +29,10 @@ if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 call ESMF_LogSet(flush=.true., rc=rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-call profile_regridstore(rc)
+! call profile_regridstore(rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
-call profile_smmstore(rc)
+! call profile_smmstore(rc)
 if (rc /= ESMF_SUCCESS) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
 call profile_routehandlecreate(rc)
@@ -256,7 +256,10 @@ type(ESMF_Field) :: srcfield, dstfield
 type(ESMF_ArraySpec) :: arrayspec
 type(ESMF_VM) :: vm
 type(ESMF_RouteHandle) :: routehandle, rh
-
+integer :: i1, i2
+integer :: clbnd(2),cubnd(2)
+real(ESMF_KIND_R8), pointer :: farrayPtr(:,:)
+real, parameter :: tol = 1e-6
 
 integer :: localPet, petCount
 
@@ -306,26 +309,52 @@ dstfield = ESMF_FieldCreate(dstgrid, arrayspec, staggerloc=ESMF_STAGGERLOC_CENTE
 if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
 line=__LINE__, file=__FILE__, rcToReturn=rc)) return
 
-call ESMF_FieldRegridStore(srcfield, dstfield, routehandle=routehandle, &
-                           unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
-if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
-line=__LINE__, file=__FILE__, rcToReturn=rc)) return
-
-call ESMF_RouteHandleWrite(routehandle, filename="routehandle.nc", rc=localrc)
-if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
-line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+! call ESMF_FieldRegridStore(srcfield, dstfield, routehandle=routehandle, &
+!                            unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=localrc)
+! if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
+! line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+! 
+! call ESMF_RouteHandleWrite(routehandle, filename="routehandle.dat", rc=localrc)
+! if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
+! line=__LINE__, file=__FILE__, rcToReturn=rc)) return
 
 call ESMF_TraceRegionEnter("ESMF_RouteHandleCreate", rc=localrc)
 if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
 line=__LINE__, file=__FILE__, rcToReturn=rc)) return
 
-rh = ESMF_RouteHandleCreate("routehandle.nc", rc=localrc)
+rh = ESMF_RouteHandleCreate("routehandle_rwg.dat", rc=localrc)
 if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
 line=__LINE__, file=__FILE__, rcToReturn=rc)) return
 
 call ESMF_TraceRegionExit("ESMF_RouteHandleCreate", rc=localrc)
 if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
 line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+
+! get src pointer
+call ESMF_FieldGet(dstfield, 0, farrayPtr,  &
+                   computationalLBound=clbnd, computationalUBound=cubnd, rc=localrc)
+if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
+line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+
+farrayPtr(:,:) = 42.0
+
+call ESMF_FieldRegrid(srcfield, dstfield, rh, rc=localrc)
+if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
+line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+
+! validate the data
+
+!! set coords, interpolated function
+do i1=clbnd(1),cubnd(1)
+do i2=clbnd(2),cubnd(2)
+    ! Init source value
+    if (farrayPtr(i1,i2) - 42.0 > tol) localrc = ESMF_RC_VAL_WRONG
+enddo
+enddo
+
+if (ESMF_LogFoundError(rcToCheck=localrc, msg=ESMF_LOGERR_PASSTHRU, &
+line=__LINE__, file=__FILE__, rcToReturn=rc)) return
+
 
 ! Destroy the Fields
 call ESMF_FieldDestroy(srcfield, rc=localrc)
