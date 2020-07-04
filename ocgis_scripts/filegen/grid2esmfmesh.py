@@ -7,10 +7,10 @@ from ocgis.test import create_gridxy_global
 from ocgis.util.helpers import get_esmf_corners_from_ocgis_corners
 
 # Spatial resolution of the output grid in degrees.
-RESOLUTION = 1/2**2
-RESOLUTION = 4
+RES = 3
+RESOLUTION = 1/2**RES
 # Path to the output netCDF file.
-OUTFILE = "ll"+str(RESOLUTION)+'deg.esmf.nc'
+OUTFILE = "ll1x2e"+str(RES)+'deg.esmf.nc'
 
 def format_corner_indices(corner_indices):
     """
