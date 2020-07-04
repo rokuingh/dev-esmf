@@ -7,10 +7,10 @@ from ocgis.test import create_gridxy_global
 from ocgis.util.helpers import get_esmf_corners_from_ocgis_corners
 
 # Spatial resolution of the output grid in degrees.
-RESOLUTION = 0.125/2
+RESOLUTION = 1/2**2
+RESOLUTION = 4
 # Path to the output netCDF file.
-OUTFILE = "tmp-ll"+str(RESOLUTION)+'deg.esmf.nc'
-
+OUTFILE = "ll"+str(RESOLUTION)+'deg.esmf.nc'
 
 def format_corner_indices(corner_indices):
     """
@@ -87,5 +87,6 @@ numElementConnV = ocgis.Variable(name='numElementConn', value=numElementConn, di
 centerCoordsV = ocgis.Variable(name='centerCoords', value=centerCoords, dimensions=['elementCount', 'coordDim'], attrs={'units': 'degrees'}, parent=vc)
 vc.attrs['gridType'] = 'unstructured mesh'
 vc.attrs['version'] = 0.9
+vc.attrs['title'] = 'Lat/lon '+str(RESOLUTION)+" degree grid - ESMFMESH format"
 
 vc.write(OUTFILE)
