@@ -1,22 +1,22 @@
-# $Id: Exp $
-#===============================================================================
-#                            Makefile
-# 
-# This is the makefile for the Regrid external demo
-#===============================================================================
+# GNU Makefile template for user ESMF application
 
 ################################################################################
-### Finding and including esmf.mk ##############################################
-
-# Note: This fully portable Makefile template depends on finding environment
-#       variable "ESMFMKFILE" set to point to the appropriate "esmf.mk" file,
-#       as is discussed in the User's Guide.
-#       However, you can still use this Makefile template even if the person
-#       that installed ESMF on your system did not provide for a mechanism to
-#       automatically set the environment variable "ESMFMKFILE". In this case
-#       either manually set "ESMFMKFILE" in your environment or hard code the
-#       location of "esmf.mk" into the include statement below.
-#       Notice that the latter approach has negative impact on portability.
+################################################################################
+## This Makefile must be able to find the "esmf.mk" Makefile fragment in the  ##
+## 'include' line below. Following the ESMF User's Guide, a complete ESMF     ##
+## installation should ensure that a single environment variable "ESMFMKFILE" ##
+## is made available on the system. This variable should point to the         ##
+## "esmf.mk" file.                                                            ##
+##                                                                            ##
+## This example Makefile uses the "ESMFMKFILE" environment variable.          ##
+##                                                                            ##
+## If you notice that this Makefile cannot find variable ESMFMKFILE then      ##
+## please contact the person responsible for the ESMF installation on your    ##
+## system.                                                                    ##
+## As a work-around you can simply hardcode the path to "esmf.mk" in the      ##
+## include line below. However, doing so will render this Makefile a lot less ##
+## flexible and non-portable.                                                 ##
+################################################################################
 
 ifneq ($(origin ESMFMKFILE), environment)
 $(error Environment variable ESMFMKFILE was not set.)
@@ -25,51 +25,41 @@ endif
 include $(ESMFMKFILE)
 
 ################################################################################
-### Compiler and linker rules using ESMF_ variables supplied by esmf.mk ########
+################################################################################
 
 .SUFFIXES: .f90 .F90 .c .C
 
-.f90:
-	$(ESMF_F90COMPILER) -c $(ESMF_F90COMPILEOPTS) $(ESMF_F90COMPILEPATHS) \
-          $(ESMF_F90COMPILEFREENOCPP) $<
-	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) \
-          $(ESMF_F90LINKRPATHS) -o $@ $*.o $(ESMF_F90ESMFLINKLIBS)
-	rm -f $*.o
 
-.F90:
-	$(ESMF_F90COMPILER) -c $(ESMF_F90COMPILEOPTS) $(ESMF_F90COMPILEPATHS) \
-          $(ESMF_F90COMPILEFREECPP) $(ESMF_F90COMPILECPPFLAGS) $<
-	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) \
-          $(ESMF_F90LINKRPATHS) -o $@ $*.o $(ESMF_F90ESMFLINKLIBS)
-	rm -f $*.o
+ESMF_CXXCOMPILECPPFLAGS += -I$(ESMF_DIR)/src/Infrastructure/Mesh/src/Moab \
+                           -I$(ESMF_DIR)/src/Infrastructure/Mesh/src/Moab/parallel \
+                           -I$(ESMF_DIR)/src/Infrastructure/Mesh/src/Moab/LocalDiscretization \
+                           -I/home/ryan/sandbox/esmf/src/Infrastructure/Util/include/ESMCI_Macros.h
+
+% : %.f90
+	$(ESMF_F90COMPILER) -c $(ESMF_F90COMPILEOPTS) $(ESMF_F90COMPILEPATHS) $(ESMF_F90COMPILEFREENOCPP) $<
+	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $*.o $(ESMF_F90ESMFLINKLIBS)        
+
+% : %.F90
+	$(ESMF_F90COMPILER) -c $(ESMF_F90COMPILEOPTS) $(ESMF_F90COMPILEPATHS) $(ESMF_F90COMPILEFREECPP) $(ESMF_F90COMPILECPPFLAGS) $<
+	$(ESMF_F90LINKER) $(ESMF_F90LINKOPTS) $(ESMF_F90LINKPATHS) $(ESMF_F90LINKRPATHS) -o $@ $*.o $(ESMF_F90ESMFLINKLIBS)        
         
-.c:
-	$(ESMF_CXXCOMPILER) -c $(ESMF_CXXCOMPILEOPTS) \
-          $(ESMF_CXXCOMPILEPATHSLOCAL) $(ESMF_CXXCOMPILEPATHS) \
-          $(ESMF_CXXCOMPILECPPFLAGS) $<
-	$(ESMF_CXXLINKER) $(ESMF_CXXLINKOPTS) $(ESMF_CXXLINKPATHS) \
-          $(ESMF_CXXLINKRPATHS) -o $@ $*.o $(ESMF_CXXESMFLINKLIBS)
-	rm -f $*.o
+% : %.c
+	$(ESMF_CXXCOMPILER) -c $(ESMF_CXXCOMPILEOPTS) $(ESMF_CXXCOMPILEPATHSLOCAL) $(ESMF_CXXCOMPILEPATHS) $(ESMF_CXXCOMPILECPPFLAGS) $<
+	$(ESMF_CXXLINKER) $(ESMF_CXXLINKOPTS) $(ESMF_CXXLINKPATHS) $(ESMF_CXXLINKRPATHS) -o $@ $*.o $(ESMF_CXXESMFLINKLIBS)
 
-.C:
-	$(ESMF_CXXCOMPILER) -c $(ESMF_CXXCOMPILEOPTS) \
-          $(ESMF_CXXCOMPILEPATHSLOCAL) $(ESMF_CXXCOMPILEPATHS) \
-          $(ESMF_CXXCOMPILECPPFLAGS) $<
-	$(ESMF_CXXLINKER) $(ESMF_CXXLINKOPTS) $(ESMF_CXXLINKPATHS) \
-          $(ESMF_CXXLINKRPATHS) -o $@ $*.o $(ESMF_CXXESMFLINKLIBS)
-	rm -f $*.o
+% : %.C
+	$(ESMF_CXXCOMPILER) -c $(ESMF_CXXCOMPILEOPTS) $(ESMF_CXXCOMPILEPATHSLOCAL) $(ESMF_CXXCOMPILEPATHS) $(ESMF_CXXCOMPILECPPFLAGS) $<
+	$(ESMF_CXXLINKER) $(ESMF_CXXLINKOPTS) $(ESMF_CXXLINKPATHS) $(ESMF_CXXLINKRPATHS) -o $@ $*.o $(ESMF_CXXESMFLINKLIBS)
 
-################################################################################
-### Sample targets for user ESMF applications ##################################
 
+
+# -----------------------------------------------------------------------------
 MeshCreateUGRID:
 
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 .PHONY: clean
 clean:
-	rm -f  *.o *.Log *.log *.ESMF_LogFile *.out *.err *.vtk MeshCreateUGRID
-
-.PHONY: dust
-dust:
-	rm -f *.o *.mod
-
-###############################################################################
+	rm -f MeshCreateUGRID *.o *.mod
+distclean: clean
+	rm -f PET*.ESMF_LogFile
