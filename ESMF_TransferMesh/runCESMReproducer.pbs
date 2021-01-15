@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#PBS -N runCESMReproducer
+#PBS -A P93300606
+#PBS -l walltime=00:10:00
+#PBS -q economy
+#PBS -l select=26:ncpus=36:mpiprocs=36
+#PBS -j oe
+#PBS -m n
+
+module load python/3.7.5 ncarenv/1.3 intel/19.0.5 ncarcompilers/0.5.0 mpt/2.21 netcdf/4.7.3
+
+make distclean
+make
+mpiexec_mpt -n 936 ./ESMF_TransferMesh
